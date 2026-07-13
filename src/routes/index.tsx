@@ -220,8 +220,10 @@ function Home() {
                 Let Puretech Enterprises handle your business support, compliance, ICT, printing and branding needs.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link to="/contact"><Button size="lg" variant="secondary">Contact Puretech</Button></Link>
-                <Link to="/quote"><Button size="lg" className="bg-white text-primary hover:bg-white/90">Get a Quote</Button></Link>
+                <a href={whatsappLink()} target="_blank" rel="noopener">
+                  <Button size="lg" variant="secondary"><MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp</Button>
+                </a>
+                <Link to="/quote"><Button size="lg" className="bg-white text-primary hover:bg-white/90">Request a Quote</Button></Link>
               </div>
             </div>
           </div>
