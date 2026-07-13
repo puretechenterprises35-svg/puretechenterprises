@@ -197,6 +197,18 @@ function Home() {
         </div>
       </section>
 
+      {/* BUSINESS PLAN CTA */}
+      <BusinessPlanCTA />
+
+      {/* TENDER CTA */}
+      <TenderCTA />
+
+      {/* TESTIMONIALS */}
+      <Testimonials />
+
+      {/* FAQ */}
+      <Faq />
+
       {/* CTA */}
       <section className="bg-background py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
