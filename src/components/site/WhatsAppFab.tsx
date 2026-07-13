@@ -7,7 +7,7 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noopener"
       aria-label={`Chat with ${site.name} on WhatsApp`}
-      className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[oklch(0.7_0.17_152)] text-white shadow-[0_10px_30px_-10px_oklch(0.7_0.17_152/0.6)] transition-transform hover:scale-105"
+      className="fixed bottom-20 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[oklch(0.7_0.17_152)] text-white shadow-[0_10px_30px_-10px_oklch(0.7_0.17_152/0.6)] transition-transform hover:scale-105 md:bottom-5"
     >
       <svg viewBox="0 0 32 32" className="h-7 w-7 fill-current" aria-hidden="true">
         <path d="M19.11 17.36c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.64-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.34.44-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.9-2.19-.24-.57-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.67.61.7.22 1.34.19 1.85.12.56-.08 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
