@@ -143,6 +143,9 @@ function Home() {
         </div>
       </section>
 
+      {/* QUICK ENQUIRY */}
+      <QuickEnquiry />
+
       {/* WHY CHOOSE */}
       <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
