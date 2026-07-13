@@ -9,13 +9,55 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TaxComplianceRouteImport } from './routes/tax-compliance'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as PrintingBrandingRouteImport } from './routes/printing-branding'
+import { Route as IctServicesRouteImport } from './routes/ict-services'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BusinessRegistrationRouteImport } from './routes/business-registration'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TaxComplianceRoute = TaxComplianceRouteImport.update({
+  id: '/tax-compliance',
+  path: '/tax-compliance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrintingBrandingRoute = PrintingBrandingRouteImport.update({
+  id: '/printing-branding',
+  path: '/printing-branding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IctServicesRoute = IctServicesRouteImport.update({
+  id: '/ict-services',
+  path: '/ict-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessRegistrationRoute = BusinessRegistrationRouteImport.update({
+  id: '/business-registration',
+  path: '/business-registration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -32,40 +74,148 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/business-registration': typeof BusinessRegistrationRoute
+  '/contact': typeof ContactRoute
+  '/ict-services': typeof IctServicesRoute
+  '/printing-branding': typeof PrintingBrandingRoute
+  '/quote': typeof QuoteRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tax-compliance': typeof TaxComplianceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/business-registration': typeof BusinessRegistrationRoute
+  '/contact': typeof ContactRoute
+  '/ict-services': typeof IctServicesRoute
+  '/printing-branding': typeof PrintingBrandingRoute
+  '/quote': typeof QuoteRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tax-compliance': typeof TaxComplianceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/business-registration': typeof BusinessRegistrationRoute
+  '/contact': typeof ContactRoute
+  '/ict-services': typeof IctServicesRoute
+  '/printing-branding': typeof PrintingBrandingRoute
+  '/quote': typeof QuoteRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tax-compliance': typeof TaxComplianceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/services'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/business-registration'
+    | '/contact'
+    | '/ict-services'
+    | '/printing-branding'
+    | '/quote'
+    | '/services'
+    | '/sitemap.xml'
+    | '/tax-compliance'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/services'
-  id: '__root__' | '/' | '/about' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/business-registration'
+    | '/contact'
+    | '/ict-services'
+    | '/printing-branding'
+    | '/quote'
+    | '/services'
+    | '/sitemap.xml'
+    | '/tax-compliance'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/business-registration'
+    | '/contact'
+    | '/ict-services'
+    | '/printing-branding'
+    | '/quote'
+    | '/services'
+    | '/sitemap.xml'
+    | '/tax-compliance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BusinessRegistrationRoute: typeof BusinessRegistrationRoute
+  ContactRoute: typeof ContactRoute
+  IctServicesRoute: typeof IctServicesRoute
+  PrintingBrandingRoute: typeof PrintingBrandingRoute
+  QuoteRoute: typeof QuoteRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TaxComplianceRoute: typeof TaxComplianceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tax-compliance': {
+      id: '/tax-compliance'
+      path: '/tax-compliance'
+      fullPath: '/tax-compliance'
+      preLoaderRoute: typeof TaxComplianceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/printing-branding': {
+      id: '/printing-branding'
+      path: '/printing-branding'
+      fullPath: '/printing-branding'
+      preLoaderRoute: typeof PrintingBrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ict-services': {
+      id: '/ict-services'
+      path: '/ict-services'
+      fullPath: '/ict-services'
+      preLoaderRoute: typeof IctServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/business-registration': {
+      id: '/business-registration'
+      path: '/business-registration'
+      fullPath: '/business-registration'
+      preLoaderRoute: typeof BusinessRegistrationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -88,7 +238,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BusinessRegistrationRoute: BusinessRegistrationRoute,
+  ContactRoute: ContactRoute,
+  IctServicesRoute: IctServicesRoute,
+  PrintingBrandingRoute: PrintingBrandingRoute,
+  QuoteRoute: QuoteRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TaxComplianceRoute: TaxComplianceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
