@@ -47,14 +47,14 @@ function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/quote">
                 <Button size="lg" className="bg-gradient-brand text-primary-foreground shadow-elevated hover:opacity-95">
-                  Get Started <ArrowRight className="ml-1 h-4 w-4" />
+                  Request a Quote <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/quote">
+              <a href={whatsappLink()} target="_blank" rel="noopener">
                 <Button size="lg" variant="outline" className="border-white/20 bg-white/5 text-secondary-foreground hover:bg-white/10">
-                  Request a Quote
+                  <MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp
                 </Button>
-              </Link>
+              </a>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-6 text-sm">
               {[["8+", "Service lines"], ["100%", "Zambian focus"], ["1-Stop", "Business partner"]].map(([k, v]) => (
