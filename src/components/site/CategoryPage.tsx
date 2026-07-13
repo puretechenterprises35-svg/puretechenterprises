@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, type LucideIcon } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessageCircle, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { whatsappServiceLink } from "@/lib/site";
 
 export function CategoryPage({
   eyebrow,
@@ -8,13 +9,16 @@ export function CategoryPage({
   intro,
   Icon,
   categories,
+  whatsappService,
 }: {
   eyebrow: string;
   title: string;
   intro: string;
   Icon: LucideIcon;
   categories: { title: string; short?: string; items: string[] }[];
+  whatsappService?: string;
 }) {
+  const waLabel = whatsappService ?? eyebrow;
   return (
     <div className="bg-background">
       <section className="border-b border-border bg-secondary py-16 text-secondary-foreground">
@@ -27,6 +31,18 @@ export function CategoryPage({
               <div className="mb-2 inline-flex rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-glow">{eyebrow}</div>
               <h1 className="text-4xl font-extrabold sm:text-5xl">{title}</h1>
               <p className="mt-4 max-w-2xl text-secondary-foreground/85">{intro}</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href={whatsappServiceLink(`${waLabel} services`)} target="_blank" rel="noopener">
+                  <Button size="lg" className="bg-gradient-brand text-primary-foreground shadow-elevated">
+                    <MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp
+                  </Button>
+                </a>
+                <Link to="/quote">
+                  <Button size="lg" variant="outline" className="border-white/20 bg-white/5 text-secondary-foreground hover:bg-white/10">
+                    Enquire About This Service
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -51,11 +67,14 @@ export function CategoryPage({
           </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-3">
-            <Link to="/quote"><Button size="lg" className="bg-gradient-brand text-primary-foreground">Get a Quote <ArrowRight className="ml-1 h-4 w-4" /></Button></Link>
-            <Link to="/contact"><Button size="lg" variant="outline">Contact Us</Button></Link>
+            <Link to="/quote"><Button size="lg" className="bg-gradient-brand text-primary-foreground">Request a Quote <ArrowRight className="ml-1 h-4 w-4" /></Button></Link>
+            <a href={whatsappServiceLink(`${waLabel} services`)} target="_blank" rel="noopener">
+              <Button size="lg" variant="outline"><MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Puretech</Button>
+            </a>
           </div>
         </div>
       </section>
     </div>
   );
 }
+
