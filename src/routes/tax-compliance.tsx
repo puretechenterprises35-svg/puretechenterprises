@@ -23,6 +23,7 @@ export const Route = createFileRoute("/tax-compliance")({
       title="Stay compliant with ZRA, NAPSA, NHIMA and beyond"
       intro="End-to-end tax, statutory and tender-readiness support for Zambian businesses of every size."
       Icon={Receipt}
+      whatsappService="Tax, ZRA, NAPSA and NHIMA compliance"
       categories={[
         { title: tax.title, short: tax.short, items: tax.items },
         { title: napsa.title, short: napsa.short, items: napsa.items },

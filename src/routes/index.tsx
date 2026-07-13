@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Sparkles, Users, Zap, ShieldCheck, HeartHandshake, PhoneCall, FileText, Upload, Cog, PackageCheck, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Users, Zap, ShieldCheck, HeartHandshake, PhoneCall, FileText, Upload, Cog, PackageCheck, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, site } from "@/lib/site";
+import { services, site, whatsappLink } from "@/lib/site";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { QuickEnquiry } from "@/components/site/QuickEnquiry";
+import { BusinessPlanCTA } from "@/components/site/BusinessPlanCTA";
+import { TenderCTA } from "@/components/site/TenderCTA";
+import { Faq } from "@/components/site/Faq";
+import { Testimonials } from "@/components/site/Testimonials";
 import hero from "@/assets/hero.jpg";
 
 const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printer, Package, Laptop } as const;
@@ -10,9 +15,11 @@ const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printe
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Puretech Enterprises | Smart Business Solutions in Zambia" },
-      { name: "description", content: "Business registration, tax & compliance, ICT, printing and branding for Zambian SMEs, entrepreneurs and organisations." },
+      { title: "Puretech Enterprises | Business Registration, Tax & ICT Services in Zambia" },
+      { name: "description", content: "Puretech Enterprises in Kapiri Mposhi, Zambia offers business registration, ZRA tax returns, NAPSA & NHIMA, business plans, tender support, printing, branding and ICT services." },
+      { name: "keywords", content: "Puretech Enterprises, Business Registration Zambia, Business Registration Kapiri Mposhi, Tax Consultancy Zambia, ZRA Returns Support, Business Plans Zambia, Tender Support Zambia, Printing and Branding Zambia, ICT Services Zambia" },
       { property: "og:title", content: "Puretech Enterprises | Smart Business Solutions in Zambia" },
+      { property: "og:description", content: "Business registration, tax, business plans, tender support, printing, branding and ICT services in Kapiri Mposhi, Zambia." },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -40,14 +47,14 @@ function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/quote">
                 <Button size="lg" className="bg-gradient-brand text-primary-foreground shadow-elevated hover:opacity-95">
-                  Get Started <ArrowRight className="ml-1 h-4 w-4" />
+                  Request a Quote <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/quote">
+              <a href={whatsappLink()} target="_blank" rel="noopener">
                 <Button size="lg" variant="outline" className="border-white/20 bg-white/5 text-secondary-foreground hover:bg-white/10">
-                  Request a Quote
+                  <MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp
                 </Button>
-              </Link>
+              </a>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-6 text-sm">
               {[["8+", "Service lines"], ["100%", "Zambian focus"], ["1-Stop", "Business partner"]].map(([k, v]) => (
@@ -136,6 +143,9 @@ function Home() {
         </div>
       </section>
 
+      {/* QUICK ENQUIRY */}
+      <QuickEnquiry />
+
       {/* WHY CHOOSE */}
       <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -187,6 +197,18 @@ function Home() {
         </div>
       </section>
 
+      {/* BUSINESS PLAN CTA */}
+      <BusinessPlanCTA />
+
+      {/* TENDER CTA */}
+      <TenderCTA />
+
+      {/* TESTIMONIALS */}
+      <Testimonials />
+
+      {/* FAQ */}
+      <Faq />
+
       {/* CTA */}
       <section className="bg-background py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -198,8 +220,10 @@ function Home() {
                 Let Puretech Enterprises handle your business support, compliance, ICT, printing and branding needs.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link to="/contact"><Button size="lg" variant="secondary">Contact Puretech</Button></Link>
-                <Link to="/quote"><Button size="lg" className="bg-white text-primary hover:bg-white/90">Get a Quote</Button></Link>
+                <a href={whatsappLink()} target="_blank" rel="noopener">
+                  <Button size="lg" variant="secondary"><MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp</Button>
+                </a>
+                <Link to="/quote"><Button size="lg" className="bg-white text-primary hover:bg-white/90">Request a Quote</Button></Link>
               </div>
             </div>
           </div>

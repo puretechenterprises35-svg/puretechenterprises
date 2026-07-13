@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
+import { MobileContactBar } from "@/components/site/MobileContactBar";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -129,7 +130,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col pb-14 md:pb-0">
         <Header />
         <main className="flex-1">
           <Outlet />
@@ -137,6 +138,7 @@ function RootComponent() {
         <Footer />
       </div>
       <WhatsAppFab />
+      <MobileContactBar />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );

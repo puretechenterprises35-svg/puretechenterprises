@@ -7,11 +7,19 @@ export const site = {
   email: "puretechenterprises@gmail.com",
   location: "Kapiri Mposhi, Zambia",
   whatsappMessage:
-    "Hello Puretech Enterprises. I am interested in your services and would like assistance.",
+    "Hello Puretech Enterprises. I visited your website and I am interested in your services. Please assist me.",
 };
 
 export const whatsappLink = (msg = site.whatsappMessage) =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
+
+// Build a service-specific WhatsApp enquiry link.
+export const whatsappServiceLink = (service: string) =>
+  whatsappLink(
+    `Hello Puretech Enterprises. I am interested in ${service}. Please assist me.`,
+  );
+
+export const telLink = `tel:${site.phone.replace(/\s+/g, "")}`;
 
 export const nav = [
   { to: "/", label: "Home" },
@@ -156,5 +164,44 @@ export const services: ServiceCategory[] = [
       "Business Technology Support",
       "Basic Network Support",
     ],
+  },
+];
+
+// Quick enquiry chips shown on the homepage.
+export const quickEnquiries: { label: string; icon: string }[] = [
+  { label: "Company Registration", icon: "Building2" },
+  { label: "ZRA & Tax Services", icon: "Receipt" },
+  { label: "NAPSA & NHIMA", icon: "ShieldCheck" },
+  { label: "Tender Support", icon: "FileCheck2" },
+  { label: "Business Plans", icon: "LineChart" },
+  { label: "Financial Consultancy", icon: "Wallet" },
+  { label: "Printing & Branding", icon: "Printer" },
+  { label: "ICT Services", icon: "Laptop" },
+];
+
+export const faqs: { q: string; a: string }[] = [
+  {
+    q: "Can Puretech help me register a company?",
+    a: "Yes. We provide company and business registration support and guide clients through the required registration process.",
+  },
+  {
+    q: "Do you assist with ZRA tax returns?",
+    a: "Yes. We provide tax compliance support including selected ZRA returns and tax consultancy services.",
+  },
+  {
+    q: "Can you prepare a business plan?",
+    a: "Yes. We prepare professional business plans, financial projections, cash flow forecasts and profitability analysis based on the client's business requirements.",
+  },
+  {
+    q: "Do you provide tender support?",
+    a: "Yes. We assist with tender document preparation, ZPPA support and business compliance requirements.",
+  },
+  {
+    q: "Do you offer printing and branding?",
+    a: "Yes. We provide printing, corporate branding and promotional branding solutions.",
+  },
+  {
+    q: "Where is Puretech Enterprises located?",
+    a: "Puretech Enterprises is based in Kapiri Mposhi, Zambia and can assist clients from different locations depending on the service required.",
   },
 ];

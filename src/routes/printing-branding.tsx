@@ -22,6 +22,7 @@ export const Route = createFileRoute("/printing-branding")({
       title="Look the part with premium printing and branding"
       intro="Sharp, professional branding across print, apparel, signage and vehicles."
       Icon={Printer}
+      whatsappService="Printing and Branding"
       categories={[
         { title: p.title, short: p.short, items: p.items },
         { title: st.title, short: st.short, items: st.items },
