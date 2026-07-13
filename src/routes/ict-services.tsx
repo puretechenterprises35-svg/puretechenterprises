@@ -21,6 +21,7 @@ export const Route = createFileRoute("/ict-services")({
       title="Reliable technology support that keeps you working"
       intro="Practical ICT support tailored for small teams, offices and organisations."
       Icon={Laptop}
+      whatsappService="ICT"
       categories={[{ title: s.title, short: s.short, items: s.items }]}
     />
   ),
