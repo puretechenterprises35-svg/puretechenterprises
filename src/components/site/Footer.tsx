@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logoAsset from "@/assets/logo.png.asset.json";
 import { site, whatsappLink } from "@/lib/site";
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="rounded-lg bg-white p-3 inline-block">
-              <img src={logo} alt={`${site.name} logo`} className="h-10 w-auto" width={200} height={100} />
+              <img src={logoAsset.url} alt={`${site.name} logo`} className="h-10 w-auto" width={200} height={100} />
             </div>
             <p className="mt-4 text-sm text-secondary-foreground/80">{site.slogan}</p>
           </div>
