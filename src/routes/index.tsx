@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Sparkles, Users, Zap, ShieldCheck, HeartHandshake, PhoneCall, FileText, Upload, Cog, PackageCheck, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Users, Zap, ShieldCheck, HeartHandshake, PhoneCall, FileText, Upload, Cog, PackageCheck, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, site } from "@/lib/site";
+import { services, site, whatsappLink } from "@/lib/site";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { QuickEnquiry } from "@/components/site/QuickEnquiry";
+import { BusinessPlanCTA } from "@/components/site/BusinessPlanCTA";
+import { TenderCTA } from "@/components/site/TenderCTA";
+import { Faq } from "@/components/site/Faq";
+import { Testimonials } from "@/components/site/Testimonials";
 import hero from "@/assets/hero.jpg";
 
 const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printer, Package, Laptop } as const;
@@ -10,9 +15,11 @@ const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printe
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Puretech Enterprises | Smart Business Solutions in Zambia" },
-      { name: "description", content: "Business registration, tax & compliance, ICT, printing and branding for Zambian SMEs, entrepreneurs and organisations." },
+      { title: "Puretech Enterprises | Business Registration, Tax & ICT Services in Zambia" },
+      { name: "description", content: "Puretech Enterprises in Kapiri Mposhi, Zambia offers business registration, ZRA tax returns, NAPSA & NHIMA, business plans, tender support, printing, branding and ICT services." },
+      { name: "keywords", content: "Puretech Enterprises, Business Registration Zambia, Business Registration Kapiri Mposhi, Tax Consultancy Zambia, ZRA Returns Support, Business Plans Zambia, Tender Support Zambia, Printing and Branding Zambia, ICT Services Zambia" },
       { property: "og:title", content: "Puretech Enterprises | Smart Business Solutions in Zambia" },
+      { property: "og:description", content: "Business registration, tax, business plans, tender support, printing, branding and ICT services in Kapiri Mposhi, Zambia." },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
