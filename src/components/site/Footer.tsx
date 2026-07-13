@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
-import logoAsset from "@/assets/logo.png.asset.json";
+import logoAsset from "@/assets/logo-white.png.asset.json";
 import { site, whatsappLink } from "@/lib/site";
 
 export function Footer() {
