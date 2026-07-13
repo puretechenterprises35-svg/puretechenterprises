@@ -21,6 +21,7 @@ export const Route = createFileRoute("/business-registration")({
       title="Register and stay compliant with confidence"
       intro="From PACRA registration to ongoing compliance, Puretech handles the paperwork so you can focus on running your business."
       Icon={Building2}
+      whatsappService="Business Registration"
       categories={[{ title: reg.title, short: reg.short, items: reg.items }]}
     />
   ),
