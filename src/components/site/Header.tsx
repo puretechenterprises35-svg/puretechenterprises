@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logoAsset from "@/assets/logo.png.asset.json";
+import logoAsset from "@/assets/logo-white.png.asset.json";
 import { nav, site } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 
