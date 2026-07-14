@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "sdk_version": "0.21.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "puretech-enterprises-mcp",
+      "version": "0.1.0",
+      "title": "Puretech Enterprises"
+    },
+    "tools": [
+      {
+        "name": "list_services",
+        "title": "List Puretech Enterprises services",
+        "description": "Return the full catalog of business services offered by Puretech Enterprises, grouped by category (business registration, tax, NAPSA/NHIMA, tenders, financial consultancy, printing & branding, stationery, ICT).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_service",
+        "title": "Get service details",
+        "description": "Get details for a single Puretech Enterprises service category by its slug (e.g. 'business-registration', 'tax-zra', 'ict-services').",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Service category slug."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_contact_info",
+        "title": "Get Puretech Enterprises contact info",
+        "description": "Return official public contact details for Puretech Enterprises: phone, WhatsApp, email, location, and prebuilt WhatsApp/tel links.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_faqs",
+        "title": "Get frequently asked questions",
+        "description": "Return the list of public FAQs answered on the Puretech Enterprises website.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "build_whatsapp_enquiry_link",
+        "title": "Build WhatsApp enquiry link",
+        "description": "Create a WhatsApp deep link that opens a chat with Puretech Enterprises pre-filled with an enquiry about the given service.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "string",
+              "description": "Service the user is enquiring about, e.g. 'Company Registration'."
+            }
+          },
+          "required": [
+            "service"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
