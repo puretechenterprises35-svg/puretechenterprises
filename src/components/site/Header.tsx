@@ -1,12 +1,24 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
 import logoAsset from "@/assets/logo-white.png.asset.json";
 import { nav, site } from "@/lib/site";
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/hooks/use-session";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { session } = useSession();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -32,6 +44,25 @@ export function Header() {
               Get a Quote
             </Button>
           </Link>
+          {session ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="ml-1"
+              aria-label="Sign out"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="ml-1">Sign out</span>
+            </Button>
+          ) : (
+            <Link to="/auth" className="ml-1">
+              <Button variant="ghost" size="sm">
+                <User className="h-4 w-4" />
+                <span className="ml-1">Sign in</span>
+              </Button>
+            </Link>
+          )}
         </nav>
 
         <button
@@ -63,6 +94,21 @@ export function Header() {
                 Get a Quote
               </Button>
             </Link>
+            {session ? (
+              <Button
+                variant="outline"
+                onClick={() => { setOpen(false); handleSignOut(); }}
+                className="mt-2 w-full"
+              >
+                <LogOut className="h-4 w-4 mr-2" /> Sign out
+              </Button>
+            ) : (
+              <Link to="/auth" onClick={() => setOpen(false)}>
+                <Button variant="outline" className="mt-2 w-full">
+                  <User className="h-4 w-4 mr-2" /> Sign in
+                </Button>
+              </Link>
+            )}
           </nav>
         </div>
       )}
