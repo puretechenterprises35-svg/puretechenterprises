@@ -12,12 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TaxComplianceRouteImport } from './routes/tax-compliance'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrintingBrandingRouteImport } from './routes/printing-branding'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IctServicesRouteImport } from './routes/ict-services'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BusinessRegistrationRouteImport } from './routes/business-registration'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -37,6 +40,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -59,6 +67,11 @@ const IctServicesRoute = IctServicesRouteImport.update({
   path: '/ict-services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -67,6 +80,11 @@ const ContactRoute = ContactRouteImport.update({
 const BusinessRegistrationRoute = BusinessRegistrationRouteImport.update({
   id: '/business-registration',
   path: '/business-registration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -101,12 +119,15 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/business-registration': typeof BusinessRegistrationRoute
   '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
@@ -117,12 +138,15 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/business-registration': typeof BusinessRegistrationRoute
   '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
@@ -134,12 +158,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/business-registration': typeof BusinessRegistrationRoute
   '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
@@ -152,12 +179,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-registration'
     | '/contact'
+    | '/forgot-password'
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
     | '/quote'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
@@ -168,12 +198,15 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-registration'
     | '/contact'
+    | '/forgot-password'
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
     | '/quote'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
@@ -184,12 +217,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/auth'
     | '/business-registration'
     | '/contact'
+    | '/forgot-password'
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
     | '/quote'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
@@ -201,12 +237,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   BusinessRegistrationRoute: typeof BusinessRegistrationRoute
   ContactRoute: typeof ContactRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   IctServicesRoute: typeof IctServicesRoute
   McpRoute: typeof McpRoute
   PrintingBrandingRoute: typeof PrintingBrandingRoute
   QuoteRoute: typeof QuoteRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TaxComplianceRoute: typeof TaxComplianceRoute
@@ -238,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quote': {
       id: '/quote'
       path: '/quote'
@@ -266,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IctServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -278,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/business-registration'
       fullPath: '/business-registration'
       preLoaderRoute: typeof BusinessRegistrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -321,12 +381,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   BusinessRegistrationRoute: BusinessRegistrationRoute,
   ContactRoute: ContactRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   IctServicesRoute: IctServicesRoute,
   McpRoute: McpRoute,
   PrintingBrandingRoute: PrintingBrandingRoute,
   QuoteRoute: QuoteRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TaxComplianceRoute: TaxComplianceRoute,
