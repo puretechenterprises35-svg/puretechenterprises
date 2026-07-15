@@ -32,6 +32,56 @@ export const nav = [
   { to: "/contact", label: "Contact Us" },
 ] as const;
 
+export type PackageTier = {
+  name: "Basic" | "Standard" | "Premium";
+  price: string;
+  tagline: string;
+  items: string[];
+};
+
+export const servicePackages: Record<string, PackageTier[]> = {
+  "business-registration": [
+    { name: "Basic", price: "From ZMW 500", tagline: "ZMW 500 – 900", items: ["Business Name Registration", "PACRA Consultation", "Registration Guidance"] },
+    { name: "Standard", price: "From ZMW 1,200", tagline: "ZMW 1,200 – 2,500", items: ["Company Registration", "Business Name Registration", "PACRA Documentation", "Registration Support"] },
+    { name: "Premium", price: "From ZMW 3,000", tagline: "ZMW 3,000 – 6,500", items: ["Company Registration", "Company Amendments", "Compliance Support", "Annual Returns Guidance", "Ongoing Compliance Assistance"] },
+  ],
+  "tax-zra": [
+    { name: "Basic", price: "From ZMW 350", tagline: "ZMW 350 – 700", items: ["TPIN Registration", "ZRA Registration"] },
+    { name: "Standard", price: "From ZMW 900", tagline: "ZMW 900 – 2,000", items: ["VAT Registration", "PAYE", "Turnover Tax", "Smart Invoice Support"] },
+    { name: "Premium", price: "From ZMW 2,500", tagline: "ZMW 2,500 – 8,000", items: ["Monthly Tax Management", "Tax Returns", "VAT Returns", "PAYE Returns", "Consultancy", "Compliance Support"] },
+  ],
+  "napsa-nhima": [
+    { name: "Basic", price: "From ZMW 400", tagline: "ZMW 400 – 700", items: ["Employer Registration"] },
+    { name: "Standard", price: "From ZMW 800", tagline: "ZMW 800 – 1,800", items: ["Registration", "Monthly Returns"] },
+    { name: "Premium", price: "From ZMW 2,000", tagline: "ZMW 2,000 – 5,000", items: ["Registration", "Returns", "Employer Compliance", "Ongoing Support"] },
+  ],
+  "tender-professional": [
+    { name: "Basic", price: "From ZMW 800", tagline: "ZMW 800 – 1,500", items: ["One Professional Registration (ZPPA, NCC, ZDA or EIZ)"] },
+    { name: "Standard", price: "From ZMW 2,000", tagline: "ZMW 2,000 – 4,000", items: ["Two Registrations", "Tender Advice"] },
+    { name: "Premium", price: "From ZMW 5,000", tagline: "ZMW 5,000 – 15,000", items: ["Multiple Registrations", "Tender Documentation", "Consultancy"] },
+  ],
+  "financial-consultancy": [
+    { name: "Basic", price: "From ZMW 1,500", tagline: "ZMW 1,500 – 3,500", items: ["Business Plans", "Budget Preparation"] },
+    { name: "Standard", price: "From ZMW 4,000", tagline: "ZMW 4,000 – 8,000", items: ["Business Plans", "Financial Projections", "Cash Flow Forecasts"] },
+    { name: "Premium", price: "From ZMW 10,000", tagline: "ZMW 10,000 – 25,000", items: ["Complete Financial Consultancy", "Growth Strategy", "Profitability Analysis", "Accounting Support", "Asset Registers"] },
+  ],
+  "printing-branding": [
+    { name: "Basic", price: "From ZMW 300", tagline: "ZMW 300 – 1,000", items: ["Business Cards", "Flyers", "Posters"] },
+    { name: "Standard", price: "From ZMW 1,500", tagline: "ZMW 1,500 – 5,000", items: ["Banners", "Corporate Branding", "Marketing Materials"] },
+    { name: "Premium", price: "From ZMW 6,000", tagline: "ZMW 6,000 – 30,000+", items: ["Vehicle Branding", "Shop Branding", "Booth Branding", "Full Corporate Identity"] },
+  ],
+  "stationery-supplies": [
+    { name: "Basic", price: "From ZMW 500", tagline: "ZMW 500 – 1,000", items: ["Office Starter Pack"] },
+    { name: "Standard", price: "From ZMW 1,500", tagline: "ZMW 1,500 – 4,000", items: ["Department Office Supplies"] },
+    { name: "Premium", price: "From ZMW 5,000", tagline: "ZMW 5,000 – 50,000+", items: ["Corporate Supply Contracts", "Bulk Orders", "Scheduled Deliveries"] },
+  ],
+  "ict-services": [
+    { name: "Basic", price: "From ZMW 300", tagline: "ZMW 300 – 800", items: ["Software Installation", "Virus Removal", "Basic ICT Support"] },
+    { name: "Standard", price: "From ZMW 900", tagline: "ZMW 900 – 2,500", items: ["Computer Repairs", "Laptop Repairs", "Network Setup", "Preventive Maintenance"] },
+    { name: "Premium", price: "From ZMW 3,500", tagline: "ZMW 3,500 – 15,000+", items: ["Managed ICT Services", "Business Technology Support", "Preventive Maintenance Contracts", "Business Network Support"] },
+  ],
+};
+
 export type ServiceCategory = {
   slug: string;
   title: string;
