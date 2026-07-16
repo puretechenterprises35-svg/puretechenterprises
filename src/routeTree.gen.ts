@@ -9,11 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TaxComplianceRouteImport } from './routes/tax-compliance'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrintingBrandingRouteImport } from './routes/printing-branding'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IctServicesRouteImport } from './routes/ict-services'
@@ -27,6 +29,11 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TaxComplianceRoute = TaxComplianceRouteImport.update({
   id: '/tax-compliance',
   path: '/tax-compliance',
@@ -50,6 +57,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrintingBrandingRoute = PrintingBrandingRouteImport.update({
@@ -126,11 +138,13 @@ export interface FileRoutesByFullPath {
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -145,11 +159,13 @@ export interface FileRoutesByTo {
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -165,11 +181,13 @@ export interface FileRoutesById {
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
   '/printing-branding': typeof PrintingBrandingRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tax-compliance': typeof TaxComplianceRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -186,11 +204,13 @@ export interface FileRouteTypes {
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
+    | '/privacy'
     | '/quote'
     | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
@@ -205,11 +225,13 @@ export interface FileRouteTypes {
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
+    | '/privacy'
     | '/quote'
     | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
@@ -224,11 +246,13 @@ export interface FileRouteTypes {
     | '/ict-services'
     | '/mcp'
     | '/printing-branding'
+    | '/privacy'
     | '/quote'
     | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/tax-compliance'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
@@ -244,11 +268,13 @@ export interface RootRouteChildren {
   IctServicesRoute: typeof IctServicesRoute
   McpRoute: typeof McpRoute
   PrintingBrandingRoute: typeof PrintingBrandingRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TaxComplianceRoute: typeof TaxComplianceRoute
+  TermsRoute: typeof TermsRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -256,6 +282,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tax-compliance': {
       id: '/tax-compliance'
       path: '/tax-compliance'
@@ -289,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/printing-branding': {
@@ -388,11 +428,13 @@ const rootRouteChildren: RootRouteChildren = {
   IctServicesRoute: IctServicesRoute,
   McpRoute: McpRoute,
   PrintingBrandingRoute: PrintingBrandingRoute,
+  PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TaxComplianceRoute: TaxComplianceRoute,
+  TermsRoute: TermsRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
