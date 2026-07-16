@@ -24,9 +24,11 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BusinessRegistrationRouteImport } from './routes/business-registration'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PortalRegisterRouteImport } from './routes/portal.register'
 import { Route as PortalProjectsRouteImport } from './routes/portal.projects'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
@@ -36,9 +38,16 @@ import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalForgotPasswordRouteImport } from './routes/portal.forgot-password'
 import { Route as PortalDocumentsRouteImport } from './routes/portal.documents'
 import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
+import { Route as AdminProjectUpdatesRouteImport } from './routes/admin.project-updates'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminClientsRouteImport } from './routes/admin.clients'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
+import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
+import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const TermsRoute = TermsRouteImport.update({
@@ -116,6 +125,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -130,6 +144,11 @@ const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PortalRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const PortalRegisterRoute = PortalRegisterRouteImport.update({
   id: '/register',
@@ -176,6 +195,31 @@ const PortalDashboardRoute = PortalDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => PortalRoute,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectUpdatesRoute = AdminProjectUpdatesRouteImport.update({
+  id: '/project-updates',
+  path: '/project-updates',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClientsRoute = AdminClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AdminRoute,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -193,6 +237,16 @@ const PortalProjectsProjectIdRoute = PortalProjectsProjectIdRouteImport.update({
   path: '/$projectId',
   getParentRoute: () => PortalProjectsRoute,
 } as any)
+const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
+const AdminProjectsProjectIdRoute = AdminProjectsProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -203,6 +257,7 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/business-registration': typeof BusinessRegistrationRoute
   '/contact': typeof ContactRoute
@@ -220,6 +275,11 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/clients': typeof AdminClientsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/project-updates': typeof AdminProjectUpdatesRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
@@ -229,8 +289,11 @@ export interface FileRoutesByFullPath {
   '/portal/profile': typeof PortalProfileRoute
   '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
+  '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesByTo {
@@ -252,6 +315,11 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/clients': typeof AdminClientsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/project-updates': typeof AdminProjectUpdatesRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
@@ -261,14 +329,18 @@ export interface FileRoutesByTo {
   '/portal/profile': typeof PortalProfileRoute
   '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
+  '/admin': typeof AdminIndexRoute
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/business-registration': typeof BusinessRegistrationRoute
   '/contact': typeof ContactRoute
@@ -286,6 +358,11 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/clients': typeof AdminClientsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/project-updates': typeof AdminProjectUpdatesRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
@@ -295,8 +372,11 @@ export interface FileRoutesById {
   '/portal/profile': typeof PortalProfileRoute
   '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
+  '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRouteTypes {
@@ -304,6 +384,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/auth'
     | '/business-registration'
     | '/contact'
@@ -321,6 +402,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/clients'
+    | '/admin/dashboard'
+    | '/admin/project-updates'
+    | '/admin/projects'
+    | '/admin/settings'
     | '/portal/dashboard'
     | '/portal/documents'
     | '/portal/forgot-password'
@@ -330,8 +416,11 @@ export interface FileRouteTypes {
     | '/portal/profile'
     | '/portal/projects'
     | '/portal/register'
+    | '/admin/'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/projects/$projectId'
+    | '/admin/projects/new'
     | '/portal/projects/$projectId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -353,6 +442,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/clients'
+    | '/admin/dashboard'
+    | '/admin/project-updates'
+    | '/admin/projects'
+    | '/admin/settings'
     | '/portal/dashboard'
     | '/portal/documents'
     | '/portal/forgot-password'
@@ -362,13 +456,17 @@ export interface FileRouteTypes {
     | '/portal/profile'
     | '/portal/projects'
     | '/portal/register'
+    | '/admin'
     | '/portal'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/projects/$projectId'
+    | '/admin/projects/new'
     | '/portal/projects/$projectId'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/auth'
     | '/business-registration'
     | '/contact'
@@ -386,6 +484,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/clients'
+    | '/admin/dashboard'
+    | '/admin/project-updates'
+    | '/admin/projects'
+    | '/admin/settings'
     | '/portal/dashboard'
     | '/portal/documents'
     | '/portal/forgot-password'
@@ -395,14 +498,18 @@ export interface FileRouteTypes {
     | '/portal/profile'
     | '/portal/projects'
     | '/portal/register'
+    | '/admin/'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/projects/$projectId'
+    | '/admin/projects/new'
     | '/portal/projects/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   BusinessRegistrationRoute: typeof BusinessRegistrationRoute
   ContactRoute: typeof ContactRoute
@@ -530,6 +637,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -550,6 +664,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/portal/'
       preLoaderRoute: typeof PortalIndexRouteImport
       parentRoute: typeof PortalRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/portal/register': {
       id: '/portal/register'
@@ -614,6 +735,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalDashboardRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/project-updates': {
+      id: '/admin/project-updates'
+      path: '/project-updates'
+      fullPath: '/admin/project-updates'
+      preLoaderRoute: typeof AdminProjectUpdatesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clients': {
+      id: '/admin/clients'
+      path: '/clients'
+      fullPath: '/admin/clients'
+      preLoaderRoute: typeof AdminClientsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -635,6 +791,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalProjectsProjectIdRouteImport
       parentRoute: typeof PortalProjectsRoute
     }
+    '/admin/projects/new': {
+      id: '/admin/projects/new'
+      path: '/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminProjectsNewRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
+    '/admin/projects/$projectId': {
+      id: '/admin/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/admin/projects/$projectId'
+      preLoaderRoute: typeof AdminProjectsProjectIdRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -644,6 +814,40 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminProjectsRouteChildren {
+  AdminProjectsProjectIdRoute: typeof AdminProjectsProjectIdRoute
+  AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+}
+
+const AdminProjectsRouteChildren: AdminProjectsRouteChildren = {
+  AdminProjectsProjectIdRoute: AdminProjectsProjectIdRoute,
+  AdminProjectsNewRoute: AdminProjectsNewRoute,
+}
+
+const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
+  AdminProjectsRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminClientsRoute: typeof AdminClientsRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminProjectUpdatesRoute: typeof AdminProjectUpdatesRoute
+  AdminProjectsRoute: typeof AdminProjectsRouteWithChildren
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminClientsRoute: AdminClientsRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminProjectUpdatesRoute: AdminProjectUpdatesRoute,
+  AdminProjectsRoute: AdminProjectsRouteWithChildren,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface PortalProjectsRouteChildren {
   PortalProjectsProjectIdRoute: typeof PortalProjectsProjectIdRoute
@@ -689,6 +893,7 @@ const PortalRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   BusinessRegistrationRoute: BusinessRegistrationRoute,
   ContactRoute: ContactRoute,
