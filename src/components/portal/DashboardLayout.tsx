@@ -13,11 +13,13 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { NotificationCenter } from "./NotificationCenter";
+import { RoleGuard } from "./RoleGuard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { site } from "@/lib/site";
 import logoAsset from "@/assets/logo-white.png.asset.json";
 import type { PortalProfile } from "@/hooks/use-portal-session";
+import { Shield } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -227,6 +229,21 @@ export function DashboardLayout({
               </Link>
             );
           })}
+          <RoleGuard roles={["admin"]}>
+            <Link
+              to="/admin/dashboard"
+              onClick={onNavigate}
+              className={cn(
+                "mt-2 flex items-center gap-3 rounded-md border border-primary/30 px-3 py-2 text-sm font-medium transition-colors",
+                pathname.startsWith("/admin")
+                  ? "bg-primary text-primary-foreground"
+                  : "text-primary hover:bg-primary/10"
+              )}
+            >
+              <Shield className="h-4 w-4" />
+              Admin Portal
+            </Link>
+          </RoleGuard>
         </nav>
         <div className="border-t border-border p-3">
           <button
