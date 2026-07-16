@@ -135,13 +135,7 @@ export function DashboardLayout({
             </div>
 
             <div className="flex items-center gap-2">
-              <button
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border hover:bg-accent"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-                <NotificationBadge count={0} />
-              </button>
+              <NotificationCenter />
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
