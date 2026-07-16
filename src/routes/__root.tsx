@@ -128,18 +128,29 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPortal = pathname === "/portal" || pathname.startsWith("/portal/");
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col pb-14 md:pb-0">
-        <Header />
-        <main className="flex-1">
+      {isPortal ? (
+        <>
           <Outlet />
-        </main>
-        <Footer />
-      </div>
-      <WhatsAppFab />
-      <MobileContactBar />
-      <Toaster richColors position="top-right" />
+          <Toaster richColors position="top-right" />
+        </>
+      ) : (
+        <>
+          <div className="flex min-h-screen flex-col pb-14 md:pb-0">
+            <Header />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+          <WhatsAppFab />
+          <MobileContactBar />
+          <Toaster richColors position="top-right" />
+        </>
+      )}
     </QueryClientProvider>
   );
 }
