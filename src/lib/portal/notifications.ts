@@ -43,7 +43,7 @@ export const notificationsQueryOptions = (limit = 20) =>
   queryOptions({
     queryKey: ["portal", "notifications", limit],
     queryFn: async (): Promise<PortalNotification[]> => {
-      const [updatesRes, projectsRes] = await Promise.all([
+      const [updatesRes, projectsRes, docsRes] = await Promise.all([
         supabase
           .from("project_updates")
           .select("id,project_id,update_title,update_message,created_at,visible_to_client")
@@ -54,10 +54,17 @@ export const notificationsQueryOptions = (limit = 20) =>
           .select("id,project_name,status,updated_at,created_at")
           .order("updated_at", { ascending: false })
           .limit(limit),
+        supabase
+          .from("documents")
+          .select("id,project_id,title,category,uploaded_at,visible_to_client,version")
+          .eq("visible_to_client", true)
+          .order("uploaded_at", { ascending: false })
+          .limit(limit),
       ]);
 
       if (updatesRes.error) throw updatesRes.error;
       if (projectsRes.error) throw projectsRes.error;
+      // docsRes may error for unauthenticated users; ignore silently.
 
       const notifications: PortalNotification[] = [];
 
@@ -85,6 +92,18 @@ export const notificationsQueryOptions = (limit = 20) =>
           createdAt: p.updated_at,
           href: `/portal/projects/${p.id}`,
           entityId: p.id,
+        });
+      }
+
+      for (const doc of docsRes.data ?? []) {
+        notifications.push({
+          id: `document:${doc.id}`,
+          category: "document",
+          title: `New document: ${doc.title}`,
+          description: `${doc.category} · v${doc.version}`,
+          createdAt: doc.uploaded_at,
+          href: `/portal/documents`,
+          entityId: doc.project_id,
         });
       }
 
