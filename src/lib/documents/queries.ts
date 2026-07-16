@@ -93,15 +93,16 @@ export const documentVersionsQuery = (documentId: string) =>
       const chain: DocumentRow[] = [];
       let cursor: string | null = documentId;
       while (cursor) {
-        const { data, error } = await supabase
+        const res = await supabase
           .from("documents")
           .select("*")
           .eq("id", cursor)
           .maybeSingle();
-        if (error) throw error;
-        if (!data) break;
-        chain.push(data as DocumentRow);
-        cursor = (data as DocumentRow).replaces_document_id;
+        if (res.error) throw res.error;
+        const row = res.data as DocumentRow | null;
+        if (!row) break;
+        chain.push(row);
+        cursor = row.replaces_document_id;
       }
       return chain;
     },
@@ -160,7 +161,7 @@ async function logActivity(
     document_id: documentId,
     action,
     performed_by: userData.user?.id ?? null,
-    metadata: metadata ?? null,
+    metadata: (metadata ?? null) as never,
   });
 }
 
