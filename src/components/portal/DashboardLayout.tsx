@@ -13,11 +13,13 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { NotificationCenter } from "./NotificationCenter";
+import { RoleGuard } from "./RoleGuard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { site } from "@/lib/site";
 import logoAsset from "@/assets/logo-white.png.asset.json";
 import type { PortalProfile } from "@/hooks/use-portal-session";
+import { Shield } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
