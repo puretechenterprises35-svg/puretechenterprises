@@ -80,6 +80,123 @@ export type Database = {
         }
         Relationships: []
       }
+      document_activity: {
+        Row: {
+          action: string
+          created_at: string
+          document_id: string
+          id: string
+          metadata: Json | null
+          performed_by: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          document_id: string
+          id?: string
+          metadata?: Json | null
+          performed_by?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          metadata?: Json | null
+          performed_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_activity_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          category: string
+          client_id: string
+          description: string | null
+          download_count: number
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          project_id: string
+          replaces_document_id: string | null
+          title: string
+          updated_at: string
+          uploaded_at: string
+          uploaded_by: string | null
+          version: number
+          visible_to_client: boolean
+        }
+        Insert: {
+          category?: string
+          client_id: string
+          description?: string | null
+          download_count?: number
+          file_name: string
+          file_path: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          project_id: string
+          replaces_document_id?: string | null
+          title: string
+          updated_at?: string
+          uploaded_at?: string
+          uploaded_by?: string | null
+          version?: number
+          visible_to_client?: boolean
+        }
+        Update: {
+          category?: string
+          client_id?: string
+          description?: string | null
+          download_count?: number
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          project_id?: string
+          replaces_document_id?: string | null
+          title?: string
+          updated_at?: string
+          uploaded_at?: string
+          uploaded_by?: string | null
+          version?: number
+          visible_to_client?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_replaces_document_id_fkey"
+            columns: ["replaces_document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           approval_status: string
