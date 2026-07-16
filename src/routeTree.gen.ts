@@ -26,9 +26,16 @@ import { Route as BusinessRegistrationRouteImport } from './routes/business-regi
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalRegisterRouteImport } from './routes/portal.register'
+import { Route as PortalProjectsRouteImport } from './routes/portal.projects'
+import { Route as PortalProfileRouteImport } from './routes/portal.profile'
+import { Route as PortalPaymentsRouteImport } from './routes/portal.payments'
+import { Route as PortalMessagesRouteImport } from './routes/portal.messages'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalForgotPasswordRouteImport } from './routes/portal.forgot-password'
+import { Route as PortalDocumentsRouteImport } from './routes/portal.documents'
+import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -118,9 +125,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalRegisterRoute = PortalRegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalProjectsRoute = PortalProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalProfileRoute = PortalProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPaymentsRoute = PortalPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalMessagesRoute = PortalMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalLoginRoute = PortalLoginRouteImport.update({
@@ -131,6 +163,16 @@ const PortalLoginRoute = PortalLoginRouteImport.update({
 const PortalForgotPasswordRoute = PortalForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalDocumentsRoute = PortalDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalDashboardRoute = PortalDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => PortalRoute,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -172,9 +214,16 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
+  '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/messages': typeof PortalMessagesRoute
+  '/portal/payments': typeof PortalPaymentsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/projects': typeof PortalProjectsRoute
   '/portal/register': typeof PortalRegisterRoute
+  '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesByTo {
@@ -186,7 +235,6 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
-  '/portal': typeof PortalRouteWithChildren
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -197,9 +245,16 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
+  '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/messages': typeof PortalMessagesRoute
+  '/portal/payments': typeof PortalPaymentsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/projects': typeof PortalProjectsRoute
   '/portal/register': typeof PortalRegisterRoute
+  '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesById {
@@ -223,9 +278,16 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
+  '/portal/documents': typeof PortalDocumentsRoute
   '/portal/forgot-password': typeof PortalForgotPasswordRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/messages': typeof PortalMessagesRoute
+  '/portal/payments': typeof PortalPaymentsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/projects': typeof PortalProjectsRoute
   '/portal/register': typeof PortalRegisterRoute
+  '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRouteTypes {
@@ -250,9 +312,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/portal/dashboard'
+    | '/portal/documents'
     | '/portal/forgot-password'
     | '/portal/login'
+    | '/portal/messages'
+    | '/portal/payments'
+    | '/portal/profile'
+    | '/portal/projects'
     | '/portal/register'
+    | '/portal/'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -264,7 +333,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/ict-services'
     | '/mcp'
-    | '/portal'
     | '/printing-branding'
     | '/privacy'
     | '/quote'
@@ -275,9 +343,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/portal/dashboard'
+    | '/portal/documents'
     | '/portal/forgot-password'
     | '/portal/login'
+    | '/portal/messages'
+    | '/portal/payments'
+    | '/portal/profile'
+    | '/portal/projects'
     | '/portal/register'
+    | '/portal'
     | '/.mcp/invoke-tool/$tool'
   id:
     | '__root__'
@@ -300,9 +375,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/portal/dashboard'
+    | '/portal/documents'
     | '/portal/forgot-password'
     | '/portal/login'
+    | '/portal/messages'
+    | '/portal/payments'
+    | '/portal/profile'
+    | '/portal/projects'
     | '/portal/register'
+    | '/portal/'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
 }
@@ -450,11 +532,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/': {
+      id: '/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/register': {
       id: '/portal/register'
       path: '/register'
       fullPath: '/portal/register'
       preLoaderRoute: typeof PortalRegisterRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/projects': {
+      id: '/portal/projects'
+      path: '/projects'
+      fullPath: '/portal/projects'
+      preLoaderRoute: typeof PortalProjectsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/profile': {
+      id: '/portal/profile'
+      path: '/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof PortalProfileRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/payments': {
+      id: '/portal/payments'
+      path: '/payments'
+      fullPath: '/portal/payments'
+      preLoaderRoute: typeof PortalPaymentsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/messages': {
+      id: '/portal/messages'
+      path: '/messages'
+      fullPath: '/portal/messages'
+      preLoaderRoute: typeof PortalMessagesRouteImport
       parentRoute: typeof PortalRoute
     }
     '/portal/login': {
@@ -469,6 +586,20 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/portal/forgot-password'
       preLoaderRoute: typeof PortalForgotPasswordRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/documents': {
+      id: '/portal/documents'
+      path: '/documents'
+      fullPath: '/portal/documents'
+      preLoaderRoute: typeof PortalDocumentsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/dashboard': {
+      id: '/portal/dashboard'
+      path: '/dashboard'
+      fullPath: '/portal/dashboard'
+      preLoaderRoute: typeof PortalDashboardRouteImport
       parentRoute: typeof PortalRoute
     }
     '/.well-known/oauth-protected-resource': {
@@ -496,15 +627,29 @@ declare module '@tanstack/react-router' {
 }
 
 interface PortalRouteChildren {
+  PortalDashboardRoute: typeof PortalDashboardRoute
+  PortalDocumentsRoute: typeof PortalDocumentsRoute
   PortalForgotPasswordRoute: typeof PortalForgotPasswordRoute
   PortalLoginRoute: typeof PortalLoginRoute
+  PortalMessagesRoute: typeof PortalMessagesRoute
+  PortalPaymentsRoute: typeof PortalPaymentsRoute
+  PortalProfileRoute: typeof PortalProfileRoute
+  PortalProjectsRoute: typeof PortalProjectsRoute
   PortalRegisterRoute: typeof PortalRegisterRoute
+  PortalIndexRoute: typeof PortalIndexRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalDashboardRoute: PortalDashboardRoute,
+  PortalDocumentsRoute: PortalDocumentsRoute,
   PortalForgotPasswordRoute: PortalForgotPasswordRoute,
   PortalLoginRoute: PortalLoginRoute,
+  PortalMessagesRoute: PortalMessagesRoute,
+  PortalPaymentsRoute: PortalPaymentsRoute,
+  PortalProfileRoute: PortalProfileRoute,
+  PortalProjectsRoute: PortalProjectsRoute,
   PortalRegisterRoute: PortalRegisterRoute,
+  PortalIndexRoute: PortalIndexRoute,
 }
 
 const PortalRouteWithChildren =
