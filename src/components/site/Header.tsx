@@ -39,6 +39,11 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          <Link to="/portal/login" className="ml-2">
+            <Button variant="outline" size="sm">
+              Client Portal
+            </Button>
+          </Link>
           <Link to="/quote" className="ml-2">
             <Button className="bg-gradient-brand text-primary-foreground shadow-soft hover:opacity-95">
               Get a Quote
