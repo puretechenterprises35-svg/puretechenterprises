@@ -10,9 +10,9 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
   ChevronDown,
 } from "lucide-react";
+import { NotificationCenter } from "./NotificationCenter";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { site } from "@/lib/site";
@@ -135,13 +135,7 @@ export function DashboardLayout({
             </div>
 
             <div className="flex items-center gap-2">
-              <button
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border hover:bg-accent"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-                <NotificationBadge count={0} />
-              </button>
+              <NotificationCenter />
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -245,13 +239,4 @@ export function DashboardLayout({
       </div>
     );
   }
-}
-
-function NotificationBadge({ count }: { count: number }) {
-  if (!count) return null;
-  return (
-    <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
-      {count > 9 ? "9+" : count}
-    </span>
-  );
 }
