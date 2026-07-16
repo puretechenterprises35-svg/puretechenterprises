@@ -17,6 +17,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrintingBrandingRouteImport } from './routes/printing-branding'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IctServicesRouteImport } from './routes/ict-services'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -67,6 +68,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PrintingBrandingRoute = PrintingBrandingRouteImport.update({
   id: '/printing-branding',
   path: '/printing-branding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
+  '/portal': typeof PortalRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
+  '/portal': typeof PortalRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/ict-services': typeof IctServicesRoute
   '/mcp': typeof McpRoute
+  '/portal': typeof PortalRoute
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/ict-services'
     | '/mcp'
+    | '/portal'
     | '/printing-branding'
     | '/privacy'
     | '/quote'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/ict-services'
     | '/mcp'
+    | '/portal'
     | '/printing-branding'
     | '/privacy'
     | '/quote'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/ict-services'
     | '/mcp'
+    | '/portal'
     | '/printing-branding'
     | '/privacy'
     | '/quote'
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   IctServicesRoute: typeof IctServicesRoute
   McpRoute: typeof McpRoute
+  PortalRoute: typeof PortalRoute
   PrintingBrandingRoute: typeof PrintingBrandingRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
@@ -336,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/printing-branding'
       fullPath: '/printing-branding'
       preLoaderRoute: typeof PrintingBrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -427,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   IctServicesRoute: IctServicesRoute,
   McpRoute: McpRoute,
+  PortalRoute: PortalRoute,
   PrintingBrandingRoute: PrintingBrandingRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
