@@ -229,29 +229,29 @@ export const quickEnquiries: { label: string; icon: string }[] = [
   { label: "ICT Services", icon: "Laptop" },
 ];
 
-export const faqs: { q: string; a: string }[] = [
-  {
-    q: "Can Puretech help me register a company?",
-    a: "Yes. We provide company and business registration support and guide clients through the required registration process.",
-  },
-  {
-    q: "Do you assist with ZRA tax returns?",
-    a: "Yes. We provide tax compliance support including selected ZRA returns and tax consultancy services.",
-  },
-  {
-    q: "Can you prepare a business plan?",
-    a: "Yes. We prepare professional business plans, financial projections, cash flow forecasts and profitability analysis based on the client's business requirements.",
-  },
-  {
-    q: "Do you provide tender support?",
-    a: "Yes. We assist with tender document preparation, ZPPA support and business compliance requirements.",
-  },
-  {
-    q: "Do you offer printing and branding?",
-    a: "Yes. We provide printing, corporate branding and promotional branding solutions.",
-  },
-  {
-    q: "Where is Puretech Enterprises located?",
-    a: "Puretech Enterprises is based in Kapiri Mposhi, Zambia and can assist clients from different locations depending on the service required.",
-  },
+export type FaqCategory =
+  | "Business Registration"
+  | "Tax Services"
+  | "ICT Services"
+  | "Branding"
+  | "Consultancy"
+  | "Payments"
+  | "Turnaround Times";
+
+export const faqs: { category: FaqCategory; q: string; a: string }[] = [
+  { category: "Business Registration", q: "Can Puretech help me register a company?", a: "Yes. We provide company and business registration support and guide clients through the required PACRA registration process from name search to certificate issuance." },
+  { category: "Business Registration", q: "Do you handle amendments to existing companies?", a: "Yes. We support company amendments including director changes, shareholding updates and annual returns." },
+  { category: "Tax Services", q: "Do you assist with ZRA tax returns?", a: "Yes. We provide tax compliance support including TPIN registration, VAT, PAYE, turnover and provisional tax returns, plus general tax consultancy." },
+  { category: "Tax Services", q: "Can you help with Smart Invoice?", a: "Yes. We support Smart Invoice registration, setup and staff training." },
+  { category: "ICT Services", q: "What ICT services do you offer?", a: "Computer and laptop repairs, software installation, virus removal, network setup, preventive maintenance and managed ICT support contracts." },
+  { category: "ICT Services", q: "Do you provide ongoing IT support?", a: "Yes. Our Premium ICT package includes ongoing managed support and preventive maintenance for businesses." },
+  { category: "Branding", q: "Do you offer printing and branding?", a: "Yes. We produce business cards, flyers, banners, corporate branding, shop branding and full vehicle branding." },
+  { category: "Branding", q: "Can you design a full corporate identity?", a: "Yes. Our Premium branding package covers full corporate identity including logo, stationery and marketing collateral." },
+  { category: "Consultancy", q: "Can you prepare a business plan?", a: "Yes. We prepare professional business plans, financial projections, cash flow forecasts and profitability analysis tailored to your business." },
+  { category: "Consultancy", q: "Do you provide tender support?", a: "Yes. We assist with ZPPA, NCC, ZDA and EIZ registrations, plus tender document preparation and consultancy." },
+  { category: "Payments", q: "What payment methods do you accept?", a: "We accept mobile money (Airtel Money, MTN Mobile Money), bank transfer and cash. Payment details are shared with your quotation." },
+  { category: "Payments", q: "Do you require a deposit?", a: "Most engagements require a deposit before work begins. The exact terms are stated on your quotation." },
+  { category: "Turnaround Times", q: "How long do services take?", a: "Turnaround depends on the service. Simple registrations can be completed in a few working days; larger consultancy and branding projects have timelines confirmed at quotation stage." },
+  { category: "Turnaround Times", q: "Do you offer express service?", a: "Where possible we prioritise urgent work — please mention your deadline when requesting a quote." },
+  { category: "Business Registration", q: "Where is Puretech Enterprises located?", a: "Puretech Enterprises is based in Kapiri Mposhi, Zambia and supports clients from different locations depending on the service required." },
 ];
