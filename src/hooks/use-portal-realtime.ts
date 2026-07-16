@@ -18,6 +18,7 @@ export function usePortalRealtime() {
         () => {
           void queryClient.invalidateQueries({ queryKey: ["portal", "projects"] });
           void queryClient.invalidateQueries({ queryKey: ["portal", "project"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
         }
       )
       .on(
@@ -26,6 +27,7 @@ export function usePortalRealtime() {
         () => {
           void queryClient.invalidateQueries({ queryKey: ["portal", "project-updates"] });
           void queryClient.invalidateQueries({ queryKey: ["portal", "recent-updates"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
         }
       )
       .subscribe();
