@@ -38,6 +38,7 @@ import { Route as PortalDocumentsRouteImport } from './routes/portal.documents'
 import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const TermsRoute = TermsRouteImport.update({
@@ -187,6 +188,11 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PortalProjectsProjectIdRoute = PortalProjectsProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => PortalProjectsRoute,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -221,10 +227,11 @@ export interface FileRoutesByFullPath {
   '/portal/messages': typeof PortalMessagesRoute
   '/portal/payments': typeof PortalPaymentsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/projects': typeof PortalProjectsRoute
+  '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -252,10 +259,11 @@ export interface FileRoutesByTo {
   '/portal/messages': typeof PortalMessagesRoute
   '/portal/payments': typeof PortalPaymentsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/projects': typeof PortalProjectsRoute
+  '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -285,10 +293,11 @@ export interface FileRoutesById {
   '/portal/messages': typeof PortalMessagesRoute
   '/portal/payments': typeof PortalPaymentsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/projects': typeof PortalProjectsRoute
+  '/portal/projects': typeof PortalProjectsRouteWithChildren
   '/portal/register': typeof PortalRegisterRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -323,6 +332,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/portal/projects/$projectId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -354,6 +364,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/portal'
     | '/.mcp/invoke-tool/$tool'
+    | '/portal/projects/$projectId'
   id:
     | '__root__'
     | '/'
@@ -386,6 +397,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/portal/projects/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -616,6 +628,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/projects/$projectId': {
+      id: '/portal/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/portal/projects/$projectId'
+      preLoaderRoute: typeof PortalProjectsProjectIdRouteImport
+      parentRoute: typeof PortalProjectsRoute
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -626,6 +645,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PortalProjectsRouteChildren {
+  PortalProjectsProjectIdRoute: typeof PortalProjectsProjectIdRoute
+}
+
+const PortalProjectsRouteChildren: PortalProjectsRouteChildren = {
+  PortalProjectsProjectIdRoute: PortalProjectsProjectIdRoute,
+}
+
+const PortalProjectsRouteWithChildren = PortalProjectsRoute._addFileChildren(
+  PortalProjectsRouteChildren,
+)
+
 interface PortalRouteChildren {
   PortalDashboardRoute: typeof PortalDashboardRoute
   PortalDocumentsRoute: typeof PortalDocumentsRoute
@@ -634,7 +665,7 @@ interface PortalRouteChildren {
   PortalMessagesRoute: typeof PortalMessagesRoute
   PortalPaymentsRoute: typeof PortalPaymentsRoute
   PortalProfileRoute: typeof PortalProfileRoute
-  PortalProjectsRoute: typeof PortalProjectsRoute
+  PortalProjectsRoute: typeof PortalProjectsRouteWithChildren
   PortalRegisterRoute: typeof PortalRegisterRoute
   PortalIndexRoute: typeof PortalIndexRoute
 }
@@ -647,7 +678,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalMessagesRoute: PortalMessagesRoute,
   PortalPaymentsRoute: PortalPaymentsRoute,
   PortalProfileRoute: PortalProfileRoute,
-  PortalProjectsRoute: PortalProjectsRoute,
+  PortalProjectsRoute: PortalProjectsRouteWithChildren,
   PortalRegisterRoute: PortalRegisterRoute,
   PortalIndexRoute: PortalIndexRoute,
 }

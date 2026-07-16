@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.handle_new_client_profile() FROM PUBLIC, anon, authenticated;
