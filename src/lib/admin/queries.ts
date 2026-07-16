@@ -139,7 +139,7 @@ export const adminAllUpdatesQuery = () =>
 
 // ---------- Mutations ----------
 
-function invalidateAll(qc: ReturnType<typeof useQueryClient>) {
+function invalidateAll(qc: QueryClient) {
   void qc.invalidateQueries({ queryKey: ["admin"] });
   void qc.invalidateQueries({ queryKey: ["portal"] });
 }
