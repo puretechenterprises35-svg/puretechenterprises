@@ -4,7 +4,7 @@ export const site = {
   slogan: "Quality, Smart & Reliable Solutions",
   phone: "+260 962190263",
   whatsapp: "260962190263", // digits only, no +
-  email: "puretechenterprises@gmail.com",
+  email: "puretechenterprises35@gmail.com",
   location: "Kapiri Mposhi, Zambia",
   whatsappMessage:
     "Hello Puretech Enterprises. I visited your website and I am interested in your services. Please assist me.",
