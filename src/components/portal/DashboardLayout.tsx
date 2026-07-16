@@ -57,7 +57,7 @@ export function DashboardLayout({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = useRouterState({ select: (s: { location: { pathname: string } }) => s.location.pathname });
   const crumbs = buildCrumbs(pathname);
 
   const handleSignOut = async () => {
