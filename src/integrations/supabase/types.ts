@@ -162,6 +162,7 @@ export type Database = {
       }
       projects: {
         Row: {
+          archived_at: string | null
           client_id: string
           completion_date: string | null
           created_at: string
@@ -177,6 +178,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          archived_at?: string | null
           client_id: string
           completion_date?: string | null
           created_at?: string
@@ -192,6 +194,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          archived_at?: string | null
           client_id?: string
           completion_date?: string | null
           created_at?: string
