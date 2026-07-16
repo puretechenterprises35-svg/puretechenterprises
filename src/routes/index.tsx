@@ -1,13 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Sparkles, Users, Zap, ShieldCheck, HeartHandshake, PhoneCall, FileText, Upload, Cog, PackageCheck, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, site, whatsappLink } from "@/lib/site";
+import { services, site, telLink, whatsappLink } from "@/lib/site";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { QuickEnquiry } from "@/components/site/QuickEnquiry";
 import { BusinessPlanCTA } from "@/components/site/BusinessPlanCTA";
 import { TenderCTA } from "@/components/site/TenderCTA";
 import { Faq } from "@/components/site/Faq";
 import { Testimonials } from "@/components/site/Testimonials";
+import { TrustIndicators } from "@/components/site/TrustIndicators";
+import { BusinessStats } from "@/components/site/BusinessStats";
+import { WhyChoose } from "@/components/site/WhyChoose";
+import { ProcessTimeline } from "@/components/site/ProcessTimeline";
+import { Industries } from "@/components/site/Industries";
+import { Portfolio } from "@/components/site/Portfolio";
+import { Resources } from "@/components/site/Resources";
 import hero from "@/assets/hero.jpg";
 
 const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printer, Package, Laptop } as const;
@@ -39,10 +46,10 @@ function Home() {
               <Sparkles className="h-3.5 w-3.5" /> {site.slogan}
             </div>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">
-              Smart business solutions <span className="text-gradient-brand">you can rely on</span>
+              Enterprise-grade business solutions <span className="text-gradient-brand">built for Zambian businesses</span>
             </h1>
             <p className="mt-5 max-w-xl text-base text-secondary-foreground/80 sm:text-lg">
-              From business registration and tax compliance to ICT, printing and branding, Puretech Enterprises provides smart and reliable solutions designed to help your business grow.
+              From company registration and tax compliance to ICT, printing and branding — one trusted partner to help your business start, run and grow with confidence.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/quote">
@@ -50,9 +57,14 @@ function Home() {
                   Request a Quote <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
-              <a href={whatsappLink()} target="_blank" rel="noopener">
+              <a href={telLink}>
                 <Button size="lg" variant="outline" className="border-white/20 bg-white/5 text-secondary-foreground hover:bg-white/10">
-                  <MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp
+                  <PhoneCall className="mr-1.5 h-4 w-4" /> Contact an Expert
+                </Button>
+              </a>
+              <a href={whatsappLink()} target="_blank" rel="noopener">
+                <Button size="lg" variant="ghost" className="text-secondary-foreground hover:bg-white/10">
+                  <MessageCircle className="mr-1.5 h-4 w-4" /> WhatsApp
                 </Button>
               </a>
             </div>
@@ -74,6 +86,9 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* TRUST STRIP */}
+      <TrustIndicators />
 
       {/* ABOUT */}
       <section id="about" className="bg-background py-20">
@@ -113,8 +128,11 @@ function Home() {
         </div>
       </section>
 
+      {/* BUSINESS STATS */}
+      <BusinessStats />
+
       {/* SERVICES */}
-      <section className="bg-surface py-20">
+      <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading eyebrow="Our Services" title="Everything your business needs, in one place" description="Practical, professional services delivered by one reliable partner." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -147,55 +165,16 @@ function Home() {
       <QuickEnquiry />
 
       {/* WHY CHOOSE */}
-      <section className="bg-background py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Why Puretech" title="A dependable partner for growing businesses" />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { icon: PackageCheck, title: "One-Stop Business Solutions", body: "Access multiple professional business services from one reliable provider." },
-              { icon: HeartHandshake, title: "Professional Support", body: "Practical and professional support tailored to client needs." },
-              { icon: ShieldCheck, title: "Reliable Service", body: "We focus on timely and dependable service delivery." },
-              { icon: Zap, title: "Smart Solutions", body: "Modern approaches that simplify business processes." },
-              { icon: Users, title: "Customer Focused", body: "Every client receives personalised support." },
-              { icon: Sparkles, title: "Quality First", body: "Consistent standards across every service we deliver." },
-            ].map((f) => (
-              <div key={f.title} className="rounded-2xl border border-border bg-card p-6 hover-lift">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary"><f.icon className="h-5 w-5" /></div>
-                <h3 className="mt-4 font-semibold">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WhyChoose />
 
-      {/* HOW IT WORKS */}
-      <section className="bg-secondary py-20 text-secondary-foreground">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="mb-3 inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-glow">How It Works</div>
-            <h2 className="text-3xl font-bold sm:text-4xl">A simple, transparent process</h2>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {[
-              { n: "01", icon: PhoneCall, title: "Contact Us", body: "Tell us the service you need." },
-              { n: "02", icon: FileText, title: "Get a Quotation", body: "Receive a clear quotation and requirements." },
-              { n: "03", icon: Upload, title: "Submit Documents", body: "Provide the required information or documents." },
-              { n: "04", icon: Cog, title: "We Handle It", body: "Puretech processes the service professionally." },
-              { n: "05", icon: PackageCheck, title: "Service Completed", body: "Receive your completed service or documentation." },
-            ].map((s) => (
-              <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-                <div className="flex items-center justify-between text-primary-glow">
-                  <span className="text-xs font-bold tracking-wider">{s.n}</span>
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-secondary-foreground/80">{s.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* INDUSTRIES */}
+      <Industries />
+
+      {/* PROCESS */}
+      <ProcessTimeline />
+
+      {/* PORTFOLIO */}
+      <Portfolio />
 
       {/* BUSINESS PLAN CTA */}
       <BusinessPlanCTA />
@@ -205,6 +184,9 @@ function Home() {
 
       {/* TESTIMONIALS */}
       <Testimonials />
+
+      {/* RESOURCES */}
+      <Resources />
 
       {/* FAQ */}
       <Faq />
@@ -220,10 +202,10 @@ function Home() {
                 Let Puretech Enterprises handle your business support, compliance, ICT, printing and branding needs.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <a href={whatsappLink()} target="_blank" rel="noopener">
-                  <Button size="lg" variant="secondary"><MessageCircle className="mr-1.5 h-4 w-4" /> Chat With Us on WhatsApp</Button>
-                </a>
                 <Link to="/quote"><Button size="lg" className="bg-white text-primary hover:bg-white/90">Request a Quote</Button></Link>
+                <a href={whatsappLink()} target="_blank" rel="noopener">
+                  <Button size="lg" variant="secondary"><MessageCircle className="mr-1.5 h-4 w-4" /> Chat on WhatsApp</Button>
+                </a>
               </div>
             </div>
           </div>
