@@ -41,6 +41,7 @@ import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminProjectUpdatesRouteImport } from './routes/admin.project-updates'
+import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminClientsRouteImport } from './routes/admin.clients'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -48,6 +49,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
+import { Route as AdminDocumentsDocumentIdRouteImport } from './routes/admin.documents.$documentId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const TermsRoute = TermsRouteImport.update({
@@ -210,6 +212,11 @@ const AdminProjectUpdatesRoute = AdminProjectUpdatesRouteImport.update({
   path: '/project-updates',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -247,6 +254,12 @@ const AdminProjectsProjectIdRoute = AdminProjectsProjectIdRouteImport.update({
   path: '/$projectId',
   getParentRoute: () => AdminProjectsRoute,
 } as any)
+const AdminDocumentsDocumentIdRoute =
+  AdminDocumentsDocumentIdRouteImport.update({
+    id: '/$documentId',
+    path: '/$documentId',
+    getParentRoute: () => AdminDocumentsRoute,
+  } as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -277,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRouteWithChildren
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -292,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
@@ -317,6 +332,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRouteWithChildren
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -332,6 +348,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
@@ -360,6 +377,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRouteWithChildren
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -375,6 +393,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
@@ -404,6 +423,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/clients'
     | '/admin/dashboard'
+    | '/admin/documents'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -419,6 +439,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/documents/$documentId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/portal/projects/$projectId'
@@ -444,6 +465,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/clients'
     | '/admin/dashboard'
+    | '/admin/documents'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -459,6 +481,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/portal'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/documents/$documentId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/portal/projects/$projectId'
@@ -486,6 +509,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/clients'
     | '/admin/dashboard'
+    | '/admin/documents'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -501,6 +525,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/documents/$documentId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/portal/projects/$projectId'
@@ -756,6 +781,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjectUpdatesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/documents': {
+      id: '/admin/documents'
+      path: '/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof AdminDocumentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
       path: '/dashboard'
@@ -805,6 +837,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjectsProjectIdRouteImport
       parentRoute: typeof AdminProjectsRoute
     }
+    '/admin/documents/$documentId': {
+      id: '/admin/documents/$documentId'
+      path: '/$documentId'
+      fullPath: '/admin/documents/$documentId'
+      preLoaderRoute: typeof AdminDocumentsDocumentIdRouteImport
+      parentRoute: typeof AdminDocumentsRoute
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -814,6 +853,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminDocumentsRouteChildren {
+  AdminDocumentsDocumentIdRoute: typeof AdminDocumentsDocumentIdRoute
+}
+
+const AdminDocumentsRouteChildren: AdminDocumentsRouteChildren = {
+  AdminDocumentsDocumentIdRoute: AdminDocumentsDocumentIdRoute,
+}
+
+const AdminDocumentsRouteWithChildren = AdminDocumentsRoute._addFileChildren(
+  AdminDocumentsRouteChildren,
+)
 
 interface AdminProjectsRouteChildren {
   AdminProjectsProjectIdRoute: typeof AdminProjectsProjectIdRoute
@@ -832,6 +883,7 @@ const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
 interface AdminRouteChildren {
   AdminClientsRoute: typeof AdminClientsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDocumentsRoute: typeof AdminDocumentsRouteWithChildren
   AdminProjectUpdatesRoute: typeof AdminProjectUpdatesRoute
   AdminProjectsRoute: typeof AdminProjectsRouteWithChildren
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -841,6 +893,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminClientsRoute: AdminClientsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminDocumentsRoute: AdminDocumentsRouteWithChildren,
   AdminProjectUpdatesRoute: AdminProjectUpdatesRoute,
   AdminProjectsRoute: AdminProjectsRouteWithChildren,
   AdminSettingsRoute: AdminSettingsRoute,
