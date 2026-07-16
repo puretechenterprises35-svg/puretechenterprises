@@ -39,6 +39,11 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          <Link to="/portal/login" className="ml-2">
+            <Button variant="outline" size="sm">
+              Client Portal
+            </Button>
+          </Link>
           <Link to="/quote" className="ml-2">
             <Button className="bg-gradient-brand text-primary-foreground shadow-soft hover:opacity-95">
               Get a Quote
@@ -89,6 +94,11 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
+            <Link to="/portal/login" onClick={() => setOpen(false)}>
+              <Button variant="outline" className="mt-2 w-full">
+                Client Portal
+              </Button>
+            </Link>
             <Link to="/quote" onClick={() => setOpen(false)}>
               <Button className="mt-2 w-full bg-gradient-brand text-primary-foreground">
                 Get a Quote

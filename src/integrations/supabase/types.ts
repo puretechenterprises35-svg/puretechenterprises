@@ -46,6 +46,10 @@ export type Database = {
       }
       profiles: {
         Row: {
+          approval_status: string
+          business_address: string | null
+          company_name: string | null
+          contact_person: string | null
           created_at: string
           email: string | null
           full_name: string | null
@@ -54,6 +58,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          approval_status?: string
+          business_address?: string | null
+          company_name?: string | null
+          contact_person?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
@@ -62,6 +70,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          approval_status?: string
+          business_address?: string | null
+          company_name?: string | null
+          contact_person?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
