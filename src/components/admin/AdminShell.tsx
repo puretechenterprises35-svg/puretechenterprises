@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, FolderKanban, Bell, Settings, PlusCircle } from "lucide-react";
+import { LayoutDashboard, Users, FolderKanban, Bell, Settings, PlusCircle, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -8,6 +8,7 @@ const NAV = [
   { to: "/admin/clients", label: "Clients", icon: Users },
   { to: "/admin/projects", label: "Projects", icon: FolderKanban },
   { to: "/admin/projects/new", label: "New Project", icon: PlusCircle },
+  { to: "/admin/documents", label: "Documents", icon: FileText },
   { to: "/admin/project-updates", label: "Updates", icon: Bell },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;

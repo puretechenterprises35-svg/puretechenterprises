@@ -30,6 +30,14 @@ export function usePortalRealtime() {
           void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "documents" },
+        () => {
+          void queryClient.invalidateQueries({ queryKey: ["documents"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
+        }
+      )
       .subscribe();
 
     return () => {
