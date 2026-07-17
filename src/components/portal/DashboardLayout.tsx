@@ -18,7 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { site } from "@/lib/site";
 import logoAsset from "@/assets/logo-white.png.asset.json";
-import type { PortalProfile } from "@/hooks/use-portal-session";
+import { usePortalSession, type PortalProfile } from "@/hooks/use-portal-session";
 import { Shield } from "lucide-react";
 import {
   DropdownMenu,
@@ -59,6 +59,7 @@ export function DashboardLayout({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { isAdmin } = usePortalSession();
   const pathname = useRouterState({ select: (s: { location: { pathname: string } }) => s.location.pathname });
   const crumbs = buildCrumbs(pathname);
 
@@ -150,7 +151,7 @@ export function DashboardLayout({
                         Signed in
                       </span>
                       <span className="block text-sm font-medium">
-                        {profile?.contact_person || profile?.full_name || "Client"}
+                        {profile?.contact_person || profile?.full_name || (isAdmin ? "Admin" : "Client")}
                       </span>
                     </span>
                     <ChevronDown className="h-4 w-4 opacity-60" />
