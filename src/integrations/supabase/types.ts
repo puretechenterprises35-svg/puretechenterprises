@@ -197,6 +197,54 @@ export type Database = {
           },
         ]
       }
+      enquiries: {
+        Row: {
+          admin_notes: string | null
+          attachments: Json
+          client_id: string
+          created_at: string
+          description: string
+          estimated_budget: number | null
+          id: string
+          preferred_completion_date: string | null
+          priority: Database["public"]["Enums"]["enquiry_priority"]
+          service_category: string
+          status: Database["public"]["Enums"]["enquiry_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          attachments?: Json
+          client_id: string
+          created_at?: string
+          description: string
+          estimated_budget?: number | null
+          id?: string
+          preferred_completion_date?: string | null
+          priority?: Database["public"]["Enums"]["enquiry_priority"]
+          service_category: string
+          status?: Database["public"]["Enums"]["enquiry_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          attachments?: Json
+          client_id?: string
+          created_at?: string
+          description?: string
+          estimated_budget?: number | null
+          id?: string
+          preferred_completion_date?: string | null
+          priority?: Database["public"]["Enums"]["enquiry_priority"]
+          service_category?: string
+          status?: Database["public"]["Enums"]["enquiry_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           client_id: string
@@ -559,6 +607,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client" | "staff"
+      enquiry_priority: "Low" | "Medium" | "High"
+      enquiry_status:
+        | "Pending Review"
+        | "Needs More Information"
+        | "Approved"
+        | "Rejected"
+        | "Converted to Project"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -687,6 +742,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client", "staff"],
+      enquiry_priority: ["Low", "Medium", "High"],
+      enquiry_status: [
+        "Pending Review",
+        "Needs More Information",
+        "Approved",
+        "Rejected",
+        "Converted to Project",
+      ],
     },
   },
 } as const
