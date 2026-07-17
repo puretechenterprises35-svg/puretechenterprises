@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { StatisticsCards } from "@/components/admin/StatisticsCards";
 import { adminStatsQuery, adminAllUpdatesQuery } from "@/lib/admin/queries";
-import { Loader2 } from "lucide-react";
+import { invoiceStatsQuery, formatCurrency } from "@/lib/invoices/queries";
+import { StatCard } from "@/components/portal/StatCard";
+import { Loader2, DollarSign, CreditCard, AlertCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 
@@ -14,6 +16,7 @@ export const Route = createFileRoute("/admin/dashboard")({
 function AdminDashboard() {
   const stats = useQuery(adminStatsQuery());
   const updates = useQuery(adminAllUpdatesQuery());
+  const invStats = useQuery(invoiceStatsQuery());
 
   return (
     <AdminShell title="Admin Dashboard">
@@ -51,11 +54,16 @@ function AdminDashboard() {
         </div>
 
         <div className="rounded-xl border border-border bg-card p-5 shadow-soft">
-          <h2 className="mb-3 text-sm font-semibold">Reporting</h2>
-          <p className="text-sm text-muted-foreground">
-            Revenue and payment charts will appear here once payments are wired in.
-          </p>
-          <div className="mt-4 h-32 rounded-md bg-gradient-to-br from-primary/10 to-primary/5" />
+          <h2 className="mb-3 text-sm font-semibold">Payments & revenue</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <StatCard label="Revenue (paid)" value={formatCurrency(invStats.data?.revenue ?? 0)} icon={DollarSign} tone="success" />
+            <StatCard label="Outstanding" value={formatCurrency(invStats.data?.outstandingAmount ?? 0)} icon={CreditCard} tone="warning" />
+            <StatCard label="Awaiting verification" value={invStats.data?.pendingVerifications ?? 0} icon={Clock} tone="default" />
+            <StatCard label="Overdue invoices" value={invStats.data?.overdueCount ?? 0} icon={AlertCircle} tone="danger" />
+          </div>
+          <Button asChild variant="link" className="mt-2 px-0">
+            <Link to="/admin/invoices">Manage invoices →</Link>
+          </Button>
         </div>
       </div>
     </AdminShell>

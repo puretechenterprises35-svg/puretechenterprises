@@ -38,6 +38,29 @@ export function usePortalRealtime() {
           void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "invoices" },
+        () => {
+          void queryClient.invalidateQueries({ queryKey: ["portal", "invoices"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "invoice"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "invoice-summary"] });
+          void queryClient.invalidateQueries({ queryKey: ["admin", "invoices"] });
+          void queryClient.invalidateQueries({ queryKey: ["admin", "invoice-stats"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "payments" },
+        () => {
+          void queryClient.invalidateQueries({ queryKey: ["portal", "payments"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "invoice-payments"] });
+          void queryClient.invalidateQueries({ queryKey: ["admin", "payments"] });
+          void queryClient.invalidateQueries({ queryKey: ["admin", "invoice-stats"] });
+          void queryClient.invalidateQueries({ queryKey: ["portal", "notifications"] });
+        }
+      )
       .subscribe();
 
     return () => {

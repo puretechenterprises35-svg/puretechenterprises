@@ -43,7 +43,7 @@ export const notificationsQueryOptions = (limit = 20) =>
   queryOptions({
     queryKey: ["portal", "notifications", limit],
     queryFn: async (): Promise<PortalNotification[]> => {
-      const [updatesRes, projectsRes, docsRes] = await Promise.all([
+      const [updatesRes, projectsRes, docsRes, invRes, payRes] = await Promise.all([
         supabase
           .from("project_updates")
           .select("id,project_id,update_title,update_message,created_at,visible_to_client")
@@ -59,6 +59,17 @@ export const notificationsQueryOptions = (limit = 20) =>
           .select("id,project_id,title,category,uploaded_at,visible_to_client,version")
           .eq("visible_to_client", true)
           .order("uploaded_at", { ascending: false })
+          .limit(limit),
+        supabase
+          .from("invoices")
+          .select("id,invoice_number,title,status,total_amount,currency,issue_date,updated_at")
+          .neq("status", "Draft")
+          .order("updated_at", { ascending: false })
+          .limit(limit),
+        supabase
+          .from("payments")
+          .select("id,invoice_id,amount,verification_status,created_at")
+          .order("created_at", { ascending: false })
           .limit(limit),
       ]);
 
@@ -106,6 +117,31 @@ export const notificationsQueryOptions = (limit = 20) =>
           entityId: doc.project_id,
         });
       }
+
+      for (const inv of invRes.data ?? []) {
+        notifications.push({
+          id: `invoice:${inv.id}:${inv.updated_at}`,
+          category: "invoice",
+          title: `Invoice ${inv.invoice_number} · ${inv.status}`,
+          description: `${inv.title} · ${inv.currency} ${Number(inv.total_amount).toFixed(2)}`,
+          createdAt: inv.updated_at,
+          href: `/portal/invoices/${inv.id}`,
+          entityId: inv.id,
+        });
+      }
+
+      for (const p of payRes.data ?? []) {
+        notifications.push({
+          id: `payment:${p.id}`,
+          category: "payment",
+          title: `Payment ${p.verification_status.toLowerCase()}`,
+          description: `Amount: ${Number(p.amount).toFixed(2)}`,
+          createdAt: p.created_at,
+          href: `/portal/invoices/${p.invoice_id}`,
+          entityId: p.invoice_id,
+        });
+      }
+
 
       notifications.sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
