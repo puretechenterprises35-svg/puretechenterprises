@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, createElement, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -187,11 +187,7 @@ function usePortalSessionSource(): PortalSessionState {
 
 export function PortalSessionProvider({ children }: { children: ReactNode }) {
   const value = usePortalSessionSource();
-  return (
-    <PortalSessionContext.Provider value={value}>
-      {children}
-    </PortalSessionContext.Provider>
-  );
+  return createElement(PortalSessionContext.Provider, { value }, children);
 }
 
 export function usePortalSession() {
