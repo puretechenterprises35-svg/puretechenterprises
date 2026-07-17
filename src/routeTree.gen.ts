@@ -41,14 +41,18 @@ import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminProjectUpdatesRouteImport } from './routes/admin.project-updates'
+import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
+import { Route as AdminInvoicesRouteImport } from './routes/admin.invoices'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminClientsRouteImport } from './routes/admin.clients'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
+import { Route as PortalInvoicesInvoiceIdRouteImport } from './routes/portal.invoices.$invoiceId'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
+import { Route as AdminInvoicesInvoiceIdRouteImport } from './routes/admin.invoices.$invoiceId'
 import { Route as AdminDocumentsDocumentIdRouteImport } from './routes/admin.documents.$documentId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -212,6 +216,16 @@ const AdminProjectUpdatesRoute = AdminProjectUpdatesRouteImport.update({
   path: '/project-updates',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInvoicesRoute = AdminInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -244,6 +258,11 @@ const PortalProjectsProjectIdRoute = PortalProjectsProjectIdRouteImport.update({
   path: '/$projectId',
   getParentRoute: () => PortalProjectsRoute,
 } as any)
+const PortalInvoicesInvoiceIdRoute = PortalInvoicesInvoiceIdRouteImport.update({
+  id: '/invoices/$invoiceId',
+  path: '/invoices/$invoiceId',
+  getParentRoute: () => PortalRoute,
+} as any)
 const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
   id: '/new',
   path: '/new',
@@ -253,6 +272,11 @@ const AdminProjectsProjectIdRoute = AdminProjectsProjectIdRouteImport.update({
   id: '/$projectId',
   path: '/$projectId',
   getParentRoute: () => AdminProjectsRoute,
+} as any)
+const AdminInvoicesInvoiceIdRoute = AdminInvoicesInvoiceIdRouteImport.update({
+  id: '/$invoiceId',
+  path: '/$invoiceId',
+  getParentRoute: () => AdminInvoicesRoute,
 } as any)
 const AdminDocumentsDocumentIdRoute =
   AdminDocumentsDocumentIdRouteImport.update({
@@ -291,6 +315,8 @@ export interface FileRoutesByFullPath {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/invoices': typeof AdminInvoicesRouteWithChildren
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -307,8 +333,10 @@ export interface FileRoutesByFullPath {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesByTo {
@@ -333,6 +361,8 @@ export interface FileRoutesByTo {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/invoices': typeof AdminInvoicesRouteWithChildren
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -349,8 +379,10 @@ export interface FileRoutesByTo {
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRoutesById {
@@ -378,6 +410,8 @@ export interface FileRoutesById {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/invoices': typeof AdminInvoicesRouteWithChildren
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
   '/admin/projects': typeof AdminProjectsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
@@ -394,8 +428,10 @@ export interface FileRoutesById {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
 }
 export interface FileRouteTypes {
@@ -424,6 +460,8 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/invoices'
+    | '/admin/payments'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -440,8 +478,10 @@ export interface FileRouteTypes {
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
+    | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -466,6 +506,8 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/invoices'
+    | '/admin/payments'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -482,8 +524,10 @@ export interface FileRouteTypes {
     | '/portal'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
+    | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
   id:
     | '__root__'
@@ -510,6 +554,8 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/invoices'
+    | '/admin/payments'
     | '/admin/project-updates'
     | '/admin/projects'
     | '/admin/settings'
@@ -526,8 +572,10 @@ export interface FileRouteTypes {
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
+    | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
   fileRoutesById: FileRoutesById
 }
@@ -781,6 +829,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjectUpdatesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/invoices': {
+      id: '/admin/invoices'
+      path: '/invoices'
+      fullPath: '/admin/invoices'
+      preLoaderRoute: typeof AdminInvoicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/documents': {
       id: '/admin/documents'
       path: '/documents'
@@ -823,6 +885,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalProjectsProjectIdRouteImport
       parentRoute: typeof PortalProjectsRoute
     }
+    '/portal/invoices/$invoiceId': {
+      id: '/portal/invoices/$invoiceId'
+      path: '/invoices/$invoiceId'
+      fullPath: '/portal/invoices/$invoiceId'
+      preLoaderRoute: typeof PortalInvoicesInvoiceIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/admin/projects/new': {
       id: '/admin/projects/new'
       path: '/new'
@@ -836,6 +905,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/projects/$projectId'
       preLoaderRoute: typeof AdminProjectsProjectIdRouteImport
       parentRoute: typeof AdminProjectsRoute
+    }
+    '/admin/invoices/$invoiceId': {
+      id: '/admin/invoices/$invoiceId'
+      path: '/$invoiceId'
+      fullPath: '/admin/invoices/$invoiceId'
+      preLoaderRoute: typeof AdminInvoicesInvoiceIdRouteImport
+      parentRoute: typeof AdminInvoicesRoute
     }
     '/admin/documents/$documentId': {
       id: '/admin/documents/$documentId'
@@ -866,6 +942,18 @@ const AdminDocumentsRouteWithChildren = AdminDocumentsRoute._addFileChildren(
   AdminDocumentsRouteChildren,
 )
 
+interface AdminInvoicesRouteChildren {
+  AdminInvoicesInvoiceIdRoute: typeof AdminInvoicesInvoiceIdRoute
+}
+
+const AdminInvoicesRouteChildren: AdminInvoicesRouteChildren = {
+  AdminInvoicesInvoiceIdRoute: AdminInvoicesInvoiceIdRoute,
+}
+
+const AdminInvoicesRouteWithChildren = AdminInvoicesRoute._addFileChildren(
+  AdminInvoicesRouteChildren,
+)
+
 interface AdminProjectsRouteChildren {
   AdminProjectsProjectIdRoute: typeof AdminProjectsProjectIdRoute
   AdminProjectsNewRoute: typeof AdminProjectsNewRoute
@@ -884,6 +972,8 @@ interface AdminRouteChildren {
   AdminClientsRoute: typeof AdminClientsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDocumentsRoute: typeof AdminDocumentsRouteWithChildren
+  AdminInvoicesRoute: typeof AdminInvoicesRouteWithChildren
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminProjectUpdatesRoute: typeof AdminProjectUpdatesRoute
   AdminProjectsRoute: typeof AdminProjectsRouteWithChildren
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -894,6 +984,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminClientsRoute: AdminClientsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminDocumentsRoute: AdminDocumentsRouteWithChildren,
+  AdminInvoicesRoute: AdminInvoicesRouteWithChildren,
+  AdminPaymentsRoute: AdminPaymentsRoute,
   AdminProjectUpdatesRoute: AdminProjectUpdatesRoute,
   AdminProjectsRoute: AdminProjectsRouteWithChildren,
   AdminSettingsRoute: AdminSettingsRoute,
@@ -925,6 +1017,7 @@ interface PortalRouteChildren {
   PortalProjectsRoute: typeof PortalProjectsRouteWithChildren
   PortalRegisterRoute: typeof PortalRegisterRoute
   PortalIndexRoute: typeof PortalIndexRoute
+  PortalInvoicesInvoiceIdRoute: typeof PortalInvoicesInvoiceIdRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
@@ -938,6 +1031,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalProjectsRoute: PortalProjectsRouteWithChildren,
   PortalRegisterRoute: PortalRegisterRoute,
   PortalIndexRoute: PortalIndexRoute,
+  PortalInvoicesInvoiceIdRoute: PortalInvoicesInvoiceIdRoute,
 }
 
 const PortalRouteWithChildren =
