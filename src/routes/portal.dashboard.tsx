@@ -91,8 +91,8 @@ function PortalDashboard() {
           <>
             <StatCard label="Active Projects" value={stats.active} icon={FolderKanban} tone="default" />
             <StatCard label="Completed Projects" value={stats.completed} icon={CheckCircle2} tone="success" />
-            <StatCard label="Outstanding Payments" value="ZMW 0" icon={CreditCard} tone="warning" hint="Payments module coming soon" />
-            <StatCard label="Unread Messages" value={0} icon={MessageSquare} tone="danger" hint="Messaging coming soon" />
+            <StatCard label="Outstanding Balance" value={formatCurrency(invSummary.data?.outstanding ?? 0)} icon={CreditCard} tone="warning" hint={`${recentInv.data?.length ?? 0} invoice(s)`} />
+            <StatCard label="Overdue" value={formatCurrency(invSummary.data?.overdue ?? 0)} icon={AlertCircle} tone="danger" />
           </>
         )}
       </div>
