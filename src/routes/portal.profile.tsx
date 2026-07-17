@@ -18,8 +18,8 @@ function Field({ label, value }: { label: string; value: string | null | undefin
 }
 
 function PortalProfile() {
-  const { profile, roles, loading } = usePortalSession();
-  if (loading) return <LoadingScreen />;
+  const { profile, roles, loading, rolesLoaded } = usePortalSession();
+  if (loading || !rolesLoaded) return <LoadingScreen />;
 
   return (
     <div className="space-y-6">

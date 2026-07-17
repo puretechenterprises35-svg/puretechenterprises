@@ -17,6 +17,7 @@ import { Footer } from "@/components/site/Footer";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { MobileContactBar } from "@/components/site/MobileContactBar";
 import { Toaster } from "@/components/ui/sonner";
+import { PortalSessionProvider } from "@/hooks/use-portal-session";
 
 function NotFoundComponent() {
   return (
@@ -130,28 +131,30 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s: { location: { pathname: string } }) => s.location.pathname });
-  const isPortal = pathname === "/portal" || pathname.startsWith("/portal/");
+  const isPortal = pathname === "/portal" || pathname.startsWith("/portal/") || pathname === "/admin" || pathname.startsWith("/admin/");
   return (
     <QueryClientProvider client={queryClient}>
-      {isPortal ? (
-        <>
-          <Outlet />
-          <Toaster richColors position="top-right" />
-        </>
-      ) : (
-        <>
-          <div className="flex min-h-screen flex-col pb-14 md:pb-0">
-            <Header />
-            <main className="flex-1">
-              <Outlet />
-            </main>
-            <Footer />
-          </div>
-          <WhatsAppFab />
-          <MobileContactBar />
-          <Toaster richColors position="top-right" />
-        </>
-      )}
+      <PortalSessionProvider>
+        {isPortal ? (
+          <>
+            <Outlet />
+            <Toaster richColors position="top-right" />
+          </>
+        ) : (
+          <>
+            <div className="flex min-h-screen flex-col pb-14 md:pb-0">
+              <Header />
+              <main className="flex-1">
+                <Outlet />
+              </main>
+              <Footer />
+            </div>
+            <WhatsAppFab />
+            <MobileContactBar />
+            <Toaster richColors position="top-right" />
+          </>
+        )}
+      </PortalSessionProvider>
     </QueryClientProvider>
   );
 }

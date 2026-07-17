@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { AuthLayout } from "@/components/portal/AuthLayout";
+import { usePortalSession } from "@/hooks/use-portal-session";
 
 export const Route = createFileRoute("/portal/login")({
   head: () => ({
@@ -27,14 +28,14 @@ const schema = z.object({
 
 function PortalLogin() {
   const navigate = useNavigate();
+  const { session, loading: sessionLoading, rolesLoaded, isAdmin } = usePortalSession();
   const [loading, setLoading] = useState(false);
   const [remember, setRemember] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/portal/dashboard", replace: true });
-    });
-  }, [navigate]);
+    if (sessionLoading || !rolesLoaded || !session) return;
+    navigate({ to: isAdmin ? "/admin/dashboard" : "/portal/dashboard", replace: true });
+  }, [sessionLoading, rolesLoaded, session, isAdmin, navigate]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +63,6 @@ function PortalLogin() {
       return;
     }
     toast.success("Welcome back!");
-    navigate({ to: "/portal/dashboard", replace: true });
   };
 
   return (
