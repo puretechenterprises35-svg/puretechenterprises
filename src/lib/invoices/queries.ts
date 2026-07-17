@@ -247,9 +247,10 @@ export function useCreateInvoice() {
   return useMutation({
     mutationFn: async (input: InvoiceInput) => {
       const { data: user } = await supabase.auth.getUser();
+      const payload = { ...input, created_by: user.user?.id ?? null, invoice_number: "" };
       const { data, error } = await supabase
         .from("invoices")
-        .insert({ ...input, created_by: user.user?.id ?? null })
+        .insert(payload)
         .select("id")
         .single();
       if (error) throw error;
