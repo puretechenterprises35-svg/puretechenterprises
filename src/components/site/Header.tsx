@@ -4,14 +4,16 @@ import { Menu, X, LogOut, User } from "lucide-react";
 import logoAsset from "@/assets/logo-white.png.asset.json";
 import { nav, site } from "@/lib/site";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/hooks/use-session";
+import { usePortalSession } from "@/hooks/use-portal-session";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { session } = useSession();
+  const { session, loading, rolesLoaded, isAdmin } = usePortalSession();
   const navigate = useNavigate();
+  const portalHref = isAdmin ? "/admin/dashboard" : "/portal/dashboard";
+  const portalLabel = isAdmin ? "Admin Portal" : "Client Portal";
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -39,9 +41,9 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-          <Link to="/portal/login" className="ml-2">
+          <Link to={session && rolesLoaded ? portalHref : "/portal/login"} className="ml-2">
             <Button variant="outline" size="sm">
-              Client Portal
+              {session && rolesLoaded ? portalLabel : "Client Portal"}
             </Button>
           </Link>
           <Link to="/quote" className="ml-2">
@@ -49,7 +51,7 @@ export function Header() {
               Get a Quote
             </Button>
           </Link>
-          {session ? (
+          {!loading && session ? (
             <Button
               variant="ghost"
               size="sm"
@@ -94,9 +96,9 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <Link to="/portal/login" onClick={() => setOpen(false)}>
+            <Link to={session && rolesLoaded ? portalHref : "/portal/login"} onClick={() => setOpen(false)}>
               <Button variant="outline" className="mt-2 w-full">
-                Client Portal
+                {session && rolesLoaded ? portalLabel : "Client Portal"}
               </Button>
             </Link>
             <Link to="/quote" onClick={() => setOpen(false)}>
@@ -104,7 +106,7 @@ export function Header() {
                 Get a Quote
               </Button>
             </Link>
-            {session ? (
+            {!loading && session ? (
               <Button
                 variant="outline"
                 onClick={() => { setOpen(false); handleSignOut(); }}

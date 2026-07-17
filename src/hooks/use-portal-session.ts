@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { createContext, createElement, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -15,6 +15,17 @@ export type PortalProfile = {
   approval_status: "pending" | "approved" | "rejected";
 };
 
+type PortalSessionState = {
+  session: Session | null;
+  profile: PortalProfile | null;
+  roles: PortalRole[];
+  loading: boolean;
+  rolesLoaded: boolean;
+  isAdmin: boolean;
+};
+
+const PortalSessionContext = createContext<PortalSessionState | null>(null);
+
 const PORTAL_ROLES: PortalRole[] = ["admin", "staff", "client"];
 
 function normalizePortalRole(role: unknown): PortalRole | null {
@@ -26,7 +37,7 @@ function normalizePortalRole(role: unknown): PortalRole | null {
     : null;
 }
 
-export function usePortalSession() {
+function usePortalSessionSource(): PortalSessionState {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<PortalProfile | null>(null);
   const [roles, setRoles] = useState<PortalRole[]>([]);
@@ -139,18 +150,31 @@ export function usePortalSession() {
     };
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-      setSession(s);
       console.info("[usePortalSession] auth state changed", event);
+      setLoading(true);
+      setRolesLoaded(false);
+      setSession(s);
       window.setTimeout(() => {
         void loadUserData(s);
       }, 0);
     });
 
-    supabase.auth.getSession().then(async ({ data }) => {
-      if (!mounted) return;
-      setSession(data.session);
-      await loadUserData(data.session);
-    });
+    supabase.auth
+      .getSession()
+      .then(async ({ data }) => {
+        if (!mounted) return;
+        setSession(data.session);
+        await loadUserData(data.session);
+      })
+      .catch((error) => {
+        console.error("[usePortalSession] getSession failed:", error);
+        if (!mounted) return;
+        setSession(null);
+        setProfile(null);
+        setRoles([]);
+        setRolesLoaded(true);
+        setLoading(false);
+      });
 
     return () => {
       mounted = false;
@@ -161,4 +185,17 @@ export function usePortalSession() {
   const isAdmin = roles.includes("admin");
 
   return { session, profile, roles, loading, rolesLoaded, isAdmin };
+}
+
+export function PortalSessionProvider({ children }: { children: ReactNode }) {
+  const value = usePortalSessionSource();
+  return createElement(PortalSessionContext.Provider, { value }, children);
+}
+
+export function usePortalSession() {
+  const context = useContext(PortalSessionContext);
+  if (!context) {
+    throw new Error("usePortalSession must be used within PortalSessionProvider");
+  }
+  return context;
 }

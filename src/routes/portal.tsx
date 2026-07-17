@@ -24,11 +24,11 @@ function PortalLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || !rolesLoaded) return;
     if (!isPublic && !session) {
       navigate({ to: "/portal/login", replace: true });
     }
-  }, [loading, session, isPublic, navigate]);
+  }, [loading, rolesLoaded, session, isPublic, navigate]);
 
   if (isPublic) {
     return <Outlet />;
