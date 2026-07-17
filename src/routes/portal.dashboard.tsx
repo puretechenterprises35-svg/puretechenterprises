@@ -56,6 +56,8 @@ function PortalDashboard() {
   const { data: updates, isLoading: loadingUpdates } = useQuery(
     recentUpdatesQueryOptions(5)
   );
+  const invSummary = useQuery(clientInvoiceSummaryQuery());
+  const recentInv = useQuery(myInvoicesQuery());
 
   const stats = useMemo(() => {
     const list = projects ?? [];
