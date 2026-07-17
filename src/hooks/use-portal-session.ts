@@ -150,8 +150,10 @@ function usePortalSessionSource(): PortalSessionState {
     };
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-      setSession(s);
       console.info("[usePortalSession] auth state changed", event);
+      setLoading(true);
+      setRolesLoaded(false);
+      setSession(s);
       window.setTimeout(() => {
         void loadUserData(s);
       }, 0);
@@ -192,5 +194,8 @@ export function PortalSessionProvider({ children }: { children: ReactNode }) {
 
 export function usePortalSession() {
   const context = useContext(PortalSessionContext);
-  return context ?? usePortalSessionSource();
+  if (!context) {
+    throw new Error("usePortalSession must be used within PortalSessionProvider");
+  }
+  return context;
 }
