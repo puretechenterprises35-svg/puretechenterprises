@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { StatisticsCards } from "@/components/admin/StatisticsCards";
 import { adminStatsQuery, adminAllUpdatesQuery } from "@/lib/admin/queries";
-import { Loader2 } from "lucide-react";
+import { invoiceStatsQuery, formatCurrency } from "@/lib/invoices/queries";
+import { StatCard } from "@/components/portal/StatCard";
+import { Loader2, DollarSign, CreditCard, AlertCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 
@@ -14,6 +16,7 @@ export const Route = createFileRoute("/admin/dashboard")({
 function AdminDashboard() {
   const stats = useQuery(adminStatsQuery());
   const updates = useQuery(adminAllUpdatesQuery());
+  const invStats = useQuery(invoiceStatsQuery());
 
   return (
     <AdminShell title="Admin Dashboard">
