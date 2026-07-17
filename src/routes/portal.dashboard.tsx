@@ -5,7 +5,7 @@ import {
   FolderKanban,
   CheckCircle2,
   CreditCard,
-  MessageSquare,
+  AlertCircle,
   FileText,
   Activity,
 } from "lucide-react";
@@ -14,6 +14,7 @@ import {
   projectsQueryOptions,
   recentUpdatesQueryOptions,
 } from "@/lib/portal/projects";
+import { clientInvoiceSummaryQuery, formatCurrency, myInvoicesQuery } from "@/lib/invoices/queries";
 import { EmptyProjects } from "@/components/portal/EmptyProjects";
 import { ProjectCard } from "@/components/portal/ProjectCard";
 import { usePortalRealtime } from "@/hooks/use-portal-realtime";
