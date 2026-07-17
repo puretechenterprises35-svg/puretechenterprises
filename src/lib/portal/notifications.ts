@@ -43,7 +43,7 @@ export const notificationsQueryOptions = (limit = 20) =>
   queryOptions({
     queryKey: ["portal", "notifications", limit],
     queryFn: async (): Promise<PortalNotification[]> => {
-      const [updatesRes, projectsRes, docsRes] = await Promise.all([
+      const [updatesRes, projectsRes, docsRes, invRes, payRes] = await Promise.all([
         supabase
           .from("project_updates")
           .select("id,project_id,update_title,update_message,created_at,visible_to_client")
@@ -59,6 +59,17 @@ export const notificationsQueryOptions = (limit = 20) =>
           .select("id,project_id,title,category,uploaded_at,visible_to_client,version")
           .eq("visible_to_client", true)
           .order("uploaded_at", { ascending: false })
+          .limit(limit),
+        supabase
+          .from("invoices")
+          .select("id,invoice_number,title,status,total_amount,currency,issue_date,updated_at")
+          .neq("status", "Draft")
+          .order("updated_at", { ascending: false })
+          .limit(limit),
+        supabase
+          .from("payments")
+          .select("id,invoice_id,amount,verification_status,created_at")
+          .order("created_at", { ascending: false })
           .limit(limit),
       ]);
 
