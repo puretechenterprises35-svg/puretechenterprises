@@ -20,7 +20,7 @@ export const Route = createFileRoute("/portal")({
 function PortalLayout() {
   const pathname = useRouterState({ select: (s: { location: { pathname: string } }) => s.location.pathname });
   const isPublic = PUBLIC_PORTAL_PATHS.has(pathname);
-  const { session, profile, loading } = usePortalSession();
+  const { session, profile, loading, rolesLoaded, isAdmin } = usePortalSession();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function PortalLayout() {
     return <Outlet />;
   }
 
-  if (loading || !session) {
+  if (loading || !rolesLoaded || !session) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -42,7 +42,8 @@ function PortalLayout() {
     );
   }
 
-  if (profile && profile.approval_status !== "approved") {
+  if (!isAdmin && profile && profile.approval_status !== "approved") {
+
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-4 text-center">
         <div className="w-full rounded-xl border border-border bg-card p-8 shadow-soft">
