@@ -166,6 +166,13 @@ export function DashboardLayout({
                       <User className="mr-2 h-4 w-4" /> Profile
                     </Link>
                   </DropdownMenuItem>
+                  <RoleGuard roles={["admin"]}>
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin/dashboard">
+                        <Shield className="mr-2 h-4 w-4" /> Admin Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  </RoleGuard>
                   <DropdownMenuItem onClick={handleSignOut}>
                     <LogOut className="mr-2 h-4 w-4" /> Sign out
                   </DropdownMenuItem>
