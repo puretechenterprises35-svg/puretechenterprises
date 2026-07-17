@@ -1,5 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Sparkles, Building2, Receipt, FileCheck2, LineChart, Printer, Package, Laptop, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { services, site, telLink, whatsappLink } from "@/lib/site";
@@ -17,7 +16,6 @@ import { Industries } from "@/components/site/Industries";
 import { Portfolio } from "@/components/site/Portfolio";
 import { Resources } from "@/components/site/Resources";
 import hero from "@/assets/hero.jpg";
-import { usePortalSession } from "@/hooks/use-portal-session";
 
 const iconMap = { Building2, Receipt, ShieldCheck, FileCheck2, LineChart, Printer, Package, Laptop } as const;
 
@@ -37,13 +35,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const navigate = useNavigate();
-  const { session, loading, rolesLoaded, isAdmin } = usePortalSession();
 
-  useEffect(() => {
-    if (loading || !rolesLoaded || !session) return;
-    navigate({ to: isAdmin ? "/admin/dashboard" : "/portal/dashboard", replace: true });
-  }, [loading, rolesLoaded, session, isAdmin, navigate]);
 
   return (
     <>
