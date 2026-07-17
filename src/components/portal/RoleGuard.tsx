@@ -14,8 +14,8 @@ export function RoleGuard({
   fallback?: ReactNode;
   children: ReactNode;
 }) {
-  const { roles: userRoles, loading } = usePortalSession();
-  if (loading) return null;
+  const { roles: userRoles, loading, rolesLoaded } = usePortalSession();
+  if (loading || !rolesLoaded) return null;
   const allowed = userRoles.some((r) => roles.includes(r));
   return allowed ? <>{children}</> : <>{fallback}</>;
 }
