@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { usePortalSession } from "@/hooks/use-portal-session";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,13 +34,13 @@ const signInSchema = z.object({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { session, loading: sessionLoading, rolesLoaded, isAdmin } = usePortalSession();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/" });
-    });
-  }, [navigate]);
+    if (sessionLoading || !rolesLoaded || !session) return;
+    navigate({ to: isAdmin ? "/admin/dashboard" : "/portal/dashboard", replace: true });
+  }, [sessionLoading, rolesLoaded, session, isAdmin, navigate]);
 
   const onSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,7 +90,6 @@ function AuthPage() {
       return;
     }
     toast.success("Welcome back!");
-    navigate({ to: "/" });
   };
 
   return (
