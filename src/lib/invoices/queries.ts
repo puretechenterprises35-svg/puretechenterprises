@@ -275,7 +275,7 @@ export function useSetInvoiceStatus() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: InvoiceStatus }) => {
-      const patch: Partial<Invoice> = { status };
+      const patch: { status: InvoiceStatus; paid_date?: string; issue_date?: string } = { status };
       if (status === "Paid") patch.paid_date = new Date().toISOString().slice(0, 10);
       if (status === "Issued") patch.issue_date = new Date().toISOString().slice(0, 10);
       const { error } = await supabase.from("invoices").update(patch).eq("id", id);
@@ -324,7 +324,7 @@ export function useSetPaymentVerification() {
   return useMutation({
     mutationFn: async ({ id, status, notes }: { id: string; status: VerificationStatus; notes?: string }) => {
       const { data: user } = await supabase.auth.getUser();
-      const patch: Record<string, unknown> = {
+      const patch: { verification_status: VerificationStatus; verified_by: string | null; notes?: string } = {
         verification_status: status,
         verified_by: user.user?.id ?? null,
       };
@@ -348,7 +348,7 @@ export function useSetPaymentVerification() {
             const total = (verified ?? []).reduce((s, p) => s + Number(p.amount), 0);
             const newStatus: InvoiceStatus =
               total >= Number(inv.total_amount) ? "Paid" : total > 0 ? "Partially Paid" : "Issued";
-            const patchInv: Record<string, unknown> = { status: newStatus };
+            const patchInv: { status: InvoiceStatus; paid_date?: string } = { status: newStatus };
             if (newStatus === "Paid") patchInv.paid_date = new Date().toISOString().slice(0, 10);
             await supabase.from("invoices").update(patchInv).eq("id", pay.invoice_id);
           }
