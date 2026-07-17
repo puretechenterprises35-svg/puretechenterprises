@@ -10,17 +10,17 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminLayout() {
-  const { session, profile, roles, loading } = usePortalSession();
+  const { session, profile, isAdmin, loading, rolesLoaded } = usePortalSession();
   const navigate = useNavigate();
-  const isAdmin = roles.includes("admin");
+  const ready = !loading && rolesLoaded;
 
   useEffect(() => {
-    if (loading) return;
+    if (!ready) return;
     if (!session) navigate({ to: "/portal/login", replace: true });
     else if (!isAdmin) navigate({ to: "/portal/dashboard", replace: true });
-  }, [loading, session, isAdmin, navigate]);
+  }, [ready, session, isAdmin, navigate]);
 
-  if (loading || !session || !isAdmin) {
+  if (!ready || !session || !isAdmin) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
