@@ -391,23 +391,52 @@ function AdminEnquiryDetailPage() {
               </Button>
             </div>
 
-            {/* Create Quotation — only after Approved */}
+            {/* Quotation actions — only after Approved */}
             {data.status === "Approved" && !linkedProjectQuery.data && (
-              <div className="mt-4">
-                <Button
-                  className="w-full"
-                  variant="default"
-                  onClick={() =>
-                    navigate({
-                      to: "/admin/quotations/new",
-                      search: { enquiryId: data.id },
-                    })
-                  }
-                >
-                  <FileSignature className="mr-2 h-4 w-4" /> Create Quotation
-                </Button>
+              <div className="mt-4 space-y-2">
+                {!hasQuotation ? (
+                  <Button
+                    className="w-full"
+                    variant="default"
+                    onClick={() =>
+                      navigate({
+                        to: "/admin/enquiries/$enquiryId/quotation",
+                        params: { enquiryId: data.id },
+                      })
+                    }
+                  >
+                    <FileSignature className="mr-2 h-4 w-4" /> Create Quotation
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      className="w-full"
+                      variant="outline"
+                      onClick={() =>
+                        navigate({
+                          to: "/admin/quotations/$quotationId",
+                          params: { quotationId: quotations[0].id },
+                        })
+                      }
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" /> View Quotation
+                    </Button>
+                    <Button
+                      className="w-full"
+                      variant="default"
+                      onClick={() =>
+                        navigate({
+                          to: "/admin/enquiries/$enquiryId/quotation",
+                          params: { enquiryId: data.id },
+                        })
+                      }
+                    >
+                      <FileSignature className="mr-2 h-4 w-4" /> Edit Quotation
+                    </Button>
+                  </>
+                )}
                 {hasQuotation && !acceptedQuotation && (
-                  <p className="mt-2 text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
                     Waiting for the client to accept the quotation before you can
                     convert to a project.
                   </p>

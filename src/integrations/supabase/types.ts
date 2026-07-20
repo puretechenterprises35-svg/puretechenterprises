@@ -567,6 +567,7 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          discount: number
           id: string
           quantity: number
           quotation_id: string
@@ -577,6 +578,7 @@ export type Database = {
         Insert: {
           created_at?: string
           description: string
+          discount?: number
           id?: string
           quantity?: number
           quotation_id: string
@@ -587,6 +589,7 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string
+          discount?: number
           id?: string
           quantity?: number
           quotation_id?: string
@@ -606,21 +609,29 @@ export type Database = {
       }
       quotations: {
         Row: {
+          acceptance_method: string | null
+          acceptance_notes: string | null
           accepted_at: string | null
           accepted_by: string | null
+          clarification_note: string | null
+          clarification_requested_at: string | null
           client_id: string
           created_at: string
           created_by: string | null
           currency: string
+          delivery_timeline: string | null
           description: string | null
+          discount_total: number
           enquiry_id: string | null
           id: string
           notes: string | null
+          payment_terms: string | null
           pdf_path: string | null
           quote_number: string
           rejected_at: string | null
           rejection_reason: string | null
           revision: number
+          sent_at: string | null
           status: Database["public"]["Enums"]["quotation_status"]
           subtotal: number
           tax_amount: number
@@ -629,24 +640,34 @@ export type Database = {
           title: string
           total_amount: number
           updated_at: string
+          updated_by: string | null
           valid_until: string | null
+          vat_enabled: boolean
         }
         Insert: {
+          acceptance_method?: string | null
+          acceptance_notes?: string | null
           accepted_at?: string | null
           accepted_by?: string | null
+          clarification_note?: string | null
+          clarification_requested_at?: string | null
           client_id: string
           created_at?: string
           created_by?: string | null
           currency?: string
+          delivery_timeline?: string | null
           description?: string | null
+          discount_total?: number
           enquiry_id?: string | null
           id?: string
           notes?: string | null
+          payment_terms?: string | null
           pdf_path?: string | null
           quote_number: string
           rejected_at?: string | null
           rejection_reason?: string | null
           revision?: number
+          sent_at?: string | null
           status?: Database["public"]["Enums"]["quotation_status"]
           subtotal?: number
           tax_amount?: number
@@ -655,24 +676,34 @@ export type Database = {
           title: string
           total_amount?: number
           updated_at?: string
+          updated_by?: string | null
           valid_until?: string | null
+          vat_enabled?: boolean
         }
         Update: {
+          acceptance_method?: string | null
+          acceptance_notes?: string | null
           accepted_at?: string | null
           accepted_by?: string | null
+          clarification_note?: string | null
+          clarification_requested_at?: string | null
           client_id?: string
           created_at?: string
           created_by?: string | null
           currency?: string
+          delivery_timeline?: string | null
           description?: string | null
+          discount_total?: number
           enquiry_id?: string | null
           id?: string
           notes?: string | null
+          payment_terms?: string | null
           pdf_path?: string | null
           quote_number?: string
           rejected_at?: string | null
           rejection_reason?: string | null
           revision?: number
+          sent_at?: string | null
           status?: Database["public"]["Enums"]["quotation_status"]
           subtotal?: number
           tax_amount?: number
@@ -681,7 +712,9 @@ export type Database = {
           title?: string
           total_amount?: number
           updated_at?: string
+          updated_by?: string | null
           valid_until?: string | null
+          vat_enabled?: boolean
         }
         Relationships: [
           {

@@ -147,6 +147,7 @@ function NewQuotationPage() {
                         description: enquiry.data.service_category,
                         quantity: 1,
                         unit_price: enquiry.data.estimated_budget ?? 0,
+                        discount: 0,
                         total: enquiry.data.estimated_budget ?? 0,
                         sort_order: 0,
                       },
