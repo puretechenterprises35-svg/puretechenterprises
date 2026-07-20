@@ -126,8 +126,10 @@ export async function createEnquiry(input: NewEnquiryInput): Promise<EnquiryRow>
     .single();
   if (error) throw error;
   return data as unknown as EnquiryRow;
+}
 
 // ---------- Admin ----------
+
 
 export type EnquiryClientProfile = {
   id: string;
