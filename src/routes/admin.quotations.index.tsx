@@ -25,12 +25,13 @@ function AdminQuotationsPage() {
   return (
     <AdminShell title="Quotations">
       <div className="mb-4 flex justify-end">
-        <Button asChild>
-          <Link to="/admin/quotations/new">
-            <FileText className="mr-2 h-4 w-4" /> New Quotation
+        <Button asChild variant="outline">
+          <Link to="/admin/enquiries">
+            <FileText className="mr-2 h-4 w-4" /> New Quotation (from Enquiry)
           </Link>
         </Button>
       </div>
+
 
       {isLoading ? (
         <LoadingScreen />

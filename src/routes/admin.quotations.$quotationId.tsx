@@ -182,6 +182,34 @@ function AdminQuotationDetailPage() {
         </div>
       </div>
 
+      {data.enquiry && (
+        <div className="mb-4 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm shadow-soft">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                Linked Enquiry
+              </p>
+              <p className="mt-1 font-mono text-xs text-muted-foreground">
+                #{data.enquiry.reference_number}
+              </p>
+              <p className="mt-1 font-medium">{data.enquiry.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Client: {data.client?.company_name || data.client?.contact_person || "—"} ·
+                Service: {data.enquiry.service_category} · Status: {data.enquiry.status}
+              </p>
+            </div>
+            <Button asChild size="sm" variant="outline">
+              <Link
+                to="/admin/enquiries/$enquiryId"
+                params={{ enquiryId: data.enquiry.id }}
+              >
+                View Enquiry
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
+
       <div className="mb-4 grid gap-2 rounded-xl border border-border bg-card p-4 text-sm shadow-soft sm:grid-cols-3">
         <Info
           label="Client"
@@ -211,8 +239,8 @@ function AdminQuotationDetailPage() {
             }`}
           />
         )}
-        {data.enquiry_id && <Info label="From enquiry" value="Linked" />}
       </div>
+
 
       {data.clarification_note && (
         <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm shadow-soft">
@@ -254,13 +282,18 @@ function AdminQuotationDetailPage() {
         }}
         submitting={save.isPending}
         submitLabel="Save Changes"
-        onSubmit={(v) =>
+        onSubmit={(v) => {
+          if (!data.enquiry_id) {
+            toast.error("Quotation missing enquiry link");
+            return;
+          }
           save.mutate({
             ...v,
             client_id: data.client_id,
             enquiry_id: data.enquiry_id,
-          })
-        }
+          });
+        }}
+
       />
 
       <Dialog open={acceptOpen} onOpenChange={setAcceptOpen}>
