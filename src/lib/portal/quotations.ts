@@ -122,7 +122,12 @@ export const adminQuotationsQuery = () =>
 export const quotationDetailQuery = (id: string) =>
   queryOptions({
     queryKey: ["quotations", "detail", id],
-    queryFn: async (): Promise<QuotationWithItems & { client: QuotationClient | null }> => {
+    queryFn: async (): Promise<
+      QuotationWithItems & {
+        client: QuotationClient | null;
+        enquiry: QuotationEnquirySummary | null;
+      }
+    > => {
       const { data, error } = await supabase
         .from("quotations" as never)
         .select("*")
@@ -132,27 +137,49 @@ export const quotationDetailQuery = (id: string) =>
       if (!data) throw new Error("Quotation not found");
       const q = data as unknown as Quotation;
 
-      const [{ data: items, error: iErr }, { data: client, error: cErr }] = await Promise.all([
-        supabase
-          .from("quotation_items" as never)
-          .select("*")
-          .eq("quotation_id", id)
-          .order("sort_order", { ascending: true }),
-        supabase
-          .from("clients")
-          .select("id, company_name, contact_person, email, phone")
-          .eq("id", q.client_id)
-          .maybeSingle(),
-      ]);
+      const [{ data: items, error: iErr }, { data: client, error: cErr }, enquiryRes] =
+        await Promise.all([
+          supabase
+            .from("quotation_items" as never)
+            .select("*")
+            .eq("quotation_id", id)
+            .order("sort_order", { ascending: true }),
+          supabase
+            .from("clients")
+            .select("id, company_name, contact_person, email, phone")
+            .eq("id", q.client_id)
+            .maybeSingle(),
+          q.enquiry_id
+            ? supabase
+                .from("enquiries")
+                .select("id, title, service_category, status")
+                .eq("id", q.enquiry_id)
+                .maybeSingle()
+            : Promise.resolve({ data: null, error: null }),
+        ]);
       if (iErr) throw iErr;
       if (cErr) throw cErr;
+      if (enquiryRes.error) throw enquiryRes.error;
+      const enq = enquiryRes.data as
+        | { id: string; title: string; service_category: string; status: string }
+        | null;
       return {
         ...q,
         items: ((items ?? []) as unknown as QuotationItem[]),
         client: (client as QuotationClient | null) ?? null,
+        enquiry: enq
+          ? {
+              id: enq.id,
+              title: enq.title,
+              service_category: enq.service_category,
+              status: enq.status,
+              reference_number: enq.id.slice(0, 8).toUpperCase(),
+            }
+          : null,
       };
     },
   });
+
 
 export const clientQuotationsQuery = () =>
   queryOptions({
