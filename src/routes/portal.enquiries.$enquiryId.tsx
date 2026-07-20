@@ -83,7 +83,7 @@ function EnquiryDetailPage() {
             label="Estimated Budget"
             value={
               data.estimated_budget != null
-                ? `KES ${data.estimated_budget.toLocaleString()}`
+                ? formatMoney(data.estimated_budget)
                 : "—"
             }
           />
