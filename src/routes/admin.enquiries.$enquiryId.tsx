@@ -1,7 +1,19 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Paperclip, Download, Save, CheckCircle2, XCircle, HelpCircle, Rocket, FolderCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Paperclip,
+  Download,
+  Save,
+  CheckCircle2,
+  XCircle,
+  HelpCircle,
+  Rocket,
+  FolderCheck,
+  FileSignature,
+  ExternalLink,
+} from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
@@ -10,6 +22,7 @@ import {
   EnquiryStatusBadge,
   EnquiryPriorityBadge,
 } from "@/components/portal/EnquiryStatusBadge";
+import { QuotationStatusBadge } from "@/components/portal/QuotationStatusBadge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -28,6 +41,7 @@ import {
   getProjectByEnquiryId,
   type EnquiryStatus,
 } from "@/lib/portal/enquiries";
+import { quotationsByEnquiryQuery, formatMoney } from "@/lib/portal/quotations";
 import { usePortalSession } from "@/hooks/use-portal-session";
 
 const STATUSES: EnquiryStatus[] = [
@@ -72,6 +86,8 @@ function AdminEnquiryDetailPage() {
     queryFn: () => getProjectByEnquiryId(enquiryId),
   });
 
+  const quotationsQuery = useQuery(quotationsByEnquiryQuery(enquiryId));
+
   useEffect(() => {
     if (data) {
       setStatus(data.status);
@@ -90,11 +106,15 @@ function AdminEnquiryDetailPage() {
     onError: (err: Error) => toast.error(err.message),
   });
 
+  const acceptedQuotation = (quotationsQuery.data ?? []).find(
+    (q) => q.status === "Accepted"
+  );
+
   const convertMutation = useMutation({
     mutationFn: async () => {
       if (!data) throw new Error("Enquiry not loaded");
       if (!session?.user?.id) throw new Error("Not authenticated");
-      return convertEnquiryToProject(data, session.user.id);
+      return convertEnquiryToProject(data, session.user.id, acceptedQuotation?.id ?? null);
     },
     onSuccess: (project) => {
       toast.success("Enquiry converted to project");
@@ -146,6 +166,9 @@ function AdminEnquiryDetailPage() {
     });
     setPending(null);
   };
+
+  const quotations = quotationsQuery.data ?? [];
+  const hasQuotation = quotations.length > 0;
 
   return (
     <AdminShell title="Enquiry Details">
@@ -235,6 +258,43 @@ function AdminEnquiryDetailPage() {
             )}
           </div>
 
+          {hasQuotation && (
+            <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+              <h2 className="text-sm font-semibold text-foreground">
+                Quotations ({quotations.length})
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {quotations.map((q) => (
+                  <li
+                    key={q.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm"
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-mono text-xs text-muted-foreground">
+                        {q.quote_number}
+                      </span>
+                      <span className="font-medium">{q.title}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {formatMoney(q.total_amount, q.currency)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <QuotationStatusBadge status={q.status} />
+                      <Button asChild size="sm" variant="ghost">
+                        <Link
+                          to="/admin/quotations/$quotationId"
+                          params={{ quotationId: q.id }}
+                        >
+                          <ExternalLink className="mr-1 h-4 w-4" /> Open
+                        </Link>
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="rounded-xl border border-primary/20 bg-primary/5 p-6 shadow-soft">
             <h2 className="text-sm font-semibold text-primary">
               Admin Notes (internal)
@@ -296,11 +356,11 @@ function AdminEnquiryDetailPage() {
                 className="w-full"
                 variant="outline"
                 onClick={() =>
-                  setPending({ label: "Approve", status: "Approved" })
+                  setPending({ label: "Approve Enquiry", status: "Approved" })
                 }
                 disabled={mutation.isPending}
               >
-                <CheckCircle2 className="mr-2 h-4 w-4" /> Approve
+                <CheckCircle2 className="mr-2 h-4 w-4" /> Approve Enquiry
               </Button>
               <Button
                 className="w-full"
@@ -313,24 +373,49 @@ function AdminEnquiryDetailPage() {
                 }
                 disabled={mutation.isPending}
               >
-                <HelpCircle className="mr-2 h-4 w-4" /> Request More Info
+                <HelpCircle className="mr-2 h-4 w-4" /> Request More Information
               </Button>
               <Button
                 className="w-full"
                 variant="outline"
                 onClick={() =>
                   setPending({
-                    label: "Reject",
+                    label: "Reject Enquiry",
                     status: "Rejected",
                     destructive: true,
                   })
                 }
                 disabled={mutation.isPending}
               >
-                <XCircle className="mr-2 h-4 w-4" /> Reject
+                <XCircle className="mr-2 h-4 w-4" /> Reject Enquiry
               </Button>
             </div>
 
+            {/* Create Quotation — only after Approved */}
+            {data.status === "Approved" && !linkedProjectQuery.data && (
+              <div className="mt-4">
+                <Button
+                  className="w-full"
+                  variant="default"
+                  onClick={() =>
+                    navigate({
+                      to: "/admin/quotations/new",
+                      search: { enquiryId: data.id },
+                    })
+                  }
+                >
+                  <FileSignature className="mr-2 h-4 w-4" /> Create Quotation
+                </Button>
+                {hasQuotation && !acceptedQuotation && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    Waiting for the client to accept the quotation before you can
+                    convert to a project.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Convert to Project — only after a quotation is Accepted */}
             {linkedProjectQuery.data ? (
               <div className="mt-4 rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm">
                 <div className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
@@ -350,7 +435,7 @@ function AdminEnquiryDetailPage() {
                   </Link>
                 </Button>
               </div>
-            ) : data.status === "Approved" ? (
+            ) : acceptedQuotation ? (
               <div className="mt-4">
                 <Button
                   className="w-full"
@@ -372,9 +457,11 @@ function AdminEnquiryDetailPage() {
         title="Convert this enquiry into a project?"
         description={
           <>
-            A new project will be created for <strong>{data.title}</strong> and
-            the enquiry will be marked as <strong>Converted to Project</strong>.
-            The client will see it immediately.
+            A new project will be created for <strong>{data.title}</strong>,
+            linked to accepted quotation{" "}
+            <strong>{acceptedQuotation?.quote_number}</strong>. The enquiry will
+            be marked as <strong>Converted to Project</strong> and the client
+            will see it immediately.
           </>
         }
         confirmLabel={convertMutation.isPending ? "Converting…" : "Convert"}
@@ -384,7 +471,7 @@ function AdminEnquiryDetailPage() {
       <ConfirmDialog
         open={!!pending}
         onOpenChange={(v) => !v && setPending(null)}
-        title={`${pending?.label ?? ""} enquiry?`}
+        title={`${pending?.label ?? ""}?`}
         description={
           <>
             This will set the status to{" "}

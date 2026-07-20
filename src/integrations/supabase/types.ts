@@ -484,6 +484,7 @@ export type Database = {
           priority: string
           progress_percentage: number
           project_name: string
+          quotation_id: string | null
           service_category: string | null
           source: string | null
           start_date: string | null
@@ -503,6 +504,7 @@ export type Database = {
           priority?: string
           progress_percentage?: number
           project_name: string
+          quotation_id?: string | null
           service_category?: string | null
           source?: string | null
           start_date?: string | null
@@ -522,6 +524,7 @@ export type Database = {
           priority?: string
           progress_percentage?: number
           project_name?: string
+          quotation_id?: string | null
           service_category?: string | null
           source?: string | null
           start_date?: string | null
@@ -538,6 +541,150 @@ export type Database = {
           },
           {
             foreignKeyName: "projects_enquiry_id_fkey"
+            columns: ["enquiry_id"]
+            isOneToOne: false
+            referencedRelation: "enquiries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_quotation_id_fkey"
+            columns: ["quotation_id"]
+            isOneToOne: false
+            referencedRelation: "quotations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotation_items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          quantity: number
+          quotation_id: string
+          sort_order: number
+          total: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          quantity?: number
+          quotation_id: string
+          sort_order?: number
+          total?: number
+          unit_price?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          quantity?: number
+          quotation_id?: string
+          sort_order?: number
+          total?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotation_items_quotation_id_fkey"
+            columns: ["quotation_id"]
+            isOneToOne: false
+            referencedRelation: "quotations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          client_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string | null
+          enquiry_id: string | null
+          id: string
+          notes: string | null
+          pdf_path: string | null
+          quote_number: string
+          rejected_at: string | null
+          rejection_reason: string | null
+          revision: number
+          status: Database["public"]["Enums"]["quotation_status"]
+          subtotal: number
+          tax_amount: number
+          tax_rate: number
+          terms: string | null
+          title: string
+          total_amount: number
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          client_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          enquiry_id?: string | null
+          id?: string
+          notes?: string | null
+          pdf_path?: string | null
+          quote_number: string
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          revision?: number
+          status?: Database["public"]["Enums"]["quotation_status"]
+          subtotal?: number
+          tax_amount?: number
+          tax_rate?: number
+          terms?: string | null
+          title: string
+          total_amount?: number
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          client_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          enquiry_id?: string | null
+          id?: string
+          notes?: string | null
+          pdf_path?: string | null
+          quote_number?: string
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          revision?: number
+          status?: Database["public"]["Enums"]["quotation_status"]
+          subtotal?: number
+          tax_amount?: number
+          tax_rate?: number
+          terms?: string | null
+          title?: string
+          total_amount?: number
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotations_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotations_enquiry_id_fkey"
             columns: ["enquiry_id"]
             isOneToOne: false
             referencedRelation: "enquiries"
@@ -630,6 +777,13 @@ export type Database = {
         | "Approved"
         | "Rejected"
         | "Converted to Project"
+      quotation_status:
+        | "Draft"
+        | "Sent"
+        | "Accepted"
+        | "Rejected"
+        | "Expired"
+        | "Revised"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -765,6 +919,14 @@ export const Constants = {
         "Approved",
         "Rejected",
         "Converted to Project",
+      ],
+      quotation_status: [
+        "Draft",
+        "Sent",
+        "Accepted",
+        "Rejected",
+        "Expired",
+        "Revised",
       ],
     },
   },
