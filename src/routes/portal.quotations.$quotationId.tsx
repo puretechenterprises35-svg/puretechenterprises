@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, XCircle, FileDown, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { LoadingScreen } from "@/components/portal/LoadingScreen";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,9 @@ import {
   formatMoney,
   quotationDetailQuery,
   rejectQuotation,
+  requestClarification,
 } from "@/lib/portal/quotations";
+import { generateQuotationPDF } from "@/lib/quotations/pdf";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import {
   Dialog,
@@ -41,9 +43,12 @@ function ClientQuotationDetail() {
   const { data, isLoading, error } = useQuery(quotationDetailQuery(quotationId));
   const [rejectOpen, setRejectOpen] = useState(false);
   const [reason, setReason] = useState("");
+  const [clarifyOpen, setClarifyOpen] = useState(false);
+  const [clarifyNote, setClarifyNote] = useState("");
 
   const accept = useMutation({
-    mutationFn: () => acceptQuotation(quotationId, session?.user?.id ?? ""),
+    mutationFn: () =>
+      acceptQuotation(quotationId, session?.user?.id ?? "", "Portal", null),
     onSuccess: () => {
       toast.success("Quotation accepted — we'll get in touch shortly.");
       qc.invalidateQueries({ queryKey: ["quotations"] });
@@ -61,6 +66,17 @@ function ClientQuotationDetail() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const clarify = useMutation({
+    mutationFn: () => requestClarification(quotationId, clarifyNote.trim()),
+    onSuccess: () => {
+      toast.success("Clarification requested — we'll reach out shortly.");
+      qc.invalidateQueries({ queryKey: ["quotations"] });
+      setClarifyOpen(false);
+      setClarifyNote("");
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   if (isLoading) return <LoadingScreen />;
   if (error || !data) {
     return (
@@ -71,6 +87,7 @@ function ClientQuotationDetail() {
   }
 
   const canDecide = data.status === "Sent";
+
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
