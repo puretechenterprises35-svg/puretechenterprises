@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ArrowLeft, CheckCircle2, XCircle, FileDown, HelpCircle } from "lucide-react";
@@ -8,6 +8,7 @@ import { LoadingScreen } from "@/components/portal/LoadingScreen";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { QuotationStatusBadge } from "@/components/portal/QuotationStatusBadge";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import {
   acceptQuotation,
   formatMoney,
