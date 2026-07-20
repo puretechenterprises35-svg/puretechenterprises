@@ -113,6 +113,33 @@ function ClientQuotationDetail() {
         </Link>
       </Button>
 
+      {data.enquiry && (
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm shadow-soft">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                Linked Enquiry
+              </p>
+              <p className="mt-1 font-mono text-xs text-muted-foreground">
+                #{data.enquiry.reference_number}
+              </p>
+              <p className="mt-1 font-medium">{data.enquiry.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Service: {data.enquiry.service_category} · Status: {data.enquiry.status}
+              </p>
+            </div>
+            <Button asChild size="sm" variant="outline">
+              <Link
+                to="/portal/enquiries/$enquiryId"
+                params={{ enquiryId: data.enquiry.id }}
+              >
+                View Enquiry
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
+
       <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
           <div>
@@ -126,6 +153,7 @@ function ClientQuotationDetail() {
           </div>
           <QuotationStatusBadge status={data.status} />
         </div>
+
 
         {data.description && (
           <p className="mt-4 whitespace-pre-wrap text-sm text-muted-foreground">
