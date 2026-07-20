@@ -431,9 +431,25 @@ export function formatMoney(amount: number, currency = "KES") {
   })}`;
 }
 
+export async function markQuotationViewed(
+  id: string,
+  userId: string
+): Promise<void> {
+  const { error } = await supabase
+    .from("quotations" as never)
+    .update({
+      status: "Viewed",
+      viewed_at: new Date().toISOString(),
+      viewed_by: userId,
+    } as never)
+    .eq("id", id);
+  if (error) throw error;
+}
+
 export const QUOTATION_STATUSES: QuotationStatus[] = [
   "Draft",
   "Sent",
+  "Viewed",
   "Accepted",
   "Rejected",
   "Expired",
