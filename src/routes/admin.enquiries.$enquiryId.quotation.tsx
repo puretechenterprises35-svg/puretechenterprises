@@ -78,12 +78,14 @@ function EnquiryQuotationEditorPage() {
   const update = useMutation({
     mutationFn: async (values: EditorValue) => {
       if (!first) throw new Error("No quotation to update");
+      if (!first.enquiry_id) throw new Error("Quotation missing enquiry link");
       return updateQuotation(
         first.id,
         { ...values, client_id: first.client_id, enquiry_id: first.enquiry_id },
         session?.user?.id
       );
     },
+
     onSuccess: () => {
       toast.success("Quotation updated");
       qc.invalidateQueries({ queryKey: ["quotations"] });
