@@ -65,6 +65,7 @@ import { Route as AdminInvoicesInvoiceIdRouteImport } from './routes/admin.invoi
 import { Route as AdminEnquiriesEnquiryIdRouteImport } from './routes/admin.enquiries.$enquiryId'
 import { Route as AdminDocumentsDocumentIdRouteImport } from './routes/admin.documents.$documentId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as AdminEnquiriesEnquiryIdQuotationRouteImport } from './routes/admin.enquiries.$enquiryId.quotation'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -353,6 +354,12 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminEnquiriesEnquiryIdQuotationRoute =
+  AdminEnquiriesEnquiryIdQuotationRouteImport.update({
+    id: '/quotation',
+    path: '/quotation',
+    getParentRoute: () => AdminEnquiriesEnquiryIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -396,7 +403,7 @@ export interface FileRoutesByFullPath {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
-  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRouteWithChildren
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -411,6 +418,7 @@ export interface FileRoutesByFullPath {
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
   '/portal/quotations/': typeof PortalQuotationsIndexRoute
+  '/admin/enquiries/$enquiryId/quotation': typeof AdminEnquiriesEnquiryIdQuotationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -452,7 +460,7 @@ export interface FileRoutesByTo {
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
-  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRouteWithChildren
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -467,6 +475,7 @@ export interface FileRoutesByTo {
   '/admin/quotations': typeof AdminQuotationsIndexRoute
   '/portal/enquiries': typeof PortalEnquiriesIndexRoute
   '/portal/quotations': typeof PortalQuotationsIndexRoute
+  '/admin/enquiries/$enquiryId/quotation': typeof AdminEnquiriesEnquiryIdQuotationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -511,7 +520,7 @@ export interface FileRoutesById {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
-  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRouteWithChildren
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -526,6 +535,7 @@ export interface FileRoutesById {
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
   '/portal/quotations/': typeof PortalQuotationsIndexRoute
+  '/admin/enquiries/$enquiryId/quotation': typeof AdminEnquiriesEnquiryIdQuotationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -586,6 +596,7 @@ export interface FileRouteTypes {
     | '/admin/quotations/'
     | '/portal/enquiries/'
     | '/portal/quotations/'
+    | '/admin/enquiries/$enquiryId/quotation'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -642,6 +653,7 @@ export interface FileRouteTypes {
     | '/admin/quotations'
     | '/portal/enquiries'
     | '/portal/quotations'
+    | '/admin/enquiries/$enquiryId/quotation'
   id:
     | '__root__'
     | '/'
@@ -700,6 +712,7 @@ export interface FileRouteTypes {
     | '/admin/quotations/'
     | '/portal/enquiries/'
     | '/portal/quotations/'
+    | '/admin/enquiries/$enquiryId/quotation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1120,6 +1133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/enquiries/$enquiryId/quotation': {
+      id: '/admin/enquiries/$enquiryId/quotation'
+      path: '/quotation'
+      fullPath: '/admin/enquiries/$enquiryId/quotation'
+      preLoaderRoute: typeof AdminEnquiriesEnquiryIdQuotationRouteImport
+      parentRoute: typeof AdminEnquiriesEnquiryIdRoute
+    }
   }
 }
 
@@ -1161,6 +1181,21 @@ const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
   AdminProjectsRouteChildren,
 )
 
+interface AdminEnquiriesEnquiryIdRouteChildren {
+  AdminEnquiriesEnquiryIdQuotationRoute: typeof AdminEnquiriesEnquiryIdQuotationRoute
+}
+
+const AdminEnquiriesEnquiryIdRouteChildren: AdminEnquiriesEnquiryIdRouteChildren =
+  {
+    AdminEnquiriesEnquiryIdQuotationRoute:
+      AdminEnquiriesEnquiryIdQuotationRoute,
+  }
+
+const AdminEnquiriesEnquiryIdRouteWithChildren =
+  AdminEnquiriesEnquiryIdRoute._addFileChildren(
+    AdminEnquiriesEnquiryIdRouteChildren,
+  )
+
 interface AdminRouteChildren {
   AdminClientsRoute: typeof AdminClientsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -1171,7 +1206,7 @@ interface AdminRouteChildren {
   AdminProjectsRoute: typeof AdminProjectsRouteWithChildren
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  AdminEnquiriesEnquiryIdRoute: typeof AdminEnquiriesEnquiryIdRoute
+  AdminEnquiriesEnquiryIdRoute: typeof AdminEnquiriesEnquiryIdRouteWithChildren
   AdminQuotationsQuotationIdRoute: typeof AdminQuotationsQuotationIdRoute
   AdminQuotationsNewRoute: typeof AdminQuotationsNewRoute
   AdminEnquiriesIndexRoute: typeof AdminEnquiriesIndexRoute
@@ -1188,7 +1223,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminProjectsRoute: AdminProjectsRouteWithChildren,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
-  AdminEnquiriesEnquiryIdRoute: AdminEnquiriesEnquiryIdRoute,
+  AdminEnquiriesEnquiryIdRoute: AdminEnquiriesEnquiryIdRouteWithChildren,
   AdminQuotationsQuotationIdRoute: AdminQuotationsQuotationIdRoute,
   AdminQuotationsNewRoute: AdminQuotationsNewRoute,
   AdminEnquiriesIndexRoute: AdminEnquiriesIndexRoute,
