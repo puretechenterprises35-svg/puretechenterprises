@@ -248,7 +248,7 @@ function ClientQuotationDetail() {
           </Button>
           {canDecide && (
             <>
-              <Button onClick={() => accept.mutate()} disabled={accept.isPending}>
+              <Button onClick={() => setAcceptOpen(true)} disabled={accept.isPending}>
                 <CheckCircle2 className="mr-2 h-4 w-4" />
                 {accept.isPending ? "Accepting…" : "Accept Quotation"}
               </Button>
