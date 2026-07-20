@@ -43,6 +43,7 @@ import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminProjectUpdatesRouteImport } from './routes/admin.project-updates'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminInvoicesRouteImport } from './routes/admin.invoices'
+import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminClientsRouteImport } from './routes/admin.clients'
@@ -229,6 +230,11 @@ const AdminInvoicesRoute = AdminInvoicesRouteImport.update({
   path: '/invoices',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
+  id: '/enquiries',
+  path: '/enquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -334,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -383,6 +390,7 @@ export interface FileRoutesByTo {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -435,6 +443,7 @@ export interface FileRoutesById {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -488,6 +497,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -537,6 +547,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -588,6 +599,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -880,6 +892,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInvoicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/enquiries': {
+      id: '/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AdminEnquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/documents': {
       id: '/admin/documents'
       path: '/documents'
@@ -1030,6 +1049,7 @@ interface AdminRouteChildren {
   AdminClientsRoute: typeof AdminClientsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDocumentsRoute: typeof AdminDocumentsRouteWithChildren
+  AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminInvoicesRoute: typeof AdminInvoicesRouteWithChildren
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminProjectUpdatesRoute: typeof AdminProjectUpdatesRoute
@@ -1042,6 +1062,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminClientsRoute: AdminClientsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminDocumentsRoute: AdminDocumentsRouteWithChildren,
+  AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminInvoicesRoute: AdminInvoicesRouteWithChildren,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminProjectUpdatesRoute: AdminProjectUpdatesRoute,
