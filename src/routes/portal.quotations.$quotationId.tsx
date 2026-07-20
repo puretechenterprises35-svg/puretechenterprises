@@ -102,7 +102,7 @@ function ClientQuotationDetail() {
     );
   }
 
-  const canDecide = data.status === "Sent";
+  const canDecide = data.status === "Sent" || data.status === "Viewed";
 
 
   return (
