@@ -52,7 +52,7 @@ const STATUSES: EnquiryStatus[] = [
   "Converted to Project",
 ];
 
-export const Route = createFileRoute("/admin/enquiries/$enquiryId")({
+export const Route = createFileRoute("/admin/enquiries/$enquiryId/")({
   ssr: false,
   head: () => ({
     meta: [
