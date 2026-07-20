@@ -124,6 +124,7 @@ function ClientQuotationDetail() {
                 <th className="py-2">Description</th>
                 <th className="py-2 text-right">Qty</th>
                 <th className="py-2 text-right">Unit Price</th>
+                <th className="py-2 text-right">Discount</th>
                 <th className="py-2 text-right">Total</th>
               </tr>
             </thead>
@@ -136,6 +137,9 @@ function ClientQuotationDetail() {
                     {formatMoney(Number(it.unit_price), data.currency)}
                   </td>
                   <td className="py-2 text-right">
+                    {formatMoney(Number(it.discount || 0), data.currency)}
+                  </td>
+                  <td className="py-2 text-right">
                     {formatMoney(Number(it.total), data.currency)}
                   </td>
                 </tr>
@@ -146,21 +150,53 @@ function ClientQuotationDetail() {
 
         <div className="mt-4 flex justify-end">
           <div className="w-full max-w-xs space-y-1 text-sm">
-            <Row label="Subtotal" value={formatMoney(data.subtotal, data.currency)} />
             <Row
-              label={`Tax (${Number(data.tax_rate)}%)`}
-              value={formatMoney(data.tax_amount, data.currency)}
+              label="Subtotal"
+              value={formatMoney(data.subtotal + data.discount_total, data.currency)}
             />
+            {data.discount_total > 0 && (
+              <Row
+                label="Discount"
+                value={`- ${formatMoney(data.discount_total, data.currency)}`}
+              />
+            )}
+            {data.vat_enabled && (
+              <Row
+                label={`VAT (${Number(data.tax_rate)}%)`}
+                value={formatMoney(data.tax_amount, data.currency)}
+              />
+            )}
             <Row
-              label="Total"
+              label="Grand Total"
               value={formatMoney(data.total_amount, data.currency)}
               bold
             />
           </div>
         </div>
 
+        {(data.payment_terms || data.delivery_timeline) && (
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {data.payment_terms && (
+              <div className="rounded-md border border-border bg-background p-3 text-sm">
+                <p className="font-semibold">Payment Terms</p>
+                <p className="mt-1 whitespace-pre-wrap text-muted-foreground">
+                  {data.payment_terms}
+                </p>
+              </div>
+            )}
+            {data.delivery_timeline && (
+              <div className="rounded-md border border-border bg-background p-3 text-sm">
+                <p className="font-semibold">Delivery Timeline</p>
+                <p className="mt-1 whitespace-pre-wrap text-muted-foreground">
+                  {data.delivery_timeline}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         {data.notes && (
-          <div className="mt-6 rounded-md border border-border bg-background p-3 text-sm">
+          <div className="mt-3 rounded-md border border-border bg-background p-3 text-sm">
             <p className="font-semibold">Notes</p>
             <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{data.notes}</p>
           </div>
@@ -178,21 +214,45 @@ function ClientQuotationDetail() {
           </p>
         )}
 
-        {canDecide && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            <Button onClick={() => accept.mutate()} disabled={accept.isPending}>
-              <CheckCircle2 className="mr-2 h-4 w-4" />
-              {accept.isPending ? "Accepting…" : "Accept Quotation"}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setRejectOpen(true)}
-              disabled={reject.isPending}
-            >
-              <XCircle className="mr-2 h-4 w-4" /> Reject
-            </Button>
+        {data.clarification_note && (
+          <div className="mt-4 rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-sm">
+            <p className="font-semibold text-amber-700 dark:text-amber-400">
+              Clarification requested
+            </p>
+            <p className="mt-1 whitespace-pre-wrap">{data.clarification_note}</p>
           </div>
         )}
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            onClick={() => generateQuotationPDF(data)}
+          >
+            <FileDown className="mr-2 h-4 w-4" /> Download PDF
+          </Button>
+          {canDecide && (
+            <>
+              <Button onClick={() => accept.mutate()} disabled={accept.isPending}>
+                <CheckCircle2 className="mr-2 h-4 w-4" />
+                {accept.isPending ? "Accepting…" : "Accept Quotation"}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setClarifyOpen(true)}
+                disabled={clarify.isPending}
+              >
+                <HelpCircle className="mr-2 h-4 w-4" /> Request Clarification
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setRejectOpen(true)}
+                disabled={reject.isPending}
+              >
+                <XCircle className="mr-2 h-4 w-4" /> Reject
+              </Button>
+            </>
+          )}
+        </div>
 
         {data.status === "Accepted" && (
           <p className="mt-6 rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-700 dark:text-emerald-400">
@@ -207,6 +267,35 @@ function ClientQuotationDetail() {
           </p>
         )}
       </div>
+
+      <Dialog open={clarifyOpen} onOpenChange={setClarifyOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Request Clarification</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            What would you like us to clarify or revise on this quotation?
+          </p>
+          <Textarea
+            rows={5}
+            value={clarifyNote}
+            onChange={(e) => setClarifyNote(e.target.value)}
+            placeholder="Describe what needs clarification…"
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setClarifyOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => clarify.mutate()}
+              disabled={!clarifyNote.trim() || clarify.isPending}
+            >
+              {clarify.isPending ? "Sending…" : "Send Request"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
 
       <Dialog open={rejectOpen} onOpenChange={setRejectOpen}>
         <DialogContent>
