@@ -337,6 +337,15 @@ function ClientQuotationDetail() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={acceptOpen}
+        onOpenChange={setAcceptOpen}
+        title="Accept this quotation?"
+        description="Confirming will notify Puretech Enterprises that you accept the terms and total as quoted."
+        confirmLabel={accept.isPending ? "Accepting…" : "Accept"}
+        onConfirm={() => accept.mutate()}
+      />
     </div>
   );
 }
