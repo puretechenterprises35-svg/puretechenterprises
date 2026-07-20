@@ -211,7 +211,7 @@ export const quotationsByEnquiryQuery = (enquiryId: string) =>
 // ---------- Mutations ----------
 
 export type QuotationInput = {
-  enquiry_id?: string | null;
+  enquiry_id: string;
   client_id: string;
   title: string;
   description?: string | null;
@@ -226,6 +226,7 @@ export type QuotationInput = {
   payment_terms: string | null;
   items: QuotationItem[];
 };
+
 
 export function computeTotals(
   items: QuotationItem[],
