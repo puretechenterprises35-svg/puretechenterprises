@@ -220,8 +220,9 @@ function EnquiryQuotationEditorPage() {
               <span className="font-semibold">Enquiry:</span> {enquiry.data.title}
             </p>
             <p className="text-muted-foreground">
-              Client: {enquiry.data.client?.company_name || enquiry.data.client?.contact_person || "—"} ·
-              Service: {enquiry.data.service_category}
+              Client: {enquiry.data.client?.company_name || enquiry.data.client?.contact_person || enquiry.data.client?.full_name || "—"}
+              {enquiry.data.client?.email ? ` · Email: ${enquiry.data.client.email}` : ""}
+              {" · "}Service: {enquiry.data.service_category}
             </p>
           </div>
 
