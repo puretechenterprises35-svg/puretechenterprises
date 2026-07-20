@@ -58,11 +58,19 @@ type ConfirmAction = {
 function AdminEnquiryDetailPage() {
   const { enquiryId } = Route.useParams();
   const qc = useQueryClient();
+  const navigate = useNavigate();
+  const { session } = usePortalSession();
   const { data, isLoading, error } = useQuery(adminEnquiryDetailQuery(enquiryId));
 
   const [status, setStatus] = useState<EnquiryStatus>("Pending Review");
   const [notes, setNotes] = useState("");
   const [pending, setPending] = useState<ConfirmAction | null>(null);
+  const [convertOpen, setConvertOpen] = useState(false);
+
+  const linkedProjectQuery = useQuery({
+    queryKey: ["admin", "enquiry-project", enquiryId],
+    queryFn: () => getProjectByEnquiryId(enquiryId),
+  });
 
   useEffect(() => {
     if (data) {
@@ -80,6 +88,29 @@ function AdminEnquiryDetailPage() {
       qc.invalidateQueries({ queryKey: ["portal", "enquiries"] });
     },
     onError: (err: Error) => toast.error(err.message),
+  });
+
+  const convertMutation = useMutation({
+    mutationFn: async () => {
+      if (!data) throw new Error("Enquiry not loaded");
+      if (!session?.user?.id) throw new Error("Not authenticated");
+      return convertEnquiryToProject(data, session.user.id);
+    },
+    onSuccess: (project) => {
+      toast.success("Enquiry converted to project");
+      qc.invalidateQueries({ queryKey: ["admin", "enquiries"] });
+      qc.invalidateQueries({ queryKey: ["admin", "projects"] });
+      qc.invalidateQueries({ queryKey: ["admin", "enquiry-project", enquiryId] });
+      qc.invalidateQueries({ queryKey: ["portal", "projects"] });
+      qc.invalidateQueries({ queryKey: ["portal", "enquiries"] });
+      qc.invalidateQueries({ queryKey: ["portal", "notifications"] });
+      setConvertOpen(false);
+      navigate({ to: "/admin/projects/$projectId", params: { projectId: project.id } });
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+      setConvertOpen(false);
+    },
   });
 
   if (isLoading) return <LoadingScreen />;
