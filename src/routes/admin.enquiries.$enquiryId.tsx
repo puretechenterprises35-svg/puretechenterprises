@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Paperclip, Download, Save, CheckCircle2, XCircle, HelpCircle } from "lucide-react";
+import { ArrowLeft, Paperclip, Download, Save, CheckCircle2, XCircle, HelpCircle, Rocket, FolderCheck } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
@@ -24,8 +24,11 @@ import {
   adminEnquiryDetailQuery,
   getAttachmentUrl,
   updateEnquiryAdmin,
+  convertEnquiryToProject,
+  getProjectByEnquiryId,
   type EnquiryStatus,
 } from "@/lib/portal/enquiries";
+import { usePortalSession } from "@/hooks/use-portal-session";
 
 const STATUSES: EnquiryStatus[] = [
   "Pending Review",
