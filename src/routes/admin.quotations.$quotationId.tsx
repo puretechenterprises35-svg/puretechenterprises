@@ -254,13 +254,18 @@ function AdminQuotationDetailPage() {
         }}
         submitting={save.isPending}
         submitLabel="Save Changes"
-        onSubmit={(v) =>
+        onSubmit={(v) => {
+          if (!data.enquiry_id) {
+            toast.error("Quotation missing enquiry link");
+            return;
+          }
           save.mutate({
             ...v,
             client_id: data.client_id,
             enquiry_id: data.enquiry_id,
-          })
-        }
+          });
+        }}
+
       />
 
       <Dialog open={acceptOpen} onOpenChange={setAcceptOpen}>
