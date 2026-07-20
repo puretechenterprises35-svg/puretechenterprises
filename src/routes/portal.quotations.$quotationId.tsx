@@ -47,6 +47,19 @@ function ClientQuotationDetail() {
   const [reason, setReason] = useState("");
   const [clarifyOpen, setClarifyOpen] = useState(false);
   const [clarifyNote, setClarifyNote] = useState("");
+  const [acceptOpen, setAcceptOpen] = useState(false);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    if (viewedRef.current) return;
+    if (!data || !session?.user?.id) return;
+    if (data.status !== "Sent") return;
+    if (data.client_id !== session.user.id) return;
+    viewedRef.current = true;
+    markQuotationViewed(quotationId, session.user.id)
+      .then(() => qc.invalidateQueries({ queryKey: ["quotations"] }))
+      .catch(() => { viewedRef.current = false; });
+  }, [data, session?.user?.id, quotationId, qc]);
 
   const accept = useMutation({
     mutationFn: () =>
