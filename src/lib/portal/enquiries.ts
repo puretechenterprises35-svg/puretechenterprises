@@ -126,4 +126,87 @@ export async function createEnquiry(input: NewEnquiryInput): Promise<EnquiryRow>
     .single();
   if (error) throw error;
   return data as unknown as EnquiryRow;
+
+// ---------- Admin ----------
+
+export type EnquiryClientProfile = {
+  id: string;
+  full_name: string | null;
+  contact_person: string | null;
+  company_name: string | null;
+  email: string | null;
+  phone_number: string | null;
+  business_address: string | null;
+};
+
+export type AdminEnquiryRow = EnquiryRow & {
+  client: EnquiryClientProfile | null;
+};
+
+async function attachProfiles(rows: EnquiryRow[]): Promise<AdminEnquiryRow[]> {
+  const ids = Array.from(new Set(rows.map((r) => r.client_id)));
+  if (ids.length === 0) return rows.map((r) => ({ ...r, client: null }));
+  const { data, error } = await supabase
+    .from("profiles")
+    .select(
+      "id, full_name, contact_person, company_name, email, phone_number, business_address"
+    )
+    .in("id", ids);
+  if (error) throw error;
+  const map = new Map<string, EnquiryClientProfile>();
+  for (const p of (data ?? []) as EnquiryClientProfile[]) map.set(p.id, p);
+  return rows.map((r) => ({ ...r, client: map.get(r.client_id) ?? null }));
 }
+
+export const adminEnquiriesQuery = () =>
+  queryOptions({
+    queryKey: ["admin", "enquiries"],
+    queryFn: async (): Promise<AdminEnquiryRow[]> => {
+      const { data, error } = await supabase
+        .from("enquiries" as never)
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      const rows = ((data ?? []) as unknown as EnquiryRow[]).map((r) => ({
+        ...r,
+        attachments: Array.isArray(r.attachments) ? r.attachments : [],
+      }));
+      return attachProfiles(rows);
+    },
+  });
+
+export const adminEnquiryDetailQuery = (id: string) =>
+  queryOptions({
+    queryKey: ["admin", "enquiries", id],
+    queryFn: async (): Promise<AdminEnquiryRow> => {
+      const { data, error } = await supabase
+        .from("enquiries" as never)
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error("Enquiry not found");
+      const row = data as unknown as EnquiryRow;
+      const normalised = {
+        ...row,
+        attachments: Array.isArray(row.attachments) ? row.attachments : [],
+      };
+      const [withProfile] = await attachProfiles([normalised]);
+      return withProfile;
+    },
+  });
+
+export async function updateEnquiryAdmin(
+  id: string,
+  patch: { status?: EnquiryStatus; admin_notes?: string | null }
+): Promise<EnquiryRow> {
+  const { data, error } = await supabase
+    .from("enquiries" as never)
+    .update(patch as never)
+    .eq("id", id)
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as unknown as EnquiryRow;
+}
+
