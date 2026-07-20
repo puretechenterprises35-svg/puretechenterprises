@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Paperclip, Download, Save, CheckCircle2, XCircle, HelpCircle } from "lucide-react";
+import { ArrowLeft, Paperclip, Download, Save, CheckCircle2, XCircle, HelpCircle, Rocket, FolderCheck } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
@@ -24,8 +24,11 @@ import {
   adminEnquiryDetailQuery,
   getAttachmentUrl,
   updateEnquiryAdmin,
+  convertEnquiryToProject,
+  getProjectByEnquiryId,
   type EnquiryStatus,
 } from "@/lib/portal/enquiries";
+import { usePortalSession } from "@/hooks/use-portal-session";
 
 const STATUSES: EnquiryStatus[] = [
   "Pending Review",
@@ -55,11 +58,19 @@ type ConfirmAction = {
 function AdminEnquiryDetailPage() {
   const { enquiryId } = Route.useParams();
   const qc = useQueryClient();
+  const navigate = useNavigate();
+  const { session } = usePortalSession();
   const { data, isLoading, error } = useQuery(adminEnquiryDetailQuery(enquiryId));
 
   const [status, setStatus] = useState<EnquiryStatus>("Pending Review");
   const [notes, setNotes] = useState("");
   const [pending, setPending] = useState<ConfirmAction | null>(null);
+  const [convertOpen, setConvertOpen] = useState(false);
+
+  const linkedProjectQuery = useQuery({
+    queryKey: ["admin", "enquiry-project", enquiryId],
+    queryFn: () => getProjectByEnquiryId(enquiryId),
+  });
 
   useEffect(() => {
     if (data) {
@@ -77,6 +88,29 @@ function AdminEnquiryDetailPage() {
       qc.invalidateQueries({ queryKey: ["portal", "enquiries"] });
     },
     onError: (err: Error) => toast.error(err.message),
+  });
+
+  const convertMutation = useMutation({
+    mutationFn: async () => {
+      if (!data) throw new Error("Enquiry not loaded");
+      if (!session?.user?.id) throw new Error("Not authenticated");
+      return convertEnquiryToProject(data, session.user.id);
+    },
+    onSuccess: (project) => {
+      toast.success("Enquiry converted to project");
+      qc.invalidateQueries({ queryKey: ["admin", "enquiries"] });
+      qc.invalidateQueries({ queryKey: ["admin", "projects"] });
+      qc.invalidateQueries({ queryKey: ["admin", "enquiry-project", enquiryId] });
+      qc.invalidateQueries({ queryKey: ["portal", "projects"] });
+      qc.invalidateQueries({ queryKey: ["portal", "enquiries"] });
+      qc.invalidateQueries({ queryKey: ["portal", "notifications"] });
+      setConvertOpen(false);
+      navigate({ to: "/admin/projects/$projectId", params: { projectId: project.id } });
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+      setConvertOpen(false);
+    },
   });
 
   if (isLoading) return <LoadingScreen />;
@@ -296,9 +330,56 @@ function AdminEnquiryDetailPage() {
                 <XCircle className="mr-2 h-4 w-4" /> Reject
               </Button>
             </div>
+
+            {linkedProjectQuery.data ? (
+              <div className="mt-4 rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm">
+                <div className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
+                  <FolderCheck className="h-4 w-4" /> Project Created ✓
+                </div>
+                <Button
+                  asChild
+                  variant="link"
+                  size="sm"
+                  className="mt-1 h-auto p-0 text-xs"
+                >
+                  <Link
+                    to="/admin/projects/$projectId"
+                    params={{ projectId: linkedProjectQuery.data.id }}
+                  >
+                    View {linkedProjectQuery.data.project_name}
+                  </Link>
+                </Button>
+              </div>
+            ) : data.status === "Approved" ? (
+              <div className="mt-4">
+                <Button
+                  className="w-full"
+                  onClick={() => setConvertOpen(true)}
+                  disabled={convertMutation.isPending}
+                >
+                  <Rocket className="mr-2 h-4 w-4" />
+                  {convertMutation.isPending ? "Converting…" : "Convert to Project"}
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={convertOpen}
+        onOpenChange={setConvertOpen}
+        title="Convert this enquiry into a project?"
+        description={
+          <>
+            A new project will be created for <strong>{data.title}</strong> and
+            the enquiry will be marked as <strong>Converted to Project</strong>.
+            The client will see it immediately.
+          </>
+        }
+        confirmLabel={convertMutation.isPending ? "Converting…" : "Convert"}
+        onConfirm={() => convertMutation.mutate()}
+      />
 
       <ConfirmDialog
         open={!!pending}

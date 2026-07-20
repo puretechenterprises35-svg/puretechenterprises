@@ -212,3 +212,82 @@ export async function updateEnquiryAdmin(
   return data as unknown as EnquiryRow;
 }
 
+
+// ---------- Convert to Project ----------
+
+export type EnquiryProjectLink = {
+  id: string;
+  project_name: string;
+};
+
+export async function getProjectByEnquiryId(
+  enquiryId: string
+): Promise<EnquiryProjectLink | null> {
+  const { data, error } = await supabase
+    .from("projects")
+    .select("id,project_name")
+    .eq("enquiry_id" as never, enquiryId as never)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as EnquiryProjectLink | null) ?? null;
+}
+
+export async function convertEnquiryToProject(
+  enquiry: EnquiryRow,
+  adminUserId: string
+): Promise<EnquiryProjectLink> {
+  // Guard: already converted
+  const existing = await getProjectByEnquiryId(enquiry.id);
+  if (existing) return existing;
+
+  // Map profile-based enquiry.client_id to clients.id
+  const { data: client, error: clientErr } = await supabase
+    .from("clients")
+    .select("id")
+    .eq("auth_user_id", enquiry.client_id)
+    .maybeSingle();
+  if (clientErr) throw clientErr;
+  if (!client) throw new Error("No client record found for this enquiry.");
+
+  const priority: "Low" | "Medium" | "High" | "Urgent" =
+    enquiry.priority === "High"
+      ? "High"
+      : enquiry.priority === "Low"
+      ? "Low"
+      : "Medium";
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { data: project, error: projErr } = await supabase
+    .from("projects")
+    .insert({
+      client_id: client.id,
+      project_name: enquiry.title,
+      description: enquiry.description,
+      service_category: enquiry.service_category,
+      priority,
+      status: "In Progress",
+      progress_percentage: 0,
+      start_date: today,
+      enquiry_id: enquiry.id,
+      created_by: adminUserId,
+      source: "Enquiry",
+    } as never)
+    .select("id,project_name")
+    .single();
+  if (projErr) throw projErr;
+
+  // Notification: seed a client-visible project update
+  await supabase.from("project_updates").insert({
+    project_id: (project as EnquiryProjectLink).id,
+    update_title: "Your enquiry has been converted into a project.",
+    update_message: `Enquiry "${enquiry.title}" is now an active project.`,
+    visible_to_client: true,
+    created_by: adminUserId,
+  } as never);
+
+  // Flip enquiry status
+  await updateEnquiryAdmin(enquiry.id, { status: "Converted to Project" });
+
+  return project as EnquiryProjectLink;
+}
