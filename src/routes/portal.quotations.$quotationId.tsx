@@ -53,13 +53,13 @@ function ClientQuotationDetail() {
   useEffect(() => {
     if (viewedRef.current) return;
     if (!data || !session?.user?.id) return;
+    if (isAdmin) return;
     if (data.status !== "Sent") return;
-    if (data.client_id !== session.user.id) return;
     viewedRef.current = true;
     markQuotationViewed(quotationId, session.user.id)
       .then(() => qc.invalidateQueries({ queryKey: ["quotations"] }))
       .catch(() => { viewedRef.current = false; });
-  }, [data, session?.user?.id, quotationId, qc]);
+  }, [data, session?.user?.id, quotationId, qc, isAdmin]);
 
   const accept = useMutation({
     mutationFn: () =>
@@ -67,6 +67,7 @@ function ClientQuotationDetail() {
     onSuccess: () => {
       toast.success("Quotation accepted — we'll get in touch shortly.");
       qc.invalidateQueries({ queryKey: ["quotations"] });
+      setAcceptOpen(false);
     },
     onError: (e: Error) => toast.error(e.message),
   });
