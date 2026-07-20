@@ -476,13 +476,16 @@ export type Database = {
           client_id: string
           completion_date: string | null
           created_at: string
+          created_by: string | null
           description: string | null
           due_date: string | null
+          enquiry_id: string | null
           id: string
           priority: string
           progress_percentage: number
           project_name: string
           service_category: string | null
+          source: string | null
           start_date: string | null
           status: string
           updated_at: string
@@ -492,13 +495,16 @@ export type Database = {
           client_id: string
           completion_date?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           due_date?: string | null
+          enquiry_id?: string | null
           id?: string
           priority?: string
           progress_percentage?: number
           project_name: string
           service_category?: string | null
+          source?: string | null
           start_date?: string | null
           status?: string
           updated_at?: string
@@ -508,13 +514,16 @@ export type Database = {
           client_id?: string
           completion_date?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           due_date?: string | null
+          enquiry_id?: string | null
           id?: string
           priority?: string
           progress_percentage?: number
           project_name?: string
           service_category?: string | null
+          source?: string | null
           start_date?: string | null
           status?: string
           updated_at?: string
@@ -525,6 +534,13 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_enquiry_id_fkey"
+            columns: ["enquiry_id"]
+            isOneToOne: false
+            referencedRelation: "enquiries"
             referencedColumns: ["id"]
           },
         ]
