@@ -128,14 +128,7 @@ function EnquiryDetailPage() {
           </div>
         )}
 
-        {data.admin_notes && (
-          <div className="mt-6 rounded-md border border-primary/20 bg-primary/5 p-4">
-            <h2 className="text-sm font-semibold text-primary">Admin Notes</h2>
-            <p className="mt-1 whitespace-pre-wrap text-sm text-foreground">
-              {data.admin_notes}
-            </p>
-          </div>
-        )}
+        {/* Admin Notes are intentionally hidden from clients. */}
       </div>
     </div>
   );

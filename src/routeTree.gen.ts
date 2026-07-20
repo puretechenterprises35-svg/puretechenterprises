@@ -43,6 +43,7 @@ import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminProjectUpdatesRouteImport } from './routes/admin.project-updates'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminInvoicesRouteImport } from './routes/admin.invoices'
+import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminClientsRouteImport } from './routes/admin.clients'
@@ -56,6 +57,7 @@ import { Route as PortalEnquiriesEnquiryIdRouteImport } from './routes/portal.en
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
 import { Route as AdminInvoicesInvoiceIdRouteImport } from './routes/admin.invoices.$invoiceId'
+import { Route as AdminEnquiriesEnquiryIdRouteImport } from './routes/admin.enquiries.$enquiryId'
 import { Route as AdminDocumentsDocumentIdRouteImport } from './routes/admin.documents.$documentId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -229,6 +231,11 @@ const AdminInvoicesRoute = AdminInvoicesRouteImport.update({
   path: '/invoices',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
+  id: '/enquiries',
+  path: '/enquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -297,6 +304,11 @@ const AdminInvoicesInvoiceIdRoute = AdminInvoicesInvoiceIdRouteImport.update({
   path: '/$invoiceId',
   getParentRoute: () => AdminInvoicesRoute,
 } as any)
+const AdminEnquiriesEnquiryIdRoute = AdminEnquiriesEnquiryIdRouteImport.update({
+  id: '/$enquiryId',
+  path: '/$enquiryId',
+  getParentRoute: () => AdminEnquiriesRoute,
+} as any)
 const AdminDocumentsDocumentIdRoute =
   AdminDocumentsDocumentIdRouteImport.update({
     id: '/$documentId',
@@ -334,6 +346,7 @@ export interface FileRoutesByFullPath {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRouteWithChildren
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -352,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -383,6 +397,7 @@ export interface FileRoutesByTo {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRouteWithChildren
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -401,6 +416,7 @@ export interface FileRoutesByTo {
   '/portal': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -435,6 +451,7 @@ export interface FileRoutesById {
   '/admin/clients': typeof AdminClientsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRouteWithChildren
+  '/admin/enquiries': typeof AdminEnquiriesRouteWithChildren
   '/admin/invoices': typeof AdminInvoicesRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/project-updates': typeof AdminProjectUpdatesRoute
@@ -453,6 +470,7 @@ export interface FileRoutesById {
   '/portal/': typeof PortalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
+  '/admin/enquiries/$enquiryId': typeof AdminEnquiriesEnquiryIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -488,6 +506,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -506,6 +525,7 @@ export interface FileRouteTypes {
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/enquiries/$enquiryId'
     | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
@@ -537,6 +557,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -555,6 +576,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/enquiries/$enquiryId'
     | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
@@ -588,6 +610,7 @@ export interface FileRouteTypes {
     | '/admin/clients'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/enquiries'
     | '/admin/invoices'
     | '/admin/payments'
     | '/admin/project-updates'
@@ -606,6 +629,7 @@ export interface FileRouteTypes {
     | '/portal/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
+    | '/admin/enquiries/$enquiryId'
     | '/admin/invoices/$invoiceId'
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
@@ -880,6 +904,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInvoicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/enquiries': {
+      id: '/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AdminEnquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/documents': {
       id: '/admin/documents'
       path: '/documents'
@@ -971,6 +1002,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInvoicesInvoiceIdRouteImport
       parentRoute: typeof AdminInvoicesRoute
     }
+    '/admin/enquiries/$enquiryId': {
+      id: '/admin/enquiries/$enquiryId'
+      path: '/$enquiryId'
+      fullPath: '/admin/enquiries/$enquiryId'
+      preLoaderRoute: typeof AdminEnquiriesEnquiryIdRouteImport
+      parentRoute: typeof AdminEnquiriesRoute
+    }
     '/admin/documents/$documentId': {
       id: '/admin/documents/$documentId'
       path: '/$documentId'
@@ -998,6 +1036,18 @@ const AdminDocumentsRouteChildren: AdminDocumentsRouteChildren = {
 
 const AdminDocumentsRouteWithChildren = AdminDocumentsRoute._addFileChildren(
   AdminDocumentsRouteChildren,
+)
+
+interface AdminEnquiriesRouteChildren {
+  AdminEnquiriesEnquiryIdRoute: typeof AdminEnquiriesEnquiryIdRoute
+}
+
+const AdminEnquiriesRouteChildren: AdminEnquiriesRouteChildren = {
+  AdminEnquiriesEnquiryIdRoute: AdminEnquiriesEnquiryIdRoute,
+}
+
+const AdminEnquiriesRouteWithChildren = AdminEnquiriesRoute._addFileChildren(
+  AdminEnquiriesRouteChildren,
 )
 
 interface AdminInvoicesRouteChildren {
@@ -1030,6 +1080,7 @@ interface AdminRouteChildren {
   AdminClientsRoute: typeof AdminClientsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDocumentsRoute: typeof AdminDocumentsRouteWithChildren
+  AdminEnquiriesRoute: typeof AdminEnquiriesRouteWithChildren
   AdminInvoicesRoute: typeof AdminInvoicesRouteWithChildren
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminProjectUpdatesRoute: typeof AdminProjectUpdatesRoute
@@ -1042,6 +1093,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminClientsRoute: AdminClientsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminDocumentsRoute: AdminDocumentsRouteWithChildren,
+  AdminEnquiriesRoute: AdminEnquiriesRouteWithChildren,
   AdminInvoicesRoute: AdminInvoicesRouteWithChildren,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminProjectUpdatesRoute: AdminProjectUpdatesRoute,
