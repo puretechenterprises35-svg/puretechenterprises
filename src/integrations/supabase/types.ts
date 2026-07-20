@@ -643,6 +643,8 @@ export type Database = {
           updated_by: string | null
           valid_until: string | null
           vat_enabled: boolean
+          viewed_at: string | null
+          viewed_by: string | null
         }
         Insert: {
           acceptance_method?: string | null
@@ -679,6 +681,8 @@ export type Database = {
           updated_by?: string | null
           valid_until?: string | null
           vat_enabled?: boolean
+          viewed_at?: string | null
+          viewed_by?: string | null
         }
         Update: {
           acceptance_method?: string | null
@@ -715,6 +719,8 @@ export type Database = {
           updated_by?: string | null
           valid_until?: string | null
           vat_enabled?: boolean
+          viewed_at?: string | null
+          viewed_by?: string | null
         }
         Relationships: [
           {
@@ -821,6 +827,7 @@ export type Database = {
       quotation_status:
         | "Draft"
         | "Sent"
+        | "Viewed"
         | "Accepted"
         | "Rejected"
         | "Expired"
@@ -964,6 +971,7 @@ export const Constants = {
       quotation_status: [
         "Draft",
         "Sent",
+        "Viewed",
         "Accepted",
         "Rejected",
         "Expired",

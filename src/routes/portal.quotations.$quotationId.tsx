@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ArrowLeft, CheckCircle2, XCircle, FileDown, HelpCircle } from "lucide-react";
@@ -8,9 +8,11 @@ import { LoadingScreen } from "@/components/portal/LoadingScreen";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { QuotationStatusBadge } from "@/components/portal/QuotationStatusBadge";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import {
   acceptQuotation,
   formatMoney,
+  markQuotationViewed,
   quotationDetailQuery,
   rejectQuotation,
   requestClarification,
@@ -39,12 +41,25 @@ export const Route = createFileRoute("/portal/quotations/$quotationId")({
 function ClientQuotationDetail() {
   const { quotationId } = Route.useParams();
   const qc = useQueryClient();
-  const { session } = usePortalSession();
+  const { session, isAdmin } = usePortalSession();
   const { data, isLoading, error } = useQuery(quotationDetailQuery(quotationId));
   const [rejectOpen, setRejectOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [clarifyOpen, setClarifyOpen] = useState(false);
   const [clarifyNote, setClarifyNote] = useState("");
+  const [acceptOpen, setAcceptOpen] = useState(false);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    if (viewedRef.current) return;
+    if (!data || !session?.user?.id) return;
+    if (isAdmin) return;
+    if (data.status !== "Sent") return;
+    viewedRef.current = true;
+    markQuotationViewed(quotationId, session.user.id)
+      .then(() => qc.invalidateQueries({ queryKey: ["quotations"] }))
+      .catch(() => { viewedRef.current = false; });
+  }, [data, session?.user?.id, quotationId, qc, isAdmin]);
 
   const accept = useMutation({
     mutationFn: () =>
@@ -52,6 +67,7 @@ function ClientQuotationDetail() {
     onSuccess: () => {
       toast.success("Quotation accepted — we'll get in touch shortly.");
       qc.invalidateQueries({ queryKey: ["quotations"] });
+      setAcceptOpen(false);
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -86,7 +102,7 @@ function ClientQuotationDetail() {
     );
   }
 
-  const canDecide = data.status === "Sent";
+  const canDecide = data.status === "Sent" || data.status === "Viewed";
 
 
   return (
@@ -232,7 +248,7 @@ function ClientQuotationDetail() {
           </Button>
           {canDecide && (
             <>
-              <Button onClick={() => accept.mutate()} disabled={accept.isPending}>
+              <Button onClick={() => setAcceptOpen(true)} disabled={accept.isPending}>
                 <CheckCircle2 className="mr-2 h-4 w-4" />
                 {accept.isPending ? "Accepting…" : "Accept Quotation"}
               </Button>
@@ -321,6 +337,15 @@ function ClientQuotationDetail() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={acceptOpen}
+        onOpenChange={setAcceptOpen}
+        title="Accept this quotation?"
+        description="Confirming will notify Puretech Enterprises that you accept the terms and total as quoted."
+        confirmLabel={accept.isPending ? "Accepting…" : "Accept"}
+        onConfirm={() => accept.mutate()}
+      />
     </div>
   );
 }
