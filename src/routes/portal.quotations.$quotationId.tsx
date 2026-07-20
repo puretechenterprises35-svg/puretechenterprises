@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import {
   acceptQuotation,
   formatMoney,
+  markQuotationViewed,
   quotationDetailQuery,
   rejectQuotation,
   requestClarification,
