@@ -57,7 +57,6 @@ import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.pro
 import { Route as PortalInvoicesInvoiceIdRouteImport } from './routes/portal.invoices.$invoiceId'
 import { Route as PortalEnquiriesNewRouteImport } from './routes/portal.enquiries.new'
 import { Route as PortalEnquiriesEnquiryIdRouteImport } from './routes/portal.enquiries.$enquiryId'
-import { Route as AdminQuotationsNewRouteImport } from './routes/admin.quotations.new'
 import { Route as AdminQuotationsQuotationIdRouteImport } from './routes/admin.quotations.$quotationId'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
@@ -311,11 +310,6 @@ const PortalEnquiriesEnquiryIdRoute =
     path: '/enquiries/$enquiryId',
     getParentRoute: () => PortalRoute,
   } as any)
-const AdminQuotationsNewRoute = AdminQuotationsNewRouteImport.update({
-  id: '/quotations/new',
-  path: '/quotations/new',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminQuotationsQuotationIdRoute =
   AdminQuotationsQuotationIdRouteImport.update({
     id: '/quotations/$quotationId',
@@ -408,7 +402,6 @@ export interface FileRoutesByFullPath {
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/quotations/$quotationId': typeof AdminQuotationsQuotationIdRoute
-  '/admin/quotations/new': typeof AdminQuotationsNewRoute
   '/portal/enquiries/$enquiryId': typeof PortalEnquiriesEnquiryIdRoute
   '/portal/enquiries/new': typeof PortalEnquiriesNewRoute
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
@@ -465,7 +458,6 @@ export interface FileRoutesByTo {
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/quotations/$quotationId': typeof AdminQuotationsQuotationIdRoute
-  '/admin/quotations/new': typeof AdminQuotationsNewRoute
   '/portal/enquiries/$enquiryId': typeof PortalEnquiriesEnquiryIdRoute
   '/portal/enquiries/new': typeof PortalEnquiriesNewRoute
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
@@ -525,7 +517,6 @@ export interface FileRoutesById {
   '/admin/projects/$projectId': typeof AdminProjectsProjectIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/quotations/$quotationId': typeof AdminQuotationsQuotationIdRoute
-  '/admin/quotations/new': typeof AdminQuotationsNewRoute
   '/portal/enquiries/$enquiryId': typeof PortalEnquiriesEnquiryIdRoute
   '/portal/enquiries/new': typeof PortalEnquiriesNewRoute
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
@@ -586,7 +577,6 @@ export interface FileRouteTypes {
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/admin/quotations/$quotationId'
-    | '/admin/quotations/new'
     | '/portal/enquiries/$enquiryId'
     | '/portal/enquiries/new'
     | '/portal/invoices/$invoiceId'
@@ -643,7 +633,6 @@ export interface FileRouteTypes {
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/admin/quotations/$quotationId'
-    | '/admin/quotations/new'
     | '/portal/enquiries/$enquiryId'
     | '/portal/enquiries/new'
     | '/portal/invoices/$invoiceId'
@@ -702,7 +691,6 @@ export interface FileRouteTypes {
     | '/admin/projects/$projectId'
     | '/admin/projects/new'
     | '/admin/quotations/$quotationId'
-    | '/admin/quotations/new'
     | '/portal/enquiries/$enquiryId'
     | '/portal/enquiries/new'
     | '/portal/invoices/$invoiceId'
@@ -1077,13 +1065,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalEnquiriesEnquiryIdRouteImport
       parentRoute: typeof PortalRoute
     }
-    '/admin/quotations/new': {
-      id: '/admin/quotations/new'
-      path: '/quotations/new'
-      fullPath: '/admin/quotations/new'
-      preLoaderRoute: typeof AdminQuotationsNewRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/quotations/$quotationId': {
       id: '/admin/quotations/$quotationId'
       path: '/quotations/$quotationId'
@@ -1208,7 +1189,6 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminEnquiriesEnquiryIdRoute: typeof AdminEnquiriesEnquiryIdRouteWithChildren
   AdminQuotationsQuotationIdRoute: typeof AdminQuotationsQuotationIdRoute
-  AdminQuotationsNewRoute: typeof AdminQuotationsNewRoute
   AdminEnquiriesIndexRoute: typeof AdminEnquiriesIndexRoute
   AdminQuotationsIndexRoute: typeof AdminQuotationsIndexRoute
 }
@@ -1225,7 +1205,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminEnquiriesEnquiryIdRoute: AdminEnquiriesEnquiryIdRouteWithChildren,
   AdminQuotationsQuotationIdRoute: AdminQuotationsQuotationIdRoute,
-  AdminQuotationsNewRoute: AdminQuotationsNewRoute,
   AdminEnquiriesIndexRoute: AdminEnquiriesIndexRoute,
   AdminQuotationsIndexRoute: AdminQuotationsIndexRoute,
 }
