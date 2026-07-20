@@ -41,7 +41,7 @@ export const Route = createFileRoute("/portal/quotations/$quotationId")({
 function ClientQuotationDetail() {
   const { quotationId } = Route.useParams();
   const qc = useQueryClient();
-  const { session } = usePortalSession();
+  const { session, isAdmin } = usePortalSession();
   const { data, isLoading, error } = useQuery(quotationDetailQuery(quotationId));
   const [rejectOpen, setRejectOpen] = useState(false);
   const [reason, setReason] = useState("");
