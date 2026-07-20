@@ -4,10 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 export type QuotationStatus =
   | "Draft"
   | "Sent"
+  | "Viewed"
   | "Accepted"
   | "Rejected"
   | "Expired"
   | "Revised";
+
 
 export type AcceptanceMethod =
   | "Portal"
