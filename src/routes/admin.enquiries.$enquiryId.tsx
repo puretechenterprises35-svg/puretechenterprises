@@ -330,9 +330,56 @@ function AdminEnquiryDetailPage() {
                 <XCircle className="mr-2 h-4 w-4" /> Reject
               </Button>
             </div>
+
+            {linkedProjectQuery.data ? (
+              <div className="mt-4 rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm">
+                <div className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
+                  <FolderCheck className="h-4 w-4" /> Project Created ✓
+                </div>
+                <Button
+                  asChild
+                  variant="link"
+                  size="sm"
+                  className="mt-1 h-auto p-0 text-xs"
+                >
+                  <Link
+                    to="/admin/projects/$projectId"
+                    params={{ projectId: linkedProjectQuery.data.id }}
+                  >
+                    View {linkedProjectQuery.data.project_name}
+                  </Link>
+                </Button>
+              </div>
+            ) : data.status === "Approved" ? (
+              <div className="mt-4">
+                <Button
+                  className="w-full"
+                  onClick={() => setConvertOpen(true)}
+                  disabled={convertMutation.isPending}
+                >
+                  <Rocket className="mr-2 h-4 w-4" />
+                  {convertMutation.isPending ? "Converting…" : "Convert to Project"}
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={convertOpen}
+        onOpenChange={setConvertOpen}
+        title="Convert this enquiry into a project?"
+        description={
+          <>
+            A new project will be created for <strong>{data.title}</strong> and
+            the enquiry will be marked as <strong>Converted to Project</strong>.
+            The client will see it immediately.
+          </>
+        }
+        confirmLabel={convertMutation.isPending ? "Converting…" : "Convert"}
+        onConfirm={() => convertMutation.mutate()}
+      />
 
       <ConfirmDialog
         open={!!pending}
