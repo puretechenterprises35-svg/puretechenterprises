@@ -17,6 +17,7 @@ import {
 } from "@/lib/portal/quotations";
 import { generateQuotationPDF } from "@/lib/quotations/pdf";
 import { usePortalSession } from "@/hooks/use-portal-session";
+import { DEFAULT_CURRENCY } from "@/lib/currency";
 
 export const Route = createFileRoute("/admin/enquiries/$enquiryId/quotation")({
   ssr: false,
@@ -116,7 +117,7 @@ function EnquiryQuotationEditorPage() {
     ? {
         title: enquiry.data.title,
         description: enquiry.data.description,
-        currency: "KES",
+        currency: DEFAULT_CURRENCY,
         tax_rate: 16,
         vat_enabled: true,
         status: "Draft",
