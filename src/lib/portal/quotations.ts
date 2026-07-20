@@ -461,11 +461,10 @@ export async function deleteQuotation(id: string): Promise<void> {
   if (error) throw error;
 }
 
-export function formatMoney(amount: number, currency = "KES") {
-  return `${currency} ${Number(amount).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+import { formatCurrency, DEFAULT_CURRENCY } from "@/lib/currency";
+
+export function formatMoney(amount: number, currency: string = DEFAULT_CURRENCY) {
+  return formatCurrency(amount, currency);
 }
 
 export async function markQuotationViewed(

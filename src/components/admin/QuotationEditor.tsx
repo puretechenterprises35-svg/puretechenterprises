@@ -20,6 +20,7 @@ import {
   type QuotationItem,
   type QuotationStatus,
 } from "@/lib/portal/quotations";
+import { DEFAULT_CURRENCY, SUPPORTED_CURRENCIES } from "@/lib/currency";
 
 export type EditorValue = Omit<QuotationInput, "client_id" | "enquiry_id">;
 
@@ -55,7 +56,7 @@ export function QuotationEditor({
 }) {
   const [title, setTitle] = useState(initial?.title ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
-  const [currency, setCurrency] = useState(initial?.currency ?? "KES");
+  const [currency, setCurrency] = useState(initial?.currency ?? DEFAULT_CURRENCY);
   const [taxRate, setTaxRate] = useState<number>(initial?.tax_rate ?? 16);
   const [vatEnabled, setVatEnabled] = useState<boolean>(initial?.vat_enabled ?? true);
   const [status, setStatus] = useState<QuotationStatus>(initial?.status ?? "Draft");
@@ -138,11 +139,18 @@ export function QuotationEditor({
         </div>
         <div>
           <Label htmlFor="q-currency">Currency</Label>
-          <Input
-            id="q-currency"
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value.toUpperCase())}
-          />
+          <Select value={currency} onValueChange={(v) => setCurrency(v)}>
+            <SelectTrigger id="q-currency">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.values(SUPPORTED_CURRENCIES).map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <Label htmlFor="q-tax">Tax rate (%)</Label>

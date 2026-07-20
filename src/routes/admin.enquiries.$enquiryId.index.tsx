@@ -52,7 +52,7 @@ const STATUSES: EnquiryStatus[] = [
   "Converted to Project",
 ];
 
-export const Route = createFileRoute("/admin/enquiries/$enquiryId")({
+export const Route = createFileRoute("/admin/enquiries/$enquiryId/")({
   ssr: false,
   head: () => ({
     meta: [
@@ -210,7 +210,7 @@ function AdminEnquiryDetailPage() {
                 label="Estimated Budget"
                 value={
                   data.estimated_budget != null
-                    ? `KES ${data.estimated_budget.toLocaleString()}`
+                    ? formatMoney(data.estimated_budget)
                     : "—"
                 }
               />

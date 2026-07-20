@@ -183,7 +183,7 @@ function NewEnquiryPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="budget">Estimated Budget (KES)</Label>
+            <Label htmlFor="budget">Estimated Budget (ZMW)</Label>
             <Input
               id="budget"
               type="number"

@@ -8,6 +8,7 @@ import {
   getAttachmentUrl,
 } from "@/lib/portal/enquiries";
 import { LoadingScreen } from "@/components/portal/LoadingScreen";
+import { formatMoney } from "@/lib/portal/quotations";
 import { Button } from "@/components/ui/button";
 import {
   EnquiryStatusBadge,
@@ -83,7 +84,7 @@ function EnquiryDetailPage() {
             label="Estimated Budget"
             value={
               data.estimated_budget != null
-                ? `KES ${data.estimated_budget.toLocaleString()}`
+                ? formatMoney(data.estimated_budget)
                 : "—"
             }
           />
