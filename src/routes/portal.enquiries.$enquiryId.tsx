@@ -8,6 +8,7 @@ import {
   getAttachmentUrl,
 } from "@/lib/portal/enquiries";
 import { LoadingScreen } from "@/components/portal/LoadingScreen";
+import { formatMoney } from "@/lib/portal/quotations";
 import { Button } from "@/components/ui/button";
 import {
   EnquiryStatusBadge,
