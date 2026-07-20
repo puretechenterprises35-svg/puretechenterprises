@@ -139,11 +139,18 @@ export function QuotationEditor({
         </div>
         <div>
           <Label htmlFor="q-currency">Currency</Label>
-          <Input
-            id="q-currency"
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value.toUpperCase())}
-          />
+          <Select value={currency} onValueChange={(v) => setCurrency(v)}>
+            <SelectTrigger id="q-currency">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.values(SUPPORTED_CURRENCIES).map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <Label htmlFor="q-tax">Tax rate (%)</Label>
