@@ -9,12 +9,28 @@ export type QuotationStatus =
   | "Expired"
   | "Revised";
 
+export type AcceptanceMethod =
+  | "Portal"
+  | "Email"
+  | "WhatsApp"
+  | "Phone Call"
+  | "In Person";
+
+export const ACCEPTANCE_METHODS: AcceptanceMethod[] = [
+  "Portal",
+  "Email",
+  "WhatsApp",
+  "Phone Call",
+  "In Person",
+];
+
 export type QuotationItem = {
   id?: string;
   quotation_id?: string;
   description: string;
   quantity: number;
   unit_price: number;
+  discount: number;
   total: number;
   sort_order: number;
 };
@@ -27,6 +43,8 @@ export type Quotation = {
   title: string;
   description: string | null;
   subtotal: number;
+  discount_total: number;
+  vat_enabled: boolean;
   tax_rate: number;
   tax_amount: number;
   total_amount: number;
@@ -35,13 +53,21 @@ export type Quotation = {
   valid_until: string | null;
   notes: string | null;
   terms: string | null;
+  delivery_timeline: string | null;
+  payment_terms: string | null;
   pdf_path: string | null;
   revision: number;
+  sent_at: string | null;
   accepted_at: string | null;
   accepted_by: string | null;
+  acceptance_method: AcceptanceMethod | null;
+  acceptance_notes: string | null;
   rejected_at: string | null;
   rejection_reason: string | null;
+  clarification_note: string | null;
+  clarification_requested_at: string | null;
   created_by: string | null;
+  updated_by: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -152,34 +178,69 @@ export type QuotationInput = {
   title: string;
   description?: string | null;
   tax_rate: number;
+  vat_enabled: boolean;
   currency: string;
   status: QuotationStatus;
   valid_until: string | null;
   notes: string | null;
   terms: string | null;
+  delivery_timeline: string | null;
+  payment_terms: string | null;
   items: QuotationItem[];
 };
 
-function totals(items: QuotationItem[], taxRate: number) {
-  const subtotal = items.reduce(
-    (s, i) => s + Number(i.quantity || 0) * Number(i.unit_price || 0),
-    0
-  );
-  const tax_amount = +(subtotal * (Number(taxRate) || 0) / 100).toFixed(2);
+export function computeTotals(
+  items: QuotationItem[],
+  taxRate: number,
+  vatEnabled: boolean
+) {
+  let gross = 0;
+  let discount_total = 0;
+  for (const it of items) {
+    const line = Number(it.quantity || 0) * Number(it.unit_price || 0);
+    gross += line;
+    discount_total += Number(it.discount || 0);
+  }
+  const subtotal = +(gross - discount_total).toFixed(2);
+  const tax_amount = vatEnabled
+    ? +(subtotal * (Number(taxRate) || 0) / 100).toFixed(2)
+    : 0;
   const total_amount = +(subtotal + tax_amount).toFixed(2);
-  return { subtotal: +subtotal.toFixed(2), tax_amount, total_amount };
+  return {
+    subtotal,
+    discount_total: +discount_total.toFixed(2),
+    tax_amount,
+    total_amount,
+  };
+}
+
+function normalizeItems(items: QuotationItem[]): QuotationItem[] {
+  return items.map((it, idx) => {
+    const qty = Number(it.quantity || 0);
+    const price = Number(it.unit_price || 0);
+    const disc = Number(it.discount || 0);
+    const line = +(qty * price - disc).toFixed(2);
+    return {
+      ...it,
+      sort_order: idx,
+      quantity: qty,
+      unit_price: price,
+      discount: disc,
+      total: line,
+    };
+  });
 }
 
 export async function createQuotation(
   input: QuotationInput,
   createdBy: string
 ): Promise<Quotation> {
-  const items = input.items.map((it, idx) => ({
-    ...it,
-    sort_order: idx,
-    total: +(Number(it.quantity || 0) * Number(it.unit_price || 0)).toFixed(2),
-  }));
-  const { subtotal, tax_amount, total_amount } = totals(items, input.tax_rate);
+  const items = normalizeItems(input.items);
+  const { subtotal, discount_total, tax_amount, total_amount } = computeTotals(
+    items,
+    input.tax_rate,
+    input.vat_enabled
+  );
 
   const { data, error } = await supabase
     .from("quotations" as never)
@@ -189,15 +250,21 @@ export async function createQuotation(
       title: input.title,
       description: input.description ?? null,
       tax_rate: input.tax_rate,
+      vat_enabled: input.vat_enabled,
       currency: input.currency,
       status: input.status,
       valid_until: input.valid_until,
       notes: input.notes,
       terms: input.terms,
+      delivery_timeline: input.delivery_timeline,
+      payment_terms: input.payment_terms,
       subtotal,
+      discount_total,
       tax_amount,
       total_amount,
       created_by: createdBy,
+      updated_by: createdBy,
+      sent_at: input.status === "Sent" ? new Date().toISOString() : null,
     } as never)
     .select("*")
     .single();
@@ -215,14 +282,27 @@ export async function createQuotation(
 
 export async function updateQuotation(
   id: string,
-  input: QuotationInput
+  input: QuotationInput,
+  updatedBy?: string
 ): Promise<Quotation> {
-  const items = input.items.map((it, idx) => ({
-    ...it,
-    sort_order: idx,
-    total: +(Number(it.quantity || 0) * Number(it.unit_price || 0)).toFixed(2),
-  }));
-  const { subtotal, tax_amount, total_amount } = totals(items, input.tax_rate);
+  const items = normalizeItems(input.items);
+  const { subtotal, discount_total, tax_amount, total_amount } = computeTotals(
+    items,
+    input.tax_rate,
+    input.vat_enabled
+  );
+
+  // Read existing sent_at so we don't clobber it when transitioning to/from Sent
+  const { data: existing } = await supabase
+    .from("quotations" as never)
+    .select("sent_at, status")
+    .eq("id", id)
+    .maybeSingle();
+  const prev = existing as unknown as { sent_at: string | null; status: QuotationStatus } | null;
+  const sent_at =
+    input.status === "Sent" && !prev?.sent_at
+      ? new Date().toISOString()
+      : prev?.sent_at ?? null;
 
   const { data, error } = await supabase
     .from("quotations" as never)
@@ -230,14 +310,20 @@ export async function updateQuotation(
       title: input.title,
       description: input.description ?? null,
       tax_rate: input.tax_rate,
+      vat_enabled: input.vat_enabled,
       currency: input.currency,
       status: input.status,
       valid_until: input.valid_until,
       notes: input.notes,
       terms: input.terms,
+      delivery_timeline: input.delivery_timeline,
+      payment_terms: input.payment_terms,
       subtotal,
+      discount_total,
       tax_amount,
       total_amount,
+      updated_by: updatedBy ?? null,
+      sent_at,
     } as never)
     .eq("id", id)
     .select("*")
@@ -263,20 +349,40 @@ export async function updateQuotationStatus(
   id: string,
   status: QuotationStatus
 ): Promise<void> {
+  const patch: Record<string, unknown> = { status };
+  if (status === "Sent") patch.sent_at = new Date().toISOString();
   const { error } = await supabase
     .from("quotations" as never)
-    .update({ status } as never)
+    .update(patch as never)
     .eq("id", id);
   if (error) throw error;
 }
 
-export async function acceptQuotation(id: string, userId: string): Promise<void> {
+export async function sendQuotation(id: string): Promise<void> {
+  const { error } = await supabase
+    .from("quotations" as never)
+    .update({
+      status: "Sent",
+      sent_at: new Date().toISOString(),
+    } as never)
+    .eq("id", id);
+  if (error) throw error;
+}
+
+export async function acceptQuotation(
+  id: string,
+  userId: string,
+  method: AcceptanceMethod = "Portal",
+  notes: string | null = null
+): Promise<void> {
   const { error } = await supabase
     .from("quotations" as never)
     .update({
       status: "Accepted",
       accepted_at: new Date().toISOString(),
       accepted_by: userId,
+      acceptance_method: method,
+      acceptance_notes: notes,
     } as never)
     .eq("id", id);
   if (error) throw error;
@@ -292,6 +398,20 @@ export async function rejectQuotation(
       status: "Rejected",
       rejected_at: new Date().toISOString(),
       rejection_reason: reason,
+    } as never)
+    .eq("id", id);
+  if (error) throw error;
+}
+
+export async function requestClarification(
+  id: string,
+  note: string
+): Promise<void> {
+  const { error } = await supabase
+    .from("quotations" as never)
+    .update({
+      clarification_note: note,
+      clarification_requested_at: new Date().toISOString(),
     } as never)
     .eq("id", id);
   if (error) throw error;
