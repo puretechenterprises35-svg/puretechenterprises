@@ -84,6 +84,15 @@ export type QuotationClient = {
   phone: string | null;
 };
 
+export type QuotationEnquirySummary = {
+  id: string;
+  title: string;
+  service_category: string;
+  status: string;
+  reference_number: string | null;
+};
+
+
 // ---------- Queries ----------
 
 export const adminQuotationsQuery = () =>
