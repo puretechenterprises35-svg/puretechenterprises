@@ -31,7 +31,7 @@ const STATUSES: (EnquiryStatus | "All")[] = [
 ];
 const PAGE_SIZE = 15;
 
-export const Route = createFileRoute("/admin/enquiries")({
+export const Route = createFileRoute("/admin/enquiries/")({
   ssr: false,
   head: () => ({
     meta: [
