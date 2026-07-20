@@ -159,7 +159,7 @@ function AdminQuotationDetailPage() {
               <Send className="mr-1 h-4 w-4" /> Send to Client
             </Button>
           )}
-          {data.status === "Sent" && (
+          {(data.status === "Sent" || data.status === "Viewed") && (
             <>
               <Button size="sm" variant="outline" onClick={() => setAcceptOpen(true)}>
                 <CheckCircle2 className="mr-1 h-4 w-4" /> Mark Accepted
