@@ -234,7 +234,8 @@ export async function getProjectByEnquiryId(
 
 export async function convertEnquiryToProject(
   enquiry: EnquiryRow,
-  adminUserId: string
+  adminUserId: string,
+  quotationId?: string | null
 ): Promise<EnquiryProjectLink> {
   // Guard: already converted
   const existing = await getProjectByEnquiryId(enquiry.id);
@@ -270,6 +271,7 @@ export async function convertEnquiryToProject(
       progress_percentage: 0,
       start_date: today,
       enquiry_id: enquiry.id,
+      quotation_id: quotationId ?? null,
       created_by: adminUserId,
       source: "Enquiry",
     } as never)

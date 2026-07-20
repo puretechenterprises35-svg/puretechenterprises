@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Inbox,
   PlusSquare,
+  FileSignature,
 } from "lucide-react";
 import { NotificationCenter } from "./NotificationCenter";
 import { RoleGuard } from "./RoleGuard";
@@ -38,6 +39,7 @@ const NAV_ITEMS = [
   { to: "/portal/projects", label: "Projects", icon: FolderKanban },
   { to: "/portal/enquiries/new", label: "New Enquiry", icon: PlusSquare },
   { to: "/portal/enquiries", label: "My Enquiries", icon: Inbox },
+  { to: "/portal/quotations", label: "Quotations", icon: FileSignature },
   { to: "/portal/documents", label: "Documents", icon: FileText },
   { to: "/portal/payments", label: "Payments", icon: CreditCard },
   { to: "/portal/messages", label: "Messages", icon: MessageSquare },
