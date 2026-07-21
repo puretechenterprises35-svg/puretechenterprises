@@ -398,6 +398,17 @@ function AdminQuotationDetailPage() {
           del.mutate();
         }}
       />
+      <ConfirmDialog
+        open={confirmConvert}
+        onOpenChange={setConfirmConvert}
+        title="Convert quotation to project?"
+        description="A new project will be created from this quotation and linked back. The client will see it in their portal."
+        confirmLabel="Create project"
+        onConfirm={() => {
+          setConfirmConvert(false);
+          convert.mutate();
+        }}
+      />
     </AdminShell>
   );
 }
