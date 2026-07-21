@@ -130,6 +130,18 @@ function AdminQuotationDetailPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const convert = useMutation({
+    mutationFn: () => convertQuotationToProject(quotationId),
+    onSuccess: (projectId) => {
+      toast.success("Project created from quotation");
+      qc.invalidateQueries({ queryKey: ["quotations"] });
+      qc.invalidateQueries({ queryKey: ["admin"] });
+      qc.invalidateQueries({ queryKey: ["portal"] });
+      navigate({ to: "/admin/projects/$projectId", params: { projectId } });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   if (isLoading) return <LoadingScreen />;
   if (error || !data) {
     return (
