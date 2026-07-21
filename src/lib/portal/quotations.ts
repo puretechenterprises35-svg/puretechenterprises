@@ -462,6 +462,16 @@ export async function deleteQuotation(id: string): Promise<void> {
   if (error) throw error;
 }
 
+export async function convertQuotationToProject(quotationId: string): Promise<string> {
+  const { data, error } = await supabase.rpc(
+    "create_project_from_quotation" as never,
+    { _quotation_id: quotationId } as never
+  );
+  if (error) throw error;
+  return data as unknown as string;
+}
+
+
 import { formatCurrency, DEFAULT_CURRENCY } from "@/lib/currency";
 
 export function formatMoney(amount: number, currency: string = DEFAULT_CURRENCY) {
