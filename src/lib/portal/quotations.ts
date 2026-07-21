@@ -70,6 +70,7 @@ export type Quotation = {
   clarification_requested_at: string | null;
   created_by: string | null;
   updated_by: string | null;
+  project_id: string | null;
   created_at: string;
   updated_at: string;
 };
