@@ -11,6 +11,7 @@ import {
   useCreateProjectUpdate, useDeleteProjectUpdate,
 } from "@/lib/admin/queries";
 import { projectUpdatesQueryOptions } from "@/lib/portal/projects";
+import { formatCurrency } from "@/lib/currency";
 import { Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
