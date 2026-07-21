@@ -38,6 +38,7 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import {
   ACCEPTANCE_METHODS,
   acceptQuotation,
+  convertQuotationToProject,
   deleteQuotation,
   formatMoney,
   quotationDetailQuery,
