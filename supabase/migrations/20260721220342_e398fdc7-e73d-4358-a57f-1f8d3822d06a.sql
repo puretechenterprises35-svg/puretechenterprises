@@ -1,0 +1,6 @@
+DROP POLICY IF EXISTS "Anyone can view settings" ON public.system_settings;
+CREATE POLICY "Authenticated users can view settings"
+  ON public.system_settings
+  FOR SELECT
+  TO authenticated
+  USING (true);
