@@ -13,6 +13,7 @@ export type ProjectPriority = "Low" | "Medium" | "High" | "Urgent";
 export interface Project {
   id: string;
   client_id: string;
+  project_number: string | null;
   project_name: string;
   service_category: string | null;
   description: string | null;
@@ -22,6 +23,12 @@ export interface Project {
   start_date: string | null;
   due_date: string | null;
   completion_date: string | null;
+  enquiry_id: string | null;
+  quotation_id: string | null;
+  contract_value: number | null;
+  currency: string | null;
+  vat_amount: number | null;
+  grand_total: number | null;
   created_at: string;
   updated_at: string;
 }
