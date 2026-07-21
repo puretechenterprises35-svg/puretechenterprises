@@ -64,10 +64,12 @@ export const Route = createFileRoute("/admin/quotations/$quotationId")({
 function AdminQuotationDetailPage() {
   const { quotationId } = Route.useParams();
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { session } = usePortalSession();
   const { data, isLoading, error } = useQuery(quotationDetailQuery(quotationId));
 
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmConvert, setConfirmConvert] = useState(false);
   const [acceptOpen, setAcceptOpen] = useState(false);
   const [acceptMethod, setAcceptMethod] = useState<AcceptanceMethod>("Portal");
   const [acceptNotes, setAcceptNotes] = useState("");
