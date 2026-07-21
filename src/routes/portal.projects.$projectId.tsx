@@ -70,10 +70,24 @@ function ProjectDetailsPage() {
 
       <header className="flex flex-wrap items-start justify-between gap-4 rounded-xl border border-border bg-card p-6 shadow-soft">
         <div className="min-w-0">
+          {project.project_number && (
+            <p className="mb-1 font-mono text-xs text-muted-foreground">{project.project_number}</p>
+          )}
           <h1 className="text-2xl font-bold text-foreground">{project.project_name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {project.service_category ?? "General"}
           </p>
+          {project.grand_total != null && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Contract total:{" "}
+              <span className="font-medium text-foreground">
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: project.currency ?? "ZMW",
+                }).format(Number(project.grand_total))}
+              </span>
+            </p>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <ProjectStatusBadge status={project.status} />
