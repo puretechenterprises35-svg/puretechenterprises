@@ -781,6 +781,138 @@ export type Database = {
         }
         Relationships: []
       }
+      system_settings: {
+        Row: {
+          accounts_email: string | null
+          alternative_phone: string | null
+          city: string | null
+          company_email: string | null
+          company_name: string
+          company_phone: string | null
+          country: string | null
+          created_at: string
+          date_format: string
+          default_currency: string
+          default_invoice_due_days: number
+          default_payment_terms: string | null
+          default_project_status: string
+          default_quotation_validity_days: number
+          default_vat_rate: number
+          facebook_url: string | null
+          favicon_url: string | null
+          id: number
+          instagram_url: string | null
+          invoice_prefix: string
+          linkedin_url: string | null
+          logo_url: string | null
+          number_format: string
+          physical_address: string | null
+          postal_address: string | null
+          project_prefix: string
+          quotation_prefix: string
+          registration_number: string | null
+          sales_email: string | null
+          stamp_url: string | null
+          support_email: string | null
+          support_phone: string | null
+          timezone: string
+          tpin: string | null
+          trading_name: string | null
+          twitter_url: string | null
+          updated_at: string
+          updated_by: string | null
+          website: string | null
+          whatsapp_number: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          accounts_email?: string | null
+          alternative_phone?: string | null
+          city?: string | null
+          company_email?: string | null
+          company_name?: string
+          company_phone?: string | null
+          country?: string | null
+          created_at?: string
+          date_format?: string
+          default_currency?: string
+          default_invoice_due_days?: number
+          default_payment_terms?: string | null
+          default_project_status?: string
+          default_quotation_validity_days?: number
+          default_vat_rate?: number
+          facebook_url?: string | null
+          favicon_url?: string | null
+          id?: number
+          instagram_url?: string | null
+          invoice_prefix?: string
+          linkedin_url?: string | null
+          logo_url?: string | null
+          number_format?: string
+          physical_address?: string | null
+          postal_address?: string | null
+          project_prefix?: string
+          quotation_prefix?: string
+          registration_number?: string | null
+          sales_email?: string | null
+          stamp_url?: string | null
+          support_email?: string | null
+          support_phone?: string | null
+          timezone?: string
+          tpin?: string | null
+          trading_name?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          website?: string | null
+          whatsapp_number?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          accounts_email?: string | null
+          alternative_phone?: string | null
+          city?: string | null
+          company_email?: string | null
+          company_name?: string
+          company_phone?: string | null
+          country?: string | null
+          created_at?: string
+          date_format?: string
+          default_currency?: string
+          default_invoice_due_days?: number
+          default_payment_terms?: string | null
+          default_project_status?: string
+          default_quotation_validity_days?: number
+          default_vat_rate?: number
+          facebook_url?: string | null
+          favicon_url?: string | null
+          id?: number
+          instagram_url?: string | null
+          invoice_prefix?: string
+          linkedin_url?: string | null
+          logo_url?: string | null
+          number_format?: string
+          physical_address?: string | null
+          postal_address?: string | null
+          project_prefix?: string
+          quotation_prefix?: string
+          registration_number?: string | null
+          sales_email?: string | null
+          stamp_url?: string | null
+          support_email?: string | null
+          support_phone?: string | null
+          timezone?: string
+          tpin?: string | null
+          trading_name?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          website?: string | null
+          whatsapp_number?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
