@@ -13,6 +13,7 @@ export type ProjectPriority = "Low" | "Medium" | "High" | "Urgent";
 export interface Project {
   id: string;
   client_id: string;
+  project_number: string | null;
   project_name: string;
   service_category: string | null;
   description: string | null;
@@ -22,6 +23,12 @@ export interface Project {
   start_date: string | null;
   due_date: string | null;
   completion_date: string | null;
+  enquiry_id: string | null;
+  quotation_id: string | null;
+  contract_value: number | null;
+  currency: string | null;
+  vat_amount: number | null;
+  grand_total: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -44,7 +51,7 @@ export const projectsQueryOptions = () =>
       const { data, error } = await supabase
         .from("projects")
         .select(
-          "id,client_id,project_name,service_category,description,status,progress_percentage,priority,start_date,due_date,completion_date,created_at,updated_at"
+          "id,client_id,project_number,project_name,service_category,description,status,progress_percentage,priority,start_date,due_date,completion_date,enquiry_id,quotation_id,contract_value,currency,vat_amount,grand_total,created_at,updated_at"
         )
         .order("updated_at", { ascending: false });
       if (error) throw error;
@@ -60,7 +67,7 @@ export const projectQueryOptions = (id: string) =>
       const { data, error } = await supabase
         .from("projects")
         .select(
-          "id,client_id,project_name,service_category,description,status,progress_percentage,priority,start_date,due_date,completion_date,created_at,updated_at"
+          "id,client_id,project_number,project_name,service_category,description,status,progress_percentage,priority,start_date,due_date,completion_date,enquiry_id,quotation_id,contract_value,currency,vat_amount,grand_total,created_at,updated_at"
         )
         .eq("id", id)
         .maybeSingle();

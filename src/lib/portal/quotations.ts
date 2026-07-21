@@ -70,6 +70,7 @@ export type Quotation = {
   clarification_requested_at: string | null;
   created_by: string | null;
   updated_by: string | null;
+  project_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -460,6 +461,16 @@ export async function deleteQuotation(id: string): Promise<void> {
   const { error } = await supabase.from("quotations" as never).delete().eq("id", id);
   if (error) throw error;
 }
+
+export async function convertQuotationToProject(quotationId: string): Promise<string> {
+  const { data, error } = await supabase.rpc(
+    "create_project_from_quotation" as never,
+    { _quotation_id: quotationId } as never
+  );
+  if (error) throw error;
+  return data as unknown as string;
+}
+
 
 import { formatCurrency, DEFAULT_CURRENCY } from "@/lib/currency";
 

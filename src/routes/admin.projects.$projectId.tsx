@@ -11,6 +11,7 @@ import {
   useCreateProjectUpdate, useDeleteProjectUpdate,
 } from "@/lib/admin/queries";
 import { projectUpdatesQueryOptions } from "@/lib/portal/projects";
+import { formatCurrency } from "@/lib/currency";
 import { Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,6 +47,7 @@ function AdminProjectDetail() {
     <AdminShell title={p.project_name}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2 text-sm">
+          {p.project_number && <Badge variant="outline" className="font-mono">{p.project_number}</Badge>}
           <Badge variant="outline">{p.status}</Badge>
           <Badge variant="outline">Priority: {p.priority}</Badge>
           {p.archived_at && <Badge variant="destructive">Archived</Badge>}
@@ -71,6 +73,39 @@ function AdminProjectDetail() {
           })}>Delete</Button>
         </div>
       </div>
+
+      {(p.quotation_id || p.enquiry_id || p.contract_value != null) && (
+        <div className="grid gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm shadow-soft sm:grid-cols-4">
+          {p.quotation_id && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Quotation</p>
+              <Button asChild variant="link" size="sm" className="px-0">
+                <Link to="/admin/quotations/$quotationId" params={{ quotationId: p.quotation_id }}>View quotation</Link>
+              </Button>
+            </div>
+          )}
+          {p.enquiry_id && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Enquiry</p>
+              <Button asChild variant="link" size="sm" className="px-0">
+                <Link to="/admin/enquiries/$enquiryId" params={{ enquiryId: p.enquiry_id }}>View enquiry</Link>
+              </Button>
+            </div>
+          )}
+          {p.contract_value != null && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Contract value</p>
+              <p className="font-medium">{formatCurrency(Number(p.contract_value), p.currency ?? undefined)}</p>
+            </div>
+          )}
+          {p.grand_total != null && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Grand total (incl. VAT)</p>
+              <p className="font-medium">{formatCurrency(Number(p.grand_total), p.currency ?? undefined)}</p>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">

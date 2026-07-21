@@ -208,6 +208,7 @@ export type Database = {
           id: string
           preferred_completion_date: string | null
           priority: Database["public"]["Enums"]["enquiry_priority"]
+          project_id: string | null
           service_category: string
           status: Database["public"]["Enums"]["enquiry_status"]
           title: string
@@ -223,6 +224,7 @@ export type Database = {
           id?: string
           preferred_completion_date?: string | null
           priority?: Database["public"]["Enums"]["enquiry_priority"]
+          project_id?: string | null
           service_category: string
           status?: Database["public"]["Enums"]["enquiry_status"]
           title: string
@@ -238,6 +240,7 @@ export type Database = {
           id?: string
           preferred_completion_date?: string | null
           priority?: Database["public"]["Enums"]["enquiry_priority"]
+          project_id?: string | null
           service_category?: string
           status?: Database["public"]["Enums"]["enquiry_status"]
           title?: string
@@ -249,6 +252,13 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enquiries_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
@@ -483,61 +493,76 @@ export type Database = {
           archived_at: string | null
           client_id: string
           completion_date: string | null
+          contract_value: number | null
           created_at: string
           created_by: string | null
+          currency: string | null
           description: string | null
           due_date: string | null
           enquiry_id: string | null
+          grand_total: number | null
           id: string
           priority: string
           progress_percentage: number
           project_name: string
+          project_number: string | null
           quotation_id: string | null
           service_category: string | null
           source: string | null
           start_date: string | null
           status: string
           updated_at: string
+          vat_amount: number | null
         }
         Insert: {
           archived_at?: string | null
           client_id: string
           completion_date?: string | null
+          contract_value?: number | null
           created_at?: string
           created_by?: string | null
+          currency?: string | null
           description?: string | null
           due_date?: string | null
           enquiry_id?: string | null
+          grand_total?: number | null
           id?: string
           priority?: string
           progress_percentage?: number
           project_name: string
+          project_number?: string | null
           quotation_id?: string | null
           service_category?: string | null
           source?: string | null
           start_date?: string | null
           status?: string
           updated_at?: string
+          vat_amount?: number | null
         }
         Update: {
           archived_at?: string | null
           client_id?: string
           completion_date?: string | null
+          contract_value?: number | null
           created_at?: string
           created_by?: string | null
+          currency?: string | null
           description?: string | null
           due_date?: string | null
           enquiry_id?: string | null
+          grand_total?: number | null
           id?: string
           priority?: string
           progress_percentage?: number
           project_name?: string
+          project_number?: string | null
           quotation_id?: string | null
           service_category?: string | null
           source?: string | null
           start_date?: string | null
           status?: string
           updated_at?: string
+          vat_amount?: number | null
         }
         Relationships: [
           {
@@ -627,6 +652,7 @@ export type Database = {
           notes: string | null
           payment_terms: string | null
           pdf_path: string | null
+          project_id: string | null
           quote_number: string
           rejected_at: string | null
           rejection_reason: string | null
@@ -665,6 +691,7 @@ export type Database = {
           notes?: string | null
           payment_terms?: string | null
           pdf_path?: string | null
+          project_id?: string | null
           quote_number: string
           rejected_at?: string | null
           rejection_reason?: string | null
@@ -703,6 +730,7 @@ export type Database = {
           notes?: string | null
           payment_terms?: string | null
           pdf_path?: string | null
+          project_id?: string | null
           quote_number?: string
           rejected_at?: string | null
           rejection_reason?: string | null
@@ -735,6 +763,13 @@ export type Database = {
             columns: ["enquiry_id"]
             isOneToOne: false
             referencedRelation: "enquiries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
@@ -939,6 +974,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_project_from_quotation: {
+        Args: { _quotation_id: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

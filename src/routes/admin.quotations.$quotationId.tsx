@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -9,6 +9,7 @@ import {
   Trash2,
   FileDown,
   MessageSquareWarning,
+  Rocket,
 } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -37,6 +38,7 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import {
   ACCEPTANCE_METHODS,
   acceptQuotation,
+  convertQuotationToProject,
   deleteQuotation,
   formatMoney,
   quotationDetailQuery,
@@ -62,10 +64,12 @@ export const Route = createFileRoute("/admin/quotations/$quotationId")({
 function AdminQuotationDetailPage() {
   const { quotationId } = Route.useParams();
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { session } = usePortalSession();
   const { data, isLoading, error } = useQuery(quotationDetailQuery(quotationId));
 
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmConvert, setConfirmConvert] = useState(false);
   const [acceptOpen, setAcceptOpen] = useState(false);
   const [acceptMethod, setAcceptMethod] = useState<AcceptanceMethod>("Portal");
   const [acceptNotes, setAcceptNotes] = useState("");
@@ -126,6 +130,18 @@ function AdminQuotationDetailPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const convert = useMutation({
+    mutationFn: () => convertQuotationToProject(quotationId),
+    onSuccess: (projectId) => {
+      toast.success("Project created from quotation");
+      qc.invalidateQueries({ queryKey: ["quotations"] });
+      qc.invalidateQueries({ queryKey: ["admin"] });
+      qc.invalidateQueries({ queryKey: ["portal"] });
+      navigate({ to: "/admin/projects/$projectId", params: { projectId } });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   if (isLoading) return <LoadingScreen />;
   if (error || !data) {
     return (
@@ -176,11 +192,37 @@ function AdminQuotationDetailPage() {
               </Button>
             </>
           )}
+          {data.status === "Accepted" && !data.project_id && (
+            <Button size="sm" onClick={() => setConfirmConvert(true)} disabled={convert.isPending}>
+              <Rocket className="mr-1 h-4 w-4" />
+              {convert.isPending ? "Converting…" : "Convert to Project"}
+            </Button>
+          )}
+          {data.project_id && (
+            <Button asChild size="sm" variant="outline">
+              <Link to="/admin/projects/$projectId" params={{ projectId: data.project_id }}>
+                <Rocket className="mr-1 h-4 w-4" /> Open Project
+              </Link>
+            </Button>
+          )}
           <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(true)}>
             <Trash2 className="mr-1 h-4 w-4 text-destructive" /> Delete
           </Button>
         </div>
       </div>
+
+      {data.project_id && (
+        <div className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm shadow-soft">
+          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
+            Project already created from this quotation.
+          </p>
+          <Button asChild size="sm" variant="link" className="px-0">
+            <Link to="/admin/projects/$projectId" params={{ projectId: data.project_id }}>
+              Open project →
+            </Link>
+          </Button>
+        </div>
+      )}
 
       {data.enquiry && (
         <div className="mb-4 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm shadow-soft">
@@ -354,6 +396,17 @@ function AdminQuotationDetailPage() {
         onConfirm={() => {
           setConfirmDelete(false);
           del.mutate();
+        }}
+      />
+      <ConfirmDialog
+        open={confirmConvert}
+        onOpenChange={setConfirmConvert}
+        title="Convert quotation to project?"
+        description="A new project will be created from this quotation and linked back. The client will see it in their portal."
+        confirmLabel="Create project"
+        onConfirm={() => {
+          setConfirmConvert(false);
+          convert.mutate();
         }}
       />
     </AdminShell>
