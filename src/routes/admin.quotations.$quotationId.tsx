@@ -192,11 +192,37 @@ function AdminQuotationDetailPage() {
               </Button>
             </>
           )}
+          {data.status === "Accepted" && !data.project_id && (
+            <Button size="sm" onClick={() => setConfirmConvert(true)} disabled={convert.isPending}>
+              <Rocket className="mr-1 h-4 w-4" />
+              {convert.isPending ? "Converting…" : "Convert to Project"}
+            </Button>
+          )}
+          {data.project_id && (
+            <Button asChild size="sm" variant="outline">
+              <Link to="/admin/projects/$projectId" params={{ projectId: data.project_id }}>
+                <Rocket className="mr-1 h-4 w-4" /> Open Project
+              </Link>
+            </Button>
+          )}
           <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(true)}>
             <Trash2 className="mr-1 h-4 w-4 text-destructive" /> Delete
           </Button>
         </div>
       </div>
+
+      {data.project_id && (
+        <div className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm shadow-soft">
+          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
+            Project already created from this quotation.
+          </p>
+          <Button asChild size="sm" variant="link" className="px-0">
+            <Link to="/admin/projects/$projectId" params={{ projectId: data.project_id }}>
+              Open project →
+            </Link>
+          </Button>
+        </div>
+      )}
 
       {data.enquiry && (
         <div className="mb-4 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm shadow-soft">
