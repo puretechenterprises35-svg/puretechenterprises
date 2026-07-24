@@ -54,7 +54,13 @@ import { Route as PortalQuotationsIndexRouteImport } from './routes/portal.quota
 import { Route as PortalEnquiriesIndexRouteImport } from './routes/portal.enquiries.index'
 import { Route as AdminQuotationsIndexRouteImport } from './routes/admin.quotations.index'
 import { Route as AdminEnquiriesIndexRouteImport } from './routes/admin.enquiries.index'
+import { Route as PtbsMasterDataTemplatesRouteImport } from './routes/ptbs.master-data.templates'
+import { Route as PtbsMasterDataServicesRouteImport } from './routes/ptbs.master-data.services'
+import { Route as PtbsMasterDataReportsRouteImport } from './routes/ptbs.master-data.reports'
+import { Route as PtbsMasterDataPackagesRouteImport } from './routes/ptbs.master-data.packages'
+import { Route as PtbsMasterDataDivisionsRouteImport } from './routes/ptbs.master-data.divisions'
 import { Route as PtbsMasterDataDashboardRouteImport } from './routes/ptbs.master-data.dashboard'
+import { Route as PtbsMasterDataCategoriesRouteImport } from './routes/ptbs.master-data.categories'
 import { Route as PortalQuotationsQuotationIdRouteImport } from './routes/portal.quotations.$quotationId'
 import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
 import { Route as PortalInvoicesInvoiceIdRouteImport } from './routes/portal.invoices.$invoiceId'
@@ -296,11 +302,42 @@ const AdminEnquiriesIndexRoute = AdminEnquiriesIndexRouteImport.update({
   path: '/enquiries/',
   getParentRoute: () => AdminRoute,
 } as any)
+const PtbsMasterDataTemplatesRoute = PtbsMasterDataTemplatesRouteImport.update({
+  id: '/master-data/templates',
+  path: '/master-data/templates',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataServicesRoute = PtbsMasterDataServicesRouteImport.update({
+  id: '/master-data/services',
+  path: '/master-data/services',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataReportsRoute = PtbsMasterDataReportsRouteImport.update({
+  id: '/master-data/reports',
+  path: '/master-data/reports',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataPackagesRoute = PtbsMasterDataPackagesRouteImport.update({
+  id: '/master-data/packages',
+  path: '/master-data/packages',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataDivisionsRoute = PtbsMasterDataDivisionsRouteImport.update({
+  id: '/master-data/divisions',
+  path: '/master-data/divisions',
+  getParentRoute: () => PtbsRoute,
+} as any)
 const PtbsMasterDataDashboardRoute = PtbsMasterDataDashboardRouteImport.update({
   id: '/master-data/dashboard',
   path: '/master-data/dashboard',
   getParentRoute: () => PtbsRoute,
 } as any)
+const PtbsMasterDataCategoriesRoute =
+  PtbsMasterDataCategoriesRouteImport.update({
+    id: '/master-data/categories',
+    path: '/master-data/categories',
+    getParentRoute: () => PtbsRoute,
+  } as any)
 const PortalQuotationsQuotationIdRoute =
   PortalQuotationsQuotationIdRouteImport.update({
     id: '/quotations/$quotationId',
@@ -427,7 +464,13 @@ export interface FileRoutesByFullPath {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
   '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries/': typeof AdminEnquiriesIndexRoute
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
@@ -485,7 +528,13 @@ export interface FileRoutesByTo {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
   '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries': typeof AdminEnquiriesIndexRoute
   '/admin/quotations': typeof AdminQuotationsIndexRoute
   '/portal/enquiries': typeof PortalEnquiriesIndexRoute
@@ -547,7 +596,13 @@ export interface FileRoutesById {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
   '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries/': typeof AdminEnquiriesIndexRoute
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
@@ -610,7 +665,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
     | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries/'
     | '/admin/quotations/'
     | '/portal/enquiries/'
@@ -668,7 +729,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
     | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries'
     | '/admin/quotations'
     | '/portal/enquiries'
@@ -729,7 +796,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
     | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries/'
     | '/admin/quotations/'
     | '/portal/enquiries/'
@@ -1080,11 +1153,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEnquiriesIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/ptbs/master-data/templates': {
+      id: '/ptbs/master-data/templates'
+      path: '/master-data/templates'
+      fullPath: '/ptbs/master-data/templates'
+      preLoaderRoute: typeof PtbsMasterDataTemplatesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/services': {
+      id: '/ptbs/master-data/services'
+      path: '/master-data/services'
+      fullPath: '/ptbs/master-data/services'
+      preLoaderRoute: typeof PtbsMasterDataServicesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/reports': {
+      id: '/ptbs/master-data/reports'
+      path: '/master-data/reports'
+      fullPath: '/ptbs/master-data/reports'
+      preLoaderRoute: typeof PtbsMasterDataReportsRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/packages': {
+      id: '/ptbs/master-data/packages'
+      path: '/master-data/packages'
+      fullPath: '/ptbs/master-data/packages'
+      preLoaderRoute: typeof PtbsMasterDataPackagesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/divisions': {
+      id: '/ptbs/master-data/divisions'
+      path: '/master-data/divisions'
+      fullPath: '/ptbs/master-data/divisions'
+      preLoaderRoute: typeof PtbsMasterDataDivisionsRouteImport
+      parentRoute: typeof PtbsRoute
+    }
     '/ptbs/master-data/dashboard': {
       id: '/ptbs/master-data/dashboard'
       path: '/master-data/dashboard'
       fullPath: '/ptbs/master-data/dashboard'
       preLoaderRoute: typeof PtbsMasterDataDashboardRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/categories': {
+      id: '/ptbs/master-data/categories'
+      path: '/master-data/categories'
+      fullPath: '/ptbs/master-data/categories'
+      preLoaderRoute: typeof PtbsMasterDataCategoriesRouteImport
       parentRoute: typeof PtbsRoute
     }
     '/portal/quotations/$quotationId': {
@@ -1310,12 +1425,24 @@ const PortalRouteWithChildren =
 
 interface PtbsRouteChildren {
   PtbsIndexRoute: typeof PtbsIndexRoute
+  PtbsMasterDataCategoriesRoute: typeof PtbsMasterDataCategoriesRoute
   PtbsMasterDataDashboardRoute: typeof PtbsMasterDataDashboardRoute
+  PtbsMasterDataDivisionsRoute: typeof PtbsMasterDataDivisionsRoute
+  PtbsMasterDataPackagesRoute: typeof PtbsMasterDataPackagesRoute
+  PtbsMasterDataReportsRoute: typeof PtbsMasterDataReportsRoute
+  PtbsMasterDataServicesRoute: typeof PtbsMasterDataServicesRoute
+  PtbsMasterDataTemplatesRoute: typeof PtbsMasterDataTemplatesRoute
 }
 
 const PtbsRouteChildren: PtbsRouteChildren = {
   PtbsIndexRoute: PtbsIndexRoute,
+  PtbsMasterDataCategoriesRoute: PtbsMasterDataCategoriesRoute,
   PtbsMasterDataDashboardRoute: PtbsMasterDataDashboardRoute,
+  PtbsMasterDataDivisionsRoute: PtbsMasterDataDivisionsRoute,
+  PtbsMasterDataPackagesRoute: PtbsMasterDataPackagesRoute,
+  PtbsMasterDataReportsRoute: PtbsMasterDataReportsRoute,
+  PtbsMasterDataServicesRoute: PtbsMasterDataServicesRoute,
+  PtbsMasterDataTemplatesRoute: PtbsMasterDataTemplatesRoute,
 }
 
 const PtbsRouteWithChildren = PtbsRoute._addFileChildren(PtbsRouteChildren)
