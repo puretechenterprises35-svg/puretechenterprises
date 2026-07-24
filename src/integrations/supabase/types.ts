@@ -80,6 +80,45 @@ export type Database = {
         }
         Relationships: []
       }
+      divisions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          display_order: number
+          division_code: string
+          division_name: string
+          id: string
+          status: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          display_order?: number
+          division_code: string
+          division_name: string
+          id?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          display_order?: number
+          division_code?: string
+          division_name?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       document_activity: {
         Row: {
           action: string
@@ -816,6 +855,42 @@ export type Database = {
         }
         Relationships: []
       }
+      system_sequences: {
+        Row: {
+          created_at: string
+          current_number: number
+          id: string
+          last_reset_year: number | null
+          number_length: number
+          prefix: string
+          sequence_name: string
+          updated_at: string
+          yearly_reset: boolean
+        }
+        Insert: {
+          created_at?: string
+          current_number?: number
+          id?: string
+          last_reset_year?: number | null
+          number_length?: number
+          prefix: string
+          sequence_name: string
+          updated_at?: string
+          yearly_reset?: boolean
+        }
+        Update: {
+          created_at?: string
+          current_number?: number
+          id?: string
+          last_reset_year?: number | null
+          number_length?: number
+          prefix?: string
+          sequence_name?: string
+          updated_at?: string
+          yearly_reset?: boolean
+        }
+        Relationships: []
+      }
       system_settings: {
         Row: {
           accounts_email: string | null
@@ -978,6 +1053,7 @@ export type Database = {
         Args: { _quotation_id: string }
         Returns: string
       }
+      generate_next_code: { Args: { _sequence_name: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
