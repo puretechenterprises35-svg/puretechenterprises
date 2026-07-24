@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as PtbsRouteImport } from './routes/ptbs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrintingBrandingRouteImport } from './routes/printing-branding'
 import { Route as PortalRouteImport } from './routes/portal'
@@ -27,6 +28,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PtbsIndexRouteImport } from './routes/ptbs.index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PortalRegisterRouteImport } from './routes/portal.register'
@@ -52,6 +54,13 @@ import { Route as PortalQuotationsIndexRouteImport } from './routes/portal.quota
 import { Route as PortalEnquiriesIndexRouteImport } from './routes/portal.enquiries.index'
 import { Route as AdminQuotationsIndexRouteImport } from './routes/admin.quotations.index'
 import { Route as AdminEnquiriesIndexRouteImport } from './routes/admin.enquiries.index'
+import { Route as PtbsMasterDataTemplatesRouteImport } from './routes/ptbs.master-data.templates'
+import { Route as PtbsMasterDataServicesRouteImport } from './routes/ptbs.master-data.services'
+import { Route as PtbsMasterDataReportsRouteImport } from './routes/ptbs.master-data.reports'
+import { Route as PtbsMasterDataPackagesRouteImport } from './routes/ptbs.master-data.packages'
+import { Route as PtbsMasterDataDivisionsRouteImport } from './routes/ptbs.master-data.divisions'
+import { Route as PtbsMasterDataDashboardRouteImport } from './routes/ptbs.master-data.dashboard'
+import { Route as PtbsMasterDataCategoriesRouteImport } from './routes/ptbs.master-data.categories'
 import { Route as PortalQuotationsQuotationIdRouteImport } from './routes/portal.quotations.$quotationId'
 import { Route as PortalProjectsProjectIdRouteImport } from './routes/portal.projects.$projectId'
 import { Route as PortalInvoicesInvoiceIdRouteImport } from './routes/portal.invoices.$invoiceId'
@@ -94,6 +103,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PtbsRoute = PtbsRouteImport.update({
+  id: '/ptbs',
+  path: '/ptbs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -155,6 +169,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PtbsIndexRoute = PtbsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PtbsRoute,
 } as any)
 const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/',
@@ -283,6 +302,42 @@ const AdminEnquiriesIndexRoute = AdminEnquiriesIndexRouteImport.update({
   path: '/enquiries/',
   getParentRoute: () => AdminRoute,
 } as any)
+const PtbsMasterDataTemplatesRoute = PtbsMasterDataTemplatesRouteImport.update({
+  id: '/master-data/templates',
+  path: '/master-data/templates',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataServicesRoute = PtbsMasterDataServicesRouteImport.update({
+  id: '/master-data/services',
+  path: '/master-data/services',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataReportsRoute = PtbsMasterDataReportsRouteImport.update({
+  id: '/master-data/reports',
+  path: '/master-data/reports',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataPackagesRoute = PtbsMasterDataPackagesRouteImport.update({
+  id: '/master-data/packages',
+  path: '/master-data/packages',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataDivisionsRoute = PtbsMasterDataDivisionsRouteImport.update({
+  id: '/master-data/divisions',
+  path: '/master-data/divisions',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataDashboardRoute = PtbsMasterDataDashboardRouteImport.update({
+  id: '/master-data/dashboard',
+  path: '/master-data/dashboard',
+  getParentRoute: () => PtbsRoute,
+} as any)
+const PtbsMasterDataCategoriesRoute =
+  PtbsMasterDataCategoriesRouteImport.update({
+    id: '/master-data/categories',
+    path: '/master-data/categories',
+    getParentRoute: () => PtbsRoute,
+  } as any)
 const PortalQuotationsQuotationIdRoute =
   PortalQuotationsQuotationIdRouteImport.update({
     id: '/quotations/$quotationId',
@@ -369,6 +424,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof PortalRouteWithChildren
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
+  '/ptbs': typeof PtbsRouteWithChildren
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
@@ -396,6 +452,7 @@ export interface FileRoutesByFullPath {
   '/portal/register': typeof PortalRegisterRoute
   '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
+  '/ptbs/': typeof PtbsIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
@@ -407,6 +464,13 @@ export interface FileRoutesByFullPath {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
+  '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries/': typeof AdminEnquiriesIndexRoute
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
@@ -452,6 +516,7 @@ export interface FileRoutesByTo {
   '/portal/register': typeof PortalRegisterRoute
   '/admin': typeof AdminIndexRoute
   '/portal': typeof PortalIndexRoute
+  '/ptbs': typeof PtbsIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
@@ -463,6 +528,13 @@ export interface FileRoutesByTo {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
+  '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries': typeof AdminEnquiriesIndexRoute
   '/admin/quotations': typeof AdminQuotationsIndexRoute
   '/portal/enquiries': typeof PortalEnquiriesIndexRoute
@@ -484,6 +556,7 @@ export interface FileRoutesById {
   '/portal': typeof PortalRouteWithChildren
   '/printing-branding': typeof PrintingBrandingRoute
   '/privacy': typeof PrivacyRoute
+  '/ptbs': typeof PtbsRouteWithChildren
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
@@ -511,6 +584,7 @@ export interface FileRoutesById {
   '/portal/register': typeof PortalRegisterRoute
   '/admin/': typeof AdminIndexRoute
   '/portal/': typeof PortalIndexRoute
+  '/ptbs/': typeof PtbsIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/documents/$documentId': typeof AdminDocumentsDocumentIdRoute
   '/admin/invoices/$invoiceId': typeof AdminInvoicesInvoiceIdRoute
@@ -522,6 +596,13 @@ export interface FileRoutesById {
   '/portal/invoices/$invoiceId': typeof PortalInvoicesInvoiceIdRoute
   '/portal/projects/$projectId': typeof PortalProjectsProjectIdRoute
   '/portal/quotations/$quotationId': typeof PortalQuotationsQuotationIdRoute
+  '/ptbs/master-data/categories': typeof PtbsMasterDataCategoriesRoute
+  '/ptbs/master-data/dashboard': typeof PtbsMasterDataDashboardRoute
+  '/ptbs/master-data/divisions': typeof PtbsMasterDataDivisionsRoute
+  '/ptbs/master-data/packages': typeof PtbsMasterDataPackagesRoute
+  '/ptbs/master-data/reports': typeof PtbsMasterDataReportsRoute
+  '/ptbs/master-data/services': typeof PtbsMasterDataServicesRoute
+  '/ptbs/master-data/templates': typeof PtbsMasterDataTemplatesRoute
   '/admin/enquiries/': typeof AdminEnquiriesIndexRoute
   '/admin/quotations/': typeof AdminQuotationsIndexRoute
   '/portal/enquiries/': typeof PortalEnquiriesIndexRoute
@@ -544,6 +625,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/printing-branding'
     | '/privacy'
+    | '/ptbs'
     | '/quote'
     | '/reset-password'
     | '/services'
@@ -571,6 +653,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/admin/'
     | '/portal/'
+    | '/ptbs/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
     | '/admin/invoices/$invoiceId'
@@ -582,6 +665,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
+    | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries/'
     | '/admin/quotations/'
     | '/portal/enquiries/'
@@ -627,6 +717,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/admin'
     | '/portal'
+    | '/ptbs'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
     | '/admin/invoices/$invoiceId'
@@ -638,6 +729,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
+    | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries'
     | '/admin/quotations'
     | '/portal/enquiries'
@@ -658,6 +756,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/printing-branding'
     | '/privacy'
+    | '/ptbs'
     | '/quote'
     | '/reset-password'
     | '/services'
@@ -685,6 +784,7 @@ export interface FileRouteTypes {
     | '/portal/register'
     | '/admin/'
     | '/portal/'
+    | '/ptbs/'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/documents/$documentId'
     | '/admin/invoices/$invoiceId'
@@ -696,6 +796,13 @@ export interface FileRouteTypes {
     | '/portal/invoices/$invoiceId'
     | '/portal/projects/$projectId'
     | '/portal/quotations/$quotationId'
+    | '/ptbs/master-data/categories'
+    | '/ptbs/master-data/dashboard'
+    | '/ptbs/master-data/divisions'
+    | '/ptbs/master-data/packages'
+    | '/ptbs/master-data/reports'
+    | '/ptbs/master-data/services'
+    | '/ptbs/master-data/templates'
     | '/admin/enquiries/'
     | '/admin/quotations/'
     | '/portal/enquiries/'
@@ -717,6 +824,7 @@ export interface RootRouteChildren {
   PortalRoute: typeof PortalRouteWithChildren
   PrintingBrandingRoute: typeof PrintingBrandingRoute
   PrivacyRoute: typeof PrivacyRoute
+  PtbsRoute: typeof PtbsRouteWithChildren
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServicesRoute: typeof ServicesRoute
@@ -770,6 +878,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ptbs': {
+      id: '/ptbs'
+      path: '/ptbs'
+      fullPath: '/ptbs'
+      preLoaderRoute: typeof PtbsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -855,6 +970,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/ptbs/': {
+      id: '/ptbs/'
+      path: '/'
+      fullPath: '/ptbs/'
+      preLoaderRoute: typeof PtbsIndexRouteImport
+      parentRoute: typeof PtbsRoute
     }
     '/portal/': {
       id: '/portal/'
@@ -1030,6 +1152,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/enquiries/'
       preLoaderRoute: typeof AdminEnquiriesIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/ptbs/master-data/templates': {
+      id: '/ptbs/master-data/templates'
+      path: '/master-data/templates'
+      fullPath: '/ptbs/master-data/templates'
+      preLoaderRoute: typeof PtbsMasterDataTemplatesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/services': {
+      id: '/ptbs/master-data/services'
+      path: '/master-data/services'
+      fullPath: '/ptbs/master-data/services'
+      preLoaderRoute: typeof PtbsMasterDataServicesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/reports': {
+      id: '/ptbs/master-data/reports'
+      path: '/master-data/reports'
+      fullPath: '/ptbs/master-data/reports'
+      preLoaderRoute: typeof PtbsMasterDataReportsRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/packages': {
+      id: '/ptbs/master-data/packages'
+      path: '/master-data/packages'
+      fullPath: '/ptbs/master-data/packages'
+      preLoaderRoute: typeof PtbsMasterDataPackagesRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/divisions': {
+      id: '/ptbs/master-data/divisions'
+      path: '/master-data/divisions'
+      fullPath: '/ptbs/master-data/divisions'
+      preLoaderRoute: typeof PtbsMasterDataDivisionsRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/dashboard': {
+      id: '/ptbs/master-data/dashboard'
+      path: '/master-data/dashboard'
+      fullPath: '/ptbs/master-data/dashboard'
+      preLoaderRoute: typeof PtbsMasterDataDashboardRouteImport
+      parentRoute: typeof PtbsRoute
+    }
+    '/ptbs/master-data/categories': {
+      id: '/ptbs/master-data/categories'
+      path: '/master-data/categories'
+      fullPath: '/ptbs/master-data/categories'
+      preLoaderRoute: typeof PtbsMasterDataCategoriesRouteImport
+      parentRoute: typeof PtbsRoute
     }
     '/portal/quotations/$quotationId': {
       id: '/portal/quotations/$quotationId'
@@ -1252,6 +1423,30 @@ const PortalRouteChildren: PortalRouteChildren = {
 const PortalRouteWithChildren =
   PortalRoute._addFileChildren(PortalRouteChildren)
 
+interface PtbsRouteChildren {
+  PtbsIndexRoute: typeof PtbsIndexRoute
+  PtbsMasterDataCategoriesRoute: typeof PtbsMasterDataCategoriesRoute
+  PtbsMasterDataDashboardRoute: typeof PtbsMasterDataDashboardRoute
+  PtbsMasterDataDivisionsRoute: typeof PtbsMasterDataDivisionsRoute
+  PtbsMasterDataPackagesRoute: typeof PtbsMasterDataPackagesRoute
+  PtbsMasterDataReportsRoute: typeof PtbsMasterDataReportsRoute
+  PtbsMasterDataServicesRoute: typeof PtbsMasterDataServicesRoute
+  PtbsMasterDataTemplatesRoute: typeof PtbsMasterDataTemplatesRoute
+}
+
+const PtbsRouteChildren: PtbsRouteChildren = {
+  PtbsIndexRoute: PtbsIndexRoute,
+  PtbsMasterDataCategoriesRoute: PtbsMasterDataCategoriesRoute,
+  PtbsMasterDataDashboardRoute: PtbsMasterDataDashboardRoute,
+  PtbsMasterDataDivisionsRoute: PtbsMasterDataDivisionsRoute,
+  PtbsMasterDataPackagesRoute: PtbsMasterDataPackagesRoute,
+  PtbsMasterDataReportsRoute: PtbsMasterDataReportsRoute,
+  PtbsMasterDataServicesRoute: PtbsMasterDataServicesRoute,
+  PtbsMasterDataTemplatesRoute: PtbsMasterDataTemplatesRoute,
+}
+
+const PtbsRouteWithChildren = PtbsRoute._addFileChildren(PtbsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -1265,6 +1460,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalRoute: PortalRouteWithChildren,
   PrintingBrandingRoute: PrintingBrandingRoute,
   PrivacyRoute: PrivacyRoute,
+  PtbsRoute: PtbsRouteWithChildren,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ServicesRoute: ServicesRoute,
