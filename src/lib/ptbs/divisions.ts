@@ -27,6 +27,7 @@ export async function createDivision(input: DivisionInput): Promise<Division> {
   const { data, error } = await supabase
     .from("divisions")
     .insert({
+      division_code: "",
       division_name: input.division_name.trim(),
       description: input.description?.trim() || null,
       display_order: input.display_order,
