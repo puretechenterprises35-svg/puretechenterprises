@@ -119,10 +119,25 @@ export function PtbsSidebar({ collapsed, onToggle }: { collapsed: boolean; onTog
               {MASTER_DATA_CHILDREN.map((c) => {
                 const active = pathname === c.to;
                 const Icon = c.icon;
+                if (!c.enabled) {
+                  return (
+                    <div
+                      key={c.to}
+                      className="flex cursor-not-allowed items-center justify-between gap-2 rounded-md px-3 py-1.5 text-sm text-muted-foreground/70"
+                      title={`${c.label} — Coming soon`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Icon className="h-3.5 w-3.5" />
+                        {c.label}
+                      </span>
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium uppercase">Soon</span>
+                    </div>
+                  );
+                }
                 return (
                   <Link
                     key={c.to}
-                    to={c.to}
+                    to={c.to as any}
                     className={cn(
                       "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors",
                       active ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:bg-accent hover:text-foreground"
