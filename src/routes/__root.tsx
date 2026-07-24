@@ -131,7 +131,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s: { location: { pathname: string } }) => s.location.pathname });
-  const isPortal = pathname === "/portal" || pathname.startsWith("/portal/") || pathname === "/admin" || pathname.startsWith("/admin/");
+  const isPortal = pathname === "/portal" || pathname.startsWith("/portal/") || pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/ptbs" || pathname.startsWith("/ptbs/");
   return (
     <QueryClientProvider client={queryClient}>
       <PortalSessionProvider>
