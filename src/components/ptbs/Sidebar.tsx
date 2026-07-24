@@ -22,13 +22,14 @@ import {
 import { cn } from "@/lib/utils";
 
 const MASTER_DATA_CHILDREN = [
-  { to: "/ptbs/master-data/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/ptbs/master-data/divisions", label: "Divisions", icon: Layers },
-  { to: "/ptbs/master-data/categories", label: "Categories", icon: FolderTree },
-  { to: "/ptbs/master-data/services", label: "Services", icon: Boxes },
-  { to: "/ptbs/master-data/packages", label: "Packages", icon: Package },
-  { to: "/ptbs/master-data/templates", label: "Templates", icon: FileText },
-  { to: "/ptbs/master-data/reports", label: "Reports", icon: FileBarChart },
+  { to: "/ptbs/master-data/dashboard", label: "Dashboard", icon: LayoutDashboard, enabled: true },
+  { to: "/ptbs/master-data/divisions", label: "Divisions", icon: Layers, enabled: true },
+  { to: "/ptbs/master-data/categories", label: "Categories", icon: FolderTree, enabled: false },
+  { to: "/ptbs/master-data/services", label: "Services", icon: Boxes, enabled: false },
+  { to: "/ptbs/master-data/packages", label: "Packages", icon: Package, enabled: false },
+  { to: "/ptbs/master-data/price-lists", label: "Price Lists", icon: FileBarChart, enabled: false },
+  { to: "/ptbs/master-data/templates", label: "Templates", icon: FileText, enabled: false },
+  { to: "/ptbs/master-data/document-types", label: "Document Types", icon: FileText, enabled: false },
 ] as const;
 
 const TOP_LINKS = [
