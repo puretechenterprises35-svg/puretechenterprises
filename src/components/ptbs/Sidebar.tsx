@@ -22,13 +22,14 @@ import {
 import { cn } from "@/lib/utils";
 
 const MASTER_DATA_CHILDREN = [
-  { to: "/ptbs/master-data/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/ptbs/master-data/divisions", label: "Divisions", icon: Layers },
-  { to: "/ptbs/master-data/categories", label: "Categories", icon: FolderTree },
-  { to: "/ptbs/master-data/services", label: "Services", icon: Boxes },
-  { to: "/ptbs/master-data/packages", label: "Packages", icon: Package },
-  { to: "/ptbs/master-data/templates", label: "Templates", icon: FileText },
-  { to: "/ptbs/master-data/reports", label: "Reports", icon: FileBarChart },
+  { to: "/ptbs/master-data/dashboard", label: "Dashboard", icon: LayoutDashboard, enabled: true },
+  { to: "/ptbs/master-data/divisions", label: "Divisions", icon: Layers, enabled: true },
+  { to: "/ptbs/master-data/categories", label: "Categories", icon: FolderTree, enabled: false },
+  { to: "/ptbs/master-data/services", label: "Services", icon: Boxes, enabled: false },
+  { to: "/ptbs/master-data/packages", label: "Packages", icon: Package, enabled: false },
+  { to: "/ptbs/master-data/price-lists", label: "Price Lists", icon: FileBarChart, enabled: false },
+  { to: "/ptbs/master-data/templates", label: "Templates", icon: FileText, enabled: false },
+  { to: "/ptbs/master-data/document-types", label: "Document Types", icon: FileText, enabled: false },
 ] as const;
 
 const TOP_LINKS = [
@@ -118,10 +119,25 @@ export function PtbsSidebar({ collapsed, onToggle }: { collapsed: boolean; onTog
               {MASTER_DATA_CHILDREN.map((c) => {
                 const active = pathname === c.to;
                 const Icon = c.icon;
+                if (!c.enabled) {
+                  return (
+                    <div
+                      key={c.to}
+                      className="flex cursor-not-allowed items-center justify-between gap-2 rounded-md px-3 py-1.5 text-sm text-muted-foreground/70"
+                      title={`${c.label} — Coming soon`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Icon className="h-3.5 w-3.5" />
+                        {c.label}
+                      </span>
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium uppercase">Soon</span>
+                    </div>
+                  );
+                }
                 return (
                   <Link
                     key={c.to}
-                    to={c.to}
+                    to={c.to as any}
                     className={cn(
                       "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors",
                       active ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:bg-accent hover:text-foreground"
